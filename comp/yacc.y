@@ -1,5 +1,6 @@
 %output ="yacc.cpp"
 %{
+hasan
 	#include <fstream>
 	#include <iostream>  // not really needed since fstream includes it
 	#include <stdlib.h>  
