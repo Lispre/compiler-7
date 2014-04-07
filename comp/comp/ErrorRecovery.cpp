@@ -8,6 +8,7 @@ void ErrRecQueue::enqueue(int lineNo, int colNo, char* txt, char* varName){
 	item->txt = new char[255];
 	item->txt[0] = '\0';
 	strcat(item->txt, txt);
+	int x=0;
 	item->var = new char[255];
 	item->var[0] = '\0';
 	strcat(item->var, varName);
