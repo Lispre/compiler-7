@@ -3,9 +3,6 @@
 	#include <stdlib.h>
 	int row=1;
 	int column=1;
-	#define MAX_INCLUDE_DEPTH 10
-    YY_BUFFER_STATE include_stack[MAX_INCLUDE_DEPTH];
-    int include_stack_ptr = 0;
 %}
 %option c++
 %option noyywrap
@@ -16,10 +13,28 @@ Integer					[1-9][0-9]*|0
 Float					([+-]?[0-9]+"."[0-9]+["f"]?)|[0-9]["f"]?		
 Single_line_comment		(\/\/)+[^\n]*
 Symbol                  [!@#$^&?~]|["/"]|["\"]|["|"]
-Er					EOF
 %%
-"import"			{                  }
-{Er}			{cout<<"end of file \n\n\n\n\n";}
+
+
+
+
+
+
+"try"							{cout<<"lex : try \n"; return TRY;}
+"catch"							{cout<<"lex : catch \n"; return CATCH;}
+"NSException"					{cout<<"lex : NSException \n"; return NSEXception;}
+"NullPointerException"			{cout<<"lex : NullPointerException \n"; return NUllPointerException;}
+"OutOfBoundryException"			{cout<<"lex : OutOfBoundryException \n"; return OUtOfBoundryException;}
+"CastException"					{cout<<"lex : CastException \n"; return CAstException;}
+"finally"						{cout<<"lex : finally \n"; return FINALLY;}
+
+
+
+
+
+
+
+
 "break"				{			column+=5;	yylval.r.myColno=column;				return BREAK;}
 "@interface"		{			column+=10;	yylval.r.myColno=column;				return AT_INTERFACE;}
 "@protocol"			{			column+=9;	yylval.r.myColno=column;						return AT_PROTOCOL;}
@@ -78,6 +93,9 @@ Er					EOF
 "return"			{			column+=6;	yylval.r.myColno=column;							return RETURN;}
 \'[a-zA-z]\'		{			column+=1;	yylval.r.myColno=column;	return CHAR_VAL;}
 \".*\"				{			column+=strlen(yytext);;	yylval.r.myColno=column;				return STRING_VAL;}
+
+
+
 {Identifier}		{			column += strlen(yytext);
 								yylval.r.str = new char[255];
 								yylval.r.str[0] = '\0';
