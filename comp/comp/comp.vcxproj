@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\yacc.hpp" />
+    <ClInclude Include="AST.h" />
     <ClInclude Include="DataMember.h" />
     <ClInclude Include="Defs.h" />
     <ClInclude Include="ErrorRecovery.h" />
@@ -107,6 +108,7 @@
     <ClCompile Include="..\lex.yy.cc" />
     <ClCompile Include="..\yacc.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="AST.cpp" />
     <ClCompile Include="comp.cpp" />
     <ClCompile Include="ErrorRecovery.cpp" />
     <ClCompile Include="hash_tabel.cpp" />

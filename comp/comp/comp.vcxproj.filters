@@ -66,6 +66,9 @@
     <ClInclude Include="DataMember.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AST.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc">
@@ -119,6 +122,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Protocol.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AST.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

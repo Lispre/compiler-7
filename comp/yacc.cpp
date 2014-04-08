@@ -188,7 +188,7 @@
 
 
 /* Copy the first part of user declarations.  */
-#line 2 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 2 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
 
 	#include <fstream>
 	#include <iostream>  // not really needed since fstream includes it
@@ -202,6 +202,7 @@
 	#include "comp\Scope.h"
 	#include "comp\Defs.h"
 	#include "comp\ErrorRecovery.h"
+	#include "comp\AST.h"
 	#include <vector>
 	#include <queue>
 	using namespace std;
@@ -215,19 +216,19 @@
 	queue<char*> var;
 	void add_param(int type)
 	{
-		if(type==1)
-			param_list.push_back("int");
-		else if(type==2)
-			param_list.push_back("char");
-		else if(type==3)
-			param_list.push_back("float");
-		else if(type==4)
-			param_list.push_back("nsstring");
-		else if(type==5)
-			param_list.push_back("void");
-		else
-			param_list.push_back("complex");
-	}
+	if(type==1)
+		param_list.push_back("int");
+	else if(type==2)
+		param_list.push_back("char");
+	else if(type==3)
+		param_list.push_back("float");
+	else if(type==4)
+		param_list.push_back("nsstring");
+	else if(type==5)
+		param_list.push_back("void");
+	else
+		param_list.push_back("complex");
+}
 	char* Interface_name;
 	int in=0;
 	int visability=0;
@@ -243,6 +244,7 @@
 			return yyparse();
 		}
 	};
+	AST * ast = new AST();
 
 
 /* Enabling traces.  */
@@ -264,7 +266,7 @@
 #endif
 
 #if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
-#line 124 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 126 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
 typedef union YYSTYPE {
 	struct R{
 		int i;
@@ -275,9 +277,10 @@ typedef union YYSTYPE {
 		int myLineNo;
 		int myColno;
 	}r;
+	class TreeNode * tn;
 } YYSTYPE;
 /* Line 196 of yacc.c.  */
-#line 281 "yacc.cpp"
+#line 284 "yacc.cpp"
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
@@ -289,7 +292,7 @@ typedef union YYSTYPE {
 
 
 /* Line 219 of yacc.c.  */
-#line 293 "yacc.cpp"
+#line 296 "yacc.cpp"
 
 #if ! defined (YYSIZE_T) && defined (__SIZE_TYPE__)
 # define YYSIZE_T __SIZE_TYPE__
@@ -637,31 +640,31 @@ static const short int yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const unsigned short int yyrline[] =
 {
-       0,   137,   137,   139,   140,   142,   143,   144,   146,   162,
-     164,   169,   171,   173,   178,   180,   182,   184,   186,   188,
-     190,   192,   196,   200,   201,   202,   205,   206,   207,   210,
-     211,   212,   215,   217,   219,   223,   224,   225,   228,   242,
-     243,   246,   247,   249,   250,   252,   253,   254,   255,   256,
-     258,   259,   261,   262,   265,   266,   267,   268,   269,   270,
-     271,   272,   274,   275,   276,   277,   280,   281,   282,   283,
-     285,   286,   287,   290,   291,   294,   295,   296,   297,   299,
-     300,   303,   304,   305,   306,   307,   309,   312,   313,   316,
-     317,   320,   322,   324,   326,   329,   331,   333,   334,   337,
-     338,   339,   342,   342,   343,   345,   346,   347,   348,   349,
-     351,   354,   357,   359,   362,   365,   372,   373,   374,   377,
-     378,   381,   382,   385,   388,   389,   392,   395,   396,   399,
-     400,   403,   404,   405,   406,   407,   407,   408,   411,   412,
-     415,   416,   417,   420,   423,   425,   427,   429,   432,   434,
-     437,   439,   442,   444,   447,   449,   451,   454,   458,   459,
-     460,   461,   462,   463,   464,   467,   468,   469,   470,   471,
-     472,   473,   474,   475,   478,   479,   482,   483,   484,   485,
-     486,   487,   488,   489,   490,   491,   492,   493,   498,   501,
-     504,   508,   509,   519,   520,   521,   522,   524,   556,   557,
-     558,   559,   560,   561,   564,   565,   568,   571,   572,   573,
-     574,   577,   579,   580,   581,   584,   585,   586,   587,   588,
-     593,   594,   595,   596,   601,   602,   606,   607,   610,   611,
-     612,   613,   616,   619,   620,   623,   624,   627,   628,   631,
-     632,   633,   634,   635,   637,   640,   645,   647,   649,   651
+       0,   140,   140,   143,   144,   147,   148,   149,   152,   157,
+     166,   172,   179,   182,   193,   194,   195,   196,   197,   198,
+     199,   200,   203,   207,   208,   209,   212,   213,   214,   217,
+     218,   219,   222,   225,   226,   229,   230,   231,   234,   247,
+     248,   253,   254,   257,   258,   262,   263,   264,   265,   266,
+     269,   270,   272,   273,   276,   277,   278,   279,   280,   281,
+     282,   283,   286,   287,   288,   289,   293,   294,   295,   296,
+     299,   300,   301,   305,   306,   310,   311,   312,   313,   316,
+     317,   320,   321,   322,   323,   324,   326,   333,   334,   337,
+     338,   341,   347,   352,   356,   364,   370,   375,   376,   379,
+     380,   381,   384,   384,   385,   388,   389,   390,   391,   392,
+     394,   402,   409,   422,   430,   438,   454,   455,   456,   459,
+     460,   463,   464,   467,   472,   473,   476,   479,   480,   483,
+     484,   487,   488,   489,   490,   491,   491,   492,   495,   496,
+     499,   500,   501,   504,   507,   511,   513,   515,   518,   521,
+     523,   525,   527,   530,   533,   536,   539,   543,   548,   549,
+     550,   551,   552,   553,   554,   557,   558,   559,   560,   561,
+     562,   563,   564,   565,   568,   569,   572,   573,   574,   575,
+     576,   577,   578,   579,   580,   581,   582,   583,   588,   591,
+     594,   599,   600,   610,   611,   612,   613,   615,   647,   648,
+     649,   650,   651,   652,   655,   656,   659,   662,   663,   664,
+     665,   668,   670,   671,   674,   677,   678,   679,   680,   681,
+     686,   690,   691,   692,   697,   698,   702,   703,   706,   707,
+     708,   709,   712,   715,   716,   719,   720,   723,   724,   727,
+     728,   729,   730,   731,   733,   739,   750,   753,   756,   759
 };
 #endif
 
@@ -1866,1337 +1869,1447 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 137 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"program: components\n";;}
+#line 140 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {ast->print((yyvsp[0].tn),0);cout<<"program: components\n";;}
     break;
 
   case 3:
-#line 139 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"components: components component\n";;}
+#line 143 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->addToLastRight((yyvsp[-1].tn), ast->createNode((yyvsp[0].tn), 0, CompNode));cout<<"components: components component\n";;}
     break;
 
   case 4:
-#line 140 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"components: component\n";;}
+#line 144 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->createNode((yyvsp[0].tn), 0, CompNode);cout<<"components: component\n";;}
     break;
 
   case 5:
-#line 142 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"component:	class_interface\n";;}
+#line 147 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = (yyvsp[0].tn);cout<<"component: class_interface\n";;}
     break;
 
   case 6:
-#line 143 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"component:	class_implementation\n";;}
+#line 148 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = (yyvsp[0].tn);cout<<"component: class_implementation\n";;}
     break;
 
   case 7:
-#line 144 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"component:	protocol\n";;}
+#line 149 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = (yyvsp[0].tn);cout<<"component: protocol\n";;}
     break;
 
   case 8:
-#line 146 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 152 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {
-cout<<lexer->YYText();
-cout<<yytoken;
-temp22++;
-cout<<"temp2 is"<<temp22;
-s->insert_scope((yyvsp[-1].r.str),s->currScope);s->currScope=s->currScope->parent;if(temp22==1)
-	{
-
-	std::ifstream is;
-	std::filebuf * fb = is.rdbuf();
-	fb->open ("D:\\t1.txt",ios::in);
-	istream in1(fb);
-	yy_buffer_state *y1=lexer->yy_create_buffer(&in1,100);
-	lexer->yy_switch_to_buffer(y1);
-	yyparse();}cout<<"class_interface: class_interface_header class_interface_body\n";;}
+		s->insert_scope((yyvsp[-1].r.str),s->currScope);s->currScope=s->currScope->parent;
+		cout<<"class_interface: class_interface_header class_interface_body\n";;}
     break;
 
   case 9:
-#line 162 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {i=1;(yyval.r.str)=(yyvsp[-2].r.str);if(s->check_Interface((yyvsp[-2].r.str))!=0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface"); 
-																				else if(s->insertInterfaceInCurrentScope((yyvsp[-2].r.str),(yyvsp[0].r.str))==0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Not found inhertance Interface"); Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope; cout<<"class_interface_header:  AT_INTERFACE IDENTIFIER SEMI_COLUMN IDENTIFIER\n";;}
+#line 157 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		i=1;
+		(yyval.r.str)=(yyvsp[-2].r.str);
+		if(s->check_Interface((yyvsp[-2].r.str))!=0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface"); 
+		else if(s->insertInterfaceInCurrentScope((yyvsp[-2].r.str),(yyvsp[0].r.str))==0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Not found inhertance Interface"); 
+		Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope; 
+		cout<<"class_interface_header:  AT_INTERFACE IDENTIFIER SEMI_COLUMN IDENTIFIER\n";;}
     break;
 
   case 10:
-#line 164 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 166 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {
-																				i=1;(yyval.r.str)=(yyvsp[-2].r.str);if(s->check_Interface((yyvsp[-2].r.str))!=0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface"); 
-																				Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;																																		
-																				Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"Error",":");
-																				;}
+		i=1;
+		(yyval.r.str)=(yyvsp[-2].r.str);
+		if(s->check_Interface((yyvsp[-2].r.str))!=0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface"); 													Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;																																		
+		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"Error",":");;}
     break;
 
   case 11:
-#line 169 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {i=1;(yyval.r.str)=(yyvsp[-1].r.str);if(s->check_Interface((yyvsp[-1].r.str))!=0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface"); 
-																				 Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","IDENTIFIER");;}
+#line 172 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		i=1;
+		(yyval.r.str)=(yyvsp[-1].r.str);
+		if(s->check_Interface((yyvsp[-1].r.str))!=0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface");
+		Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;
+		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","IDENTIFIER");;}
     break;
 
   case 12:
-#line 171 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {i=1;(yyval.r.str)=(yyvsp[-1].r.str);if(s->check_Interface((yyvsp[-1].r.str))!=0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface"); 
-																				Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope; Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing",":");;}
+#line 179 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {i=1;(yyval.r.str)=(yyvsp[-1].r.str);
+		if(s->check_Interface((yyvsp[-1].r.str))!=0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface"); 																				Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope; Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing",":");;}
     break;
 
   case 13:
-#line 173 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {i=1;(yyval.r.str)=(yyvsp[0].r.str);if(s->check_Interface((yyvsp[0].r.str))!=0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface");s->insertInterfaceInCurrentScope((yyvsp[0].r.str),"NSObject"); 
-																				Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;cout<<"class_interface_header:  AT_INTERFACE IDENTIFIER\n";;}
+#line 182 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		i=1;
+		(yyval.r.str)=(yyvsp[0].r.str);
+		if(s->check_Interface((yyvsp[0].r.str))!=0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface");
+		s->insertInterfaceInCurrentScope((yyvsp[0].r.str),"NSObject"); 	
+		Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;
+		cout<<"class_interface_header:  AT_INTERFACE IDENTIFIER\n";;}
     break;
 
   case 14:
-#line 179 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"class_interface_body:	protocol_reference_list instance_variables	interface_declaration_list	AT_END\n";;}
+#line 193 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {	cout<<"class_interface_body: protocol_reference_list instance_variables interface_declaration_list AT_END\n";;}
     break;
 
   case 15:
-#line 181 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"class_interface_body:	protocol_reference_list instance_variables AT_END\n";;}
+#line 194 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {cout<<"class_interface_body: protocol_reference_list instance_variables AT_END\n";;}
     break;
 
   case 16:
-#line 183 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"class_interface_body:	protocol_reference_list 					interface_declaration_list	AT_END\n";;}
+#line 195 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {cout<<"class_interface_body: protocol_reference_list interface_declaration_list	AT_END\n";;}
     break;
 
   case 17:
-#line 185 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"class_interface_body:	instance_variables	interface_declaration_list	AT_END\n";;}
+#line 196 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {cout<<"class_interface_body: instance_variables interface_declaration_list	AT_END\n";;}
     break;
 
   case 18:
-#line 187 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"class_interface_body:	protocol_reference_list 	AT_END\n";;}
+#line 197 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {cout<<"class_interface_body: protocol_reference_list AT_END\n";;}
     break;
 
   case 19:
-#line 189 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"class_interface_body:instance_variables		 AT_END\n";;}
+#line 198 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {cout<<"class_interface_body:instance_variables AT_END\n";;}
     break;
 
   case 20:
-#line 191 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 199 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"class_interface_body:interface_declaration_list	AT_END\n";;}
     break;
 
   case 21:
-#line 193 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 200 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"class_interface_body:AT_END\n";;}
     break;
 
   case 22:
-#line 196 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 203 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"protocol_reference_list: LESS_THAN ids_list MORE_THAN\n";;}
     break;
 
   case 23:
-#line 200 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 207 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"ids_list:IDENTIFIER\n";;}
     break;
 
   case 24:
-#line 201 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 208 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",",");;}
     break;
 
   case 25:
-#line 202 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 209 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"ids_list:ids_list COMMA IDENTIFIER\n";;}
     break;
 
   case 26:
-#line 205 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 212 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"instance_variables:OPEN_S	instance_variable_declaration	CLOSE_S\n";;}
     break;
 
   case 27:
-#line 206 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 213 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","}");;}
     break;
 
   case 28:
-#line 207 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 214 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","}");;}
     break;
 
   case 29:
-#line 210 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 217 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"instance_variable_declarations:instance_variable_declarations instance_variable_declaration\n";;}
     break;
 
   case 30:
-#line 211 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 218 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"instance_variable_declarations:instance_variable_declaration\n";;}
     break;
 
   case 31:
-#line 212 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 219 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"instance_variable_declarations:variable_declaration_list\n";;}
     break;
 
   case 32:
-#line 215 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 222 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"instance_variable_declaration:variable_declaration_list\n";;}
     break;
 
   case 33:
-#line 218 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 225 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"variable_declaration_list: variable_declaration_list variable_declaration\n";;}
     break;
 
   case 34:
-#line 220 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 226 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"variable_declaration_list: variable_declaration\n";;}
     break;
 
   case 35:
-#line 223 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 229 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {visability=1;cout<<"visibility_specification:AT_PRIVATE\n";;}
     break;
 
   case 36:
-#line 224 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 230 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {visability=2;cout<<"visibility_specification:AT_PROTECTED\n";;}
     break;
 
   case 37:
-#line 225 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 231 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {visability=3;cout<<"visibility_specification:AT_PUBLIC\n";;}
     break;
 
   case 38:
-#line 229 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 235 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {
 				cout<<"variable_declaration:type IDENTIFIER	SEMI_COMA\n"; 
 				Type t=static_cast<Type>((yyvsp[-2].r.type));
-				if((yyvsp[-2].r.type)==6)
-				{
-					if(s->insertVariableInCurrentScope((yyvsp[-1].r.str),(yyvsp[-2].r.str),visability) == 0)
+				if((yyvsp[-2].r.type)==6){
+					if(s->insertVariableInCurrentScope((yyvsp[-1].r.str),(yyvsp[-2].r.str),visability) == 0)	
 						Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
 				}
 				else{
-					if(s->insertVariableInCurrentScope((yyvsp[-1].r.str),t,visability) == 0)
+					if(s->insertVariableInCurrentScope((yyvsp[-1].r.str),t,visability) == 0) 
 						Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
 				}
 			;}
     break;
 
   case 39:
-#line 242 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 247 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");;}
     break;
 
   case 40:
-#line 243 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {Type t=static_cast<Type>((yyvsp[-4].r.type));
-	if(s->insertVariableInCurrentScope((yyvsp[-3].r.str),t,visability) == 0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
-	cout<<"variable_declaration:type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";;}
+#line 248 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		Type t=static_cast<Type>((yyvsp[-4].r.type));
+		if(s->insertVariableInCurrentScope((yyvsp[-3].r.str),t,visability) == 0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
+		cout<<"variable_declaration:type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";;}
     break;
 
   case 41:
-#line 246 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    { yyclearin; Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");;}
+#line 253 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {yyclearin; Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");;}
     break;
 
   case 42:
-#line 247 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {Type t=static_cast<Type>((yyvsp[-2].r.type));if(s->insertVariableInCurrentScope((yyvsp[-2].r.str),t,visability) == 0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
-	cout<<"variable_declaration:CONST type IDENTIFIER	SEMI_COMA\n";;}
+#line 254 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		Type t=static_cast<Type>((yyvsp[-2].r.type));if(s->insertVariableInCurrentScope((yyvsp[-2].r.str),t,visability) == 0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
+		cout<<"variable_declaration:CONST type IDENTIFIER	SEMI_COMA\n";;}
     break;
 
   case 43:
-#line 249 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 257 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");;}
     break;
 
   case 44:
-#line 250 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {Type t=static_cast<Type>((yyvsp[-4].r.type));if(s->insertVariableInCurrentScope((yyvsp[-4].r.str),t,visability) == 0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
-	cout<<"variable_declaration:CONST type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";;}
+#line 258 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		Type t=static_cast<Type>((yyvsp[-4].r.type));if(s->insertVariableInCurrentScope((yyvsp[-4].r.str),t,visability) == 0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
+		cout<<"variable_declaration:CONST type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";;}
     break;
 
   case 45:
-#line 252 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 262 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");;}
     break;
 
   case 46:
-#line 253 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 263 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout << "Enum \n ";;}
     break;
 
   case 47:
-#line 254 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 264 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout << "Struct \n ";;}
     break;
 
   case 48:
-#line 255 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 265 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout << "Array \n" ;;}
     break;
 
   case 49:
-#line 256 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 266 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout <<"Array N \n ";;}
     break;
 
   case 50:
-#line 258 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 269 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 51:
-#line 259 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 270 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 52:
-#line 261 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 272 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 53:
-#line 262 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 273 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 54:
-#line 265 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 276 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 55:
-#line 266 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 277 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 56:
-#line 267 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"variable_declaration:type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";;}
+#line 278 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {cout<<"variable_declaration:type IDENTIFIER EQUAL simple_expr SEMI_COMA\n";;}
     break;
 
   case 57:
-#line 268 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"variable_declaration:type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";;}
+#line 279 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {cout<<"variable_declaration:type IDENTIFIER EQUAL simple_expr SEMI_COMA\n";;}
     break;
 
   case 58:
-#line 269 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"variable_declaration:CONST type IDENTIFIER	SEMI_COMA\n";;}
+#line 280 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {cout<<"variable_declaration:CONST type IDENTIFIER SEMI_COMA\n";;}
     break;
 
   case 59:
-#line 270 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"variable_declaration:CONST type IDENTIFIER	SEMI_COMA\n";;}
+#line 281 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {cout<<"variable_declaration:CONST type IDENTIFIER SEMI_COMA\n";;}
     break;
 
   case 60:
-#line 271 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"variable_declaration:CONST type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";;}
+#line 282 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {cout<<"variable_declaration:CONST type IDENTIFIER EQUAL simple_expr SEMI_COMA\n";;}
     break;
 
   case 61:
-#line 272 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"variable_declaration:CONST type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";;}
+#line 283 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {cout<<"variable_declaration:CONST type IDENTIFIER EQUAL simple_expr SEMI_COMA\n";;}
     break;
 
   case 62:
-#line 274 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 286 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 63:
-#line 275 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 287 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 64:
-#line 276 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 288 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 65:
-#line 277 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 289 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 66:
-#line 280 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 293 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 67:
-#line 281 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 294 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 68:
-#line 282 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 295 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 69:
-#line 283 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 296 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 70:
-#line 285 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 299 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 71:
-#line 286 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 300 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 72:
-#line 287 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 301 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 73:
-#line 290 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 305 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 74:
-#line 291 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 306 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 75:
-#line 294 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 310 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 76:
-#line 295 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 311 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 77:
-#line 296 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 312 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 78:
-#line 297 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 313 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {;;}
     break;
 
   case 79:
-#line 299 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {(yyval.r.type)=(yyvsp[0].r.type);cout<<"type: simple_type\n";;}
+#line 316 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.r.type)=(yyvsp[0].r.type); cout<<"type: simple_type\n";;}
     break;
 
   case 80:
-#line 300 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {(yyval.r.type)=(yyvsp[0].r.type);cout<<"type: complex_type\n";;}
+#line 317 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.r.type)=(yyvsp[0].r.type); cout<<"type: complex_type\n";;}
     break;
 
   case 81:
-#line 303 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 320 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"simple_type:int\n";(yyval.r.type)=1;;}
     break;
 
   case 82:
-#line 304 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 321 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"simple_type:char\n";(yyval.r.type)=2;;}
     break;
 
   case 83:
-#line 305 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 322 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"simple_type:float\n";(yyval.r.type)=3;;}
     break;
 
   case 84:
-#line 306 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 323 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"simple_type:string\n";(yyval.r.type)=4;;}
     break;
 
   case 85:
-#line 307 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 324 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"simple_type:void\n";(yyval.r.type)=5;;}
     break;
 
   case 86:
-#line 309 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {(yyval.r.type)=6;(yyval.r.str)=(yyvsp[-1].r.str);char* s11=(yyvsp[-1].r.str);if(s->check_var_type(s11)==0)	Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","type is undefined");cout<<"complex_type:	IDENTIFIER	MULTI\n";;}
+#line 326 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		(yyval.r.type)=6;(yyval.r.str)=(yyvsp[-1].r.str);
+		if(s->check_var_type((yyvsp[-1].r.str))==0)	
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","type is undefined");
+		cout<<"complex_type:	IDENTIFIER	MULTI\n";;}
     break;
 
   case 87:
-#line 312 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 333 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {i=1;cout<<"interface_declaration_list:interface_declaration_list interface_declaration\n";;}
     break;
 
   case 88:
-#line 313 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 334 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {i=1;cout<<"interface_declaration_list:interface_declaration\n";;}
     break;
 
   case 89:
-#line 316 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 337 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"interface_declaration: class_method_declaration\n";;}
     break;
 
   case 90:
-#line 317 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 338 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"interface_declaration: instance_method_declaration\n";;}
     break;
 
   case 91:
-#line 320 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {Type t=static_cast<Type>((yyvsp[-2].r.type));if(s->insertFunctionInCurrentScope((yyvsp[-1].r.str),t,param_list) == 0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Method");param_list.clear();
-	cout<<"class_method_declaration: PLUS p_type		 method_selector	SEMI_COMA\n";;}
+#line 341 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+	Type t=static_cast<Type>((yyvsp[-2].r.type));
+	if(s->insertFunctionInCurrentScope((yyvsp[-1].r.str),t,param_list) == 0) 
+		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Method");
+	param_list.clear();
+	cout<<"class_method_declaration: PLUS p_type method_selector SEMI_COMA\n";;}
     break;
 
   case 92:
-#line 322 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {yyclearin;Type t=static_cast<Type>((yyvsp[-2].r.type));if(s->insertFunctionInCurrentScope((yyvsp[-1].r.str),t,param_list) == 0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Method");param_list.clear();
-																Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");;}
+#line 347 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		yyclearin;Type t=static_cast<Type>((yyvsp[-2].r.type));
+		if(s->insertFunctionInCurrentScope((yyvsp[-1].r.str),t,param_list) == 0)
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Method");param_list.clear();
+		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");;}
     break;
 
   case 93:
-#line 324 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {if(s->insertFunctionInCurrentScope((yyvsp[-1].r.str),voidType,param_list) == 0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Method");param_list.clear();
-	cout<<"class_method_declaration: PLUS			 method_selector	SEMI_COMA\n";;}
+#line 352 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		if(s->insertFunctionInCurrentScope((yyvsp[-1].r.str),voidType,param_list) == 0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Method");param_list.clear();
+		cout<<"class_method_declaration: PLUS method_selector SEMI_COMA\n";;}
     break;
 
   case 94:
-#line 326 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {yyclearin;if(s->insertFunctionInCurrentScope((yyvsp[-1].r.str),voidType,param_list) == 0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Method");param_list.clear();Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",":");;}
+#line 356 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		yyclearin;
+		if(s->insertFunctionInCurrentScope((yyvsp[-1].r.str),voidType,param_list) == 0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Method");
+		param_list.clear();
+		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",":");;}
     break;
 
   case 95:
-#line 329 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {Type t=static_cast<Type>((yyvsp[-2].r.type));if(s->insertFunctionInCurrentScope((yyvsp[-1].r.str),t,param_list) == 0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Rdefine Method");
-	param_list.clear();cout<<"instance_method_declaration: MINUS p_type	method_selector		SEMI_COMA\n";;}
+#line 364 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		Type t=static_cast<Type>((yyvsp[-2].r.type));
+		if(s->insertFunctionInCurrentScope((yyvsp[-1].r.str),t,param_list) == 0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Rdefine Method");
+		param_list.clear();
+		cout<<"instance_method_declaration: MINUS p_type method_selector	SEMI_COMA\n";;}
     break;
 
   case 96:
-#line 331 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {if(s->insertFunctionInCurrentScope((yyvsp[-1].r.str),voidType,param_list) == 0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Method");param_list.clear();
-	cout<<"instance_method_declaration: MINUS			 method_selector	SEMI_COMA\n";;}
+#line 370 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		if(s->insertFunctionInCurrentScope((yyvsp[-1].r.str),voidType,param_list) == 0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Method");
+		param_list.clear();
+		cout<<"instance_method_declaration: MINUS method_selector SEMI_COMA\n";;}
     break;
 
   case 97:
-#line 333 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 375 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");;}
     break;
 
   case 98:
-#line 334 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 376 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");;}
     break;
 
   case 99:
-#line 337 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 379 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {(yyval.r.type)=(yyvsp[-1].r.type);cout<<"p_type : OPEN_P type CLOSE_P\n";;}
     break;
 
   case 100:
-#line 338 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 380 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","(tn tn");;}
     break;
 
   case 101:
-#line 339 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 381 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",")");;}
     break;
 
   case 102:
-#line 342 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 384 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;;}
     break;
 
   case 103:
-#line 342 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 384 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {i=3;s->currScope=s->currScope->parent;(yyval.r.str)=(yyvsp[-3].r.str);cout<<"method_selector:IDENTIFIER SEMI_COLUMN parameter_list\n";;}
     break;
 
   case 104:
-#line 343 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 385 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {(yyval.r.str)=(yyvsp[0].r.str);cout<<"method_selector:IDENTIFIER \n";;}
     break;
 
   case 105:
-#line 345 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 388 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"parameter_list:	parameter_list	SEMI_COLUMN	parameter\n";;}
     break;
 
   case 106:
-#line 346 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 389 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"parameter_list:	parameter_list	IDENTIFIER  SEMI_COLUMN	parameter\n";;}
     break;
 
   case 107:
-#line 347 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 390 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",":");;}
     break;
 
   case 108:
-#line 348 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 391 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing",":");;}
     break;
 
   case 109:
-#line 349 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 392 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"parameter_list: parameter\n";;}
     break;
 
   case 110:
-#line 351 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {add_param((yyvsp[-1].r.type));Type t=static_cast<Type>((yyvsp[-1].r.type));if(s->insertVariableInCurrentScope((yyvsp[0].r.str),t,1) == 0) cout<<"error redefine variable";cout<<"parameter:  p_type IDENTIFIER\n";;}
+#line 394 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+	add_param((yyvsp[-1].r.type));
+	Type t=static_cast<Type>((yyvsp[-1].r.type));
+	if(s->insertVariableInCurrentScope((yyvsp[0].r.str),t,1) == 0) 
+		cout<<"error redefine variable";
+	cout<<"parameter: p_type IDENTIFIER\n";;}
     break;
 
   case 111:
-#line 354 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {s->insert_scope1((yyvsp[-1].r.str),s->currScope); s->currScope=s->currScope->parent;cout<<"class_implementation: class_implementation_header class_implementation_body\n";;}
+#line 402 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		(yyval.tn)=ast->createNode((yyvsp[-1].tn),(yyvsp[0].tn),ImpNode);
+		(yyval.tn)->currST=s->currScope;
+		s->insert_scope1((yyvsp[-1].r.str),s->currScope); s->currScope=s->currScope->parent;
+		cout<<"class_implementation: class_implementation_header class_implementation_body\n";;}
     break;
 
   case 112:
-#line 357 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {Interface_name=(yyvsp[-2].r.str);i=2;(yyval.r.str)=(yyvsp[-2].r.str);if(s->check_Implementation_Interface((yyvsp[-2].r.str))==0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Implementation has no Interface");
-	if(s->check_Implementation((yyvsp[-2].r.str))!=0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redfine Implementation"); else if(s->insertImplementationInCurrentScope((yyvsp[-2].r.str),(yyvsp[0].r.str))==0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Implementation Inhertance not found"); Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;cout<<"class_implementation_header: AT_IMPLEMENTATION IDENTIFIER SEMI_COLUMN IDENTIFIER\n";;}
+#line 409 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		(yyval.tn)=ast->createNode((yyvsp[-3].tn),(yyvsp[-2].tn),HedrImpNode);
+		Interface_name=(yyvsp[-2].r.str);
+		i=2;
+		(yyval.r.str)=(yyvsp[-2].r.str);
+		if(s->check_Implementation_Interface((yyvsp[-2].r.str))==0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Implementation has no Interface");
+		if(s->check_Implementation((yyvsp[-2].r.str))!=0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redfine Implementation"); 
+		else if(s->insertImplementationInCurrentScope((yyvsp[-2].r.str),(yyvsp[0].r.str))==0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Implementation Inhertance not found"); 
+		Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;
+		cout<<"class_implementation_header: AT_IMPLEMENTATION IDENTIFIER SEMI_COLUMN IDENTIFIER\n";;}
     break;
 
   case 113:
-#line 359 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 422 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {
-																i=2;(yyval.r.str)=(yyvsp[-2].r.str);if(s->check_Implementation_Interface((yyvsp[-2].r.str))==0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Implementation has no Interface");if(s->insertImplementationInCurrentScope((yyvsp[-2].r.str))==0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Implementation");
-																 Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",":");;}
+		i=2;(yyval.r.str)=(yyvsp[-2].r.str);
+		if(s->check_Implementation_Interface((yyvsp[-2].r.str))==0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Implementation has no Interface");
+		if(s->insertImplementationInCurrentScope((yyvsp[-2].r.str))==0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Implementation");
+		Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;
+		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",":");;}
     break;
 
   case 114:
-#line 362 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 430 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {
-																i=2;(yyval.r.str)=(yyvsp[-1].r.str);if(s->check_Implementation_Interface((yyvsp[-1].r.str))==0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Implementation has no Interface");if(s->insertImplementationInCurrentScope((yyvsp[-1].r.str))==0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Implementation");
-																 Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing",":");;}
+		i=2;(yyval.r.str)=(yyvsp[-1].r.str);
+		if(s->check_Implementation_Interface((yyvsp[-1].r.str))==0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Implementation has no Interface");
+		if(s->insertImplementationInCurrentScope((yyvsp[-1].r.str))==0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Implementation");
+		Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;
+		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing",":");;}
     break;
 
   case 115:
-#line 365 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 438 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {
-																 i=2;(yyval.r.str)=(yyvsp[0].r.str);if(s->check_Implementation_Interface((yyvsp[0].r.str))==0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Implementation has no Interface");if(s->insertImplementationInCurrentScope((yyvsp[0].r.str))==0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Implementation");
-																 Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;
-																 cout<<"class_implementation_header: AT_IMPLEMENTATION IDENTIFIER \n";
+		(yyval.tn)=ast->createNode((yyvsp[0].tn),0,HedrImpNode);
+		//Interface_name=new char[30];
+		//	cout<<$<r.str>2;
+		//strcat(Interface_name,$<r.str>2);
+		//cout<<Interface_name;
+		i=2;(yyval.r.str)=(yyvsp[0].r.str);
+		if(s->check_Implementation_Interface((yyvsp[0].r.str))==0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Implementation has no Interface");
+		if(s->insertImplementationInCurrentScope((yyvsp[0].r.str))==0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Implementation");
+		Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;
+		cout<<"class_implementation_header: AT_IMPLEMENTATION IDENTIFIER \n";
 																;}
     break;
 
   case 116:
-#line 372 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"class_implementation_body: instance_variables	implementation_definition_list	AT_END\n";;}
+#line 454 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[-1].tn),BdyImpNode);cout<<"class_implementation_body: instance_variables	implementation_definition_list	AT_END\n";;}
     break;
 
   case 117:
-#line 373 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"class_implementation_body: instance_variables									AT_END\n";;}
+#line 455 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-1].tn),0,BdyImpNode);cout<<"class_implementation_body: instance_variables AT_END\n";;}
     break;
 
   case 118:
-#line 374 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"class_implementation_body:						implementation_definition_list	AT_END\n";;}
+#line 456 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-1].tn),0,BdyImpNode);cout<<"class_implementation_body:	implementation_definition_list	AT_END\n";;}
     break;
 
   case 119:
-#line 377 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {i=3;cout<<"implementation_definition_list: implementation_definition_list implementation_definition\n";;}
+#line 459 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->addToLastRight((yyvsp[-1].tn),ast->createNode((yyvsp[0].tn),0,ImpdefNode));i=3;cout<<"implementation_definition_list: implementation_definition_list implementation_definition\n";;}
     break;
 
   case 120:
-#line 378 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {i=3;cout<<"implementation_definition_list: implementation_definition\n";;}
+#line 460 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {								(yyval.tn)=ast->createNode((yyvsp[0].tn),0,ImpdefNode);i=3;cout<<"implementation_definition_list: implementation_definition\n";;}
     break;
 
   case 121:
-#line 381 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"implementation_definition: class_implementation_definition	\n";;}
+#line 463 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[0].tn);cout<<"implementation_definition: class_implementation_definition	\n";;}
     break;
 
   case 122:
-#line 382 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"implementation_definition: instance_implementation_definition \n";;}
+#line 464 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[0].tn);cout<<"implementation_definition: instance_implementation_definition \n";;}
     break;
 
   case 123:
-#line 385 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {i=2;cout<<"class_implementation_definition: class_implementation_definition_header block_body";;}
+#line 467 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+	(yyval.tn)=ast->createNode((yyvsp[-1].tn),(yyvsp[0].tn),ClsImpDefNode);i=2;
+	cout<<"class_implementation_definition: class_implementation_definition_header block_body";;}
     break;
 
   case 124:
-#line 388 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"class_implementation_definition_header: PLUS p_type		 method_selector\n";;}
+#line 472 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-1].tn),(yyvsp[0].tn),ClsImpDefHdrNode);cout<<"class_implementation_definition_header: PLUS p_type method_selector\n";;}
     break;
 
   case 125:
-#line 389 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"class_implementation_definition_header:  PLUS			 method_selector\n";;}
+#line 473 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[0].tn),0,ClsImpDefHdrNode);cout<<"class_implementation_definition_header:  PLUS	method_selector\n";;}
     break;
 
   case 126:
-#line 392 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {i=2;(yyval.r.str)=(yyvsp[-1].r.str);cout<<"instance_implementation_definition: instance_implementation_definition_header block_body\n";;}
+#line 476 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->createNode((yyvsp[-1].tn),(yyvsp[0].tn),InsImpDefNode);i=2;(yyval.r.str)=(yyvsp[-1].r.str);cout<<"instance_implementation_definition: instance_implementation_definition_header block_body\n";;}
     break;
 
   case 127:
-#line 395 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"instance_implementation_definition_header:MINUS p_type		method_selector\n";;}
+#line 479 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->createNode((yyvsp[-1].tn),(yyvsp[0].tn),InsImpDefHdrNode);cout<<"instance_implementation_definition_header:MINUS p_type	method_selector\n";;}
     break;
 
   case 128:
-#line 396 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"instance_implementation_definition_header:MINUS 			method_selector\n";;}
+#line 480 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->createNode((yyvsp[0].tn),0,InsImpDefHdrNode);cout<<"instance_implementation_definition_header:MINUS method_selector\n";;}
     break;
 
   case 129:
-#line 399 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"statement_list: statement_list statement\n";;}
+#line 483 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->addToLastRight((yyvsp[-1].tn),ast->createNode((yyvsp[0].tn),0,stmtListNode));cout<<"statement_list: statement_list statement\n";;}
     break;
 
   case 130:
-#line 400 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"statement_list: statement\n";;}
+#line 484 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->createNode((yyvsp[0].tn),0,stmtListNode);cout<<"statement_list: statement\n";;}
     break;
 
   case 131:
-#line 403 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"statement: loop_statement\n";;}
+#line 487 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[0].tn);cout<<"statement: loop_statement\n";;}
     break;
 
   case 132:
-#line 404 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"statement: conditional_statement\n";;}
+#line 488 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[0].tn);cout<<"statement: conditional_statement\n";;}
     break;
 
   case 133:
-#line 405 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"statement: expr\n";;}
+#line 489 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[-1].tn);cout<<"statement: expr\n";;}
     break;
 
   case 134:
-#line 406 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"statement: variable_declaration\n";;}
+#line 490 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[0].tn);cout<<"statement: variable_declaration\n";;}
     break;
 
   case 135:
-#line 407 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 491 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Scope *new_scope = new Scope(); new_scope->parent=s->currScope;s->currScope=new_scope;;}
     break;
 
   case 136:
-#line 407 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 491 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {s->currScope=s->currScope->parent;cout<<"statement: block_body\n";;}
     break;
 
   case 137:
-#line 408 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"statement: return_statement\n";;}
+#line 492 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[0].tn);cout<<"statement: return_statement\n";;}
     break;
 
   case 138:
-#line 411 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"return_statement: RETURN expr\n";;}
+#line 495 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-1].tn),0,ReturnNode);cout<<"return_statement: RETURN expr\n";;}
     break;
 
   case 139:
-#line 412 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 496 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");;}
     break;
 
   case 140:
-#line 415 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"loop_statement: for_loop\n";;}
+#line 499 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[0].tn);cout<<"loop_statement: for_loop\n";;}
     break;
 
   case 141:
-#line 416 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"loop_statement: while_loop\n";;}
+#line 500 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[0].tn);cout<<"loop_statement: while_loop\n";;}
     break;
 
   case 142:
-#line 417 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"loop_statement: do_while_loop\n";;}
+#line 501 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[0].tn);cout<<"loop_statement: do_while_loop\n";;}
     break;
 
   case 143:
-#line 420 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"for_loop: for_loop_header statement\n";;}
+#line 504 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-1].tn),(yyvsp[0].tn),ForNode);cout<<"for_loop: for_loop_header statement\n";;}
     break;
 
   case 144:
-#line 424 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"for_loop_header: FOR OPEN_P for_initializer	SEMI_COMA logic_expr SEMI_COMA expr			CLOSE_P\n";;}
+#line 507 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {	
+		(yyval.tn)=ast->createNode((yyvsp[-5].tn),(yyvsp[-1].tn),ForHdrNode);
+		(yyval.tn)->item=(yyvsp[-3].tn);
+		cout<<"for_loop_header: FOR OPEN_P for_initializer SEMI_COMA logic_expr SEMI_COMA expr CLOSE_P\n";;}
     break;
 
   case 145:
-#line 426 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 512 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",")");;}
     break;
 
   case 146:
-#line 428 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 514 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","(");;}
     break;
 
   case 147:
-#line 430 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 516 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","(");;}
     break;
 
   case 148:
-#line 433 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"for_loop_header: FOR OPEN_P					SEMI_COMA logic_expr SEMI_COMA expr			CLOSE_P\n";;}
+#line 518 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		(yyval.tn)=ast->createNode((yyvsp[-3].tn),(yyvsp[-1].tn),ForHdrNode);
+		cout<<"for_loop_header: FOR OPEN_P SEMI_COMA logic_expr SEMI_COMA expr CLOSE_P\n";;}
     break;
 
   case 149:
-#line 435 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 522 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing",")");;}
     break;
 
   case 150:
-#line 438 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 524 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","(");;}
     break;
 
   case 151:
-#line 440 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 526 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","(");;}
     break;
 
   case 152:
-#line 443 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"for_loop_header: FOR OPEN_P for_initializer SEMI_COMA			 SEMI_COMA expr			CLOSE_P\n";;}
+#line 528 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-4].tn),(yyvsp[-1].tn),ForHdrNode);	
+		cout<<"for_loop_header: FOR OPEN_P for_initializer SEMI_COMA SEMI_COMA expr CLOSE_P\n";;}
     break;
 
   case 153:
-#line 445 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"for_loop_header: FOR OPEN_P for_initializer SEMI_COMA logic_expr SEMI_COMA				CLOSE_P	\n";;}
+#line 531 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-4].tn),(yyvsp[-2].tn),ForHdrNode);	
+		cout<<"for_loop_header: FOR OPEN_P for_initializer SEMI_COMA logic_expr SEMI_COMA CLOSE_P \n";;}
     break;
 
   case 154:
-#line 448 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"for_loop_header: FOR OPEN_P	for_initializer	SEMI_COMA			 SEMI_COMA				CLOSE_P	\n";;}
+#line 534 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-3].tn),0,ForHdrNode);	
+		cout<<"for_loop_header: FOR OPEN_P for_initializer SEMI_COMA SEMI_COMA CLOSE_P	\n";;}
     break;
 
   case 155:
-#line 450 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"for_loop_header: FOR OPEN_P					SEMI_COMA logic_expr SEMI_COMA				CLOSE_P\n";;}
+#line 537 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),0,ForHdrNode);	
+		cout<<"for_loop_header: FOR OPEN_P SEMI_COMA logic_expr SEMI_COMA CLOSE_P\n";;}
     break;
 
   case 156:
-#line 452 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"for_loop_header: FOR OPEN_P 				SEMI_COMA			 SEMI_COMA expr			CLOSE_P";;}
+#line 540 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-1].tn),0,ForHdrNode);
+		cout<<"for_loop_header: FOR OPEN_P SEMI_COMA SEMI_COMA expr CLOSE_P";;}
     break;
 
   case 157:
-#line 455 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"for_loop_hearder: FOR OPEN_P 				SEMI_COMA			SEMI_COMA 				CLOSE_P	\n";;}
+#line 544 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode(0,0,ForHdrNode);	
+		cout<<"for_loop_hearder: FOR OPEN_P SEMI_COMA SEMI_COMA CLOSE_P	\n";;}
     break;
 
   case 158:
-#line 458 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {if(s->insertVariableInCurrentScope((yyvsp[-2].r.str),intType,1) == 0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"Error","Variable not found");cout<<"for_initializer: INT ID EQUAL expr\n";;}
+#line 548 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[0].tn),0,ForIniNode);if(s->insertVariableInCurrentScope((yyvsp[-2].r.str),intType,1) == 0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"Error","Variable not found");cout<<"for_initializer: INT ID EQUAL expr\n";;}
     break;
 
   case 159:
-#line 459 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 549 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","=");;}
     break;
 
   case 160:
-#line 460 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 550 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","=");;}
     break;
 
   case 161:
-#line 461 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"for_initializer: ID EQUAL expr\n";;}
+#line 551 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[0].tn),0,ForIniNode);cout<<"for_initializer: ID EQUAL expr\n";;}
     break;
 
   case 162:
-#line 462 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 552 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","=");;}
     break;
 
   case 163:
-#line 463 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 553 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","=");;}
     break;
 
   case 164:
-#line 464 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"for_initializer: ID\n";;}
+#line 554 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode(0,0,ForIniNode);cout<<"for_initializer: ID\n";;}
     break;
 
   case 165:
-#line 467 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"logic_expr:expr LESS_THAN expr\n";;}
+#line 557 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:expr LESS_THAN expr\n";;}
     break;
 
   case 166:
-#line 468 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"logic_expr:expr MORE_THAN expr\n";;}
+#line 558 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:expr MORE_THAN expr\n";;}
     break;
 
   case 167:
-#line 469 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"logic_expr:expr LESS_OR_EQUAL expr\n";;}
+#line 559 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:expr LESS_OR_EQUAL expr\n";;}
     break;
 
   case 168:
-#line 470 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"logic_expr:expr MORE_OR_EQUAL expr\n";;}
+#line 560 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:expr MORE_OR_EQUAL expr\n";;}
     break;
 
   case 169:
-#line 471 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"logic_expr:expr EQUAL_EQUAL expr\n";;}
+#line 561 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:expr EQUAL_EQUAL expr\n";;}
     break;
 
   case 170:
-#line 472 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"logic_expr:NOT_EQUAL expr\n";;}
+#line 562 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[0].tn),0,LogExpNode);cout<<"logic_expr:NOT_EQUAL expr\n";;}
     break;
 
   case 171:
-#line 473 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"logic_expr:OPEN_P logic_expr CLOSE_P\n";;}
+#line 563 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-1].tn),0,LogExpNode);cout<<"logic_expr:OPEN_P logic_expr CLOSE_P\n";;}
     break;
 
   case 172:
-#line 474 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"logic_expr:logic_expr AND_AND logic_expr\n";;}
+#line 564 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:logic_expr AND_AND logic_expr\n";;}
     break;
 
   case 173:
-#line 475 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"logic_expr:logic_expr OR_OR logic_expr\n";;}
+#line 565 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:logic_expr OR_OR logic_expr\n";;}
     break;
 
   case 174:
-#line 478 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"expr:assign_expr\n";;}
+#line 568 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[0].tn);cout<<"expr:assign_expr\n";;}
     break;
 
   case 175:
-#line 479 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"expr:simple_expr\n";;}
+#line 569 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[0].tn);cout<<"expr:simple_expr\n";;}
     break;
 
   case 176:
-#line 482 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"logic_expr:expr LESS_THAN expr\n";;}
+#line 572 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:expr LESS_THAN expr\n";;}
     break;
 
   case 177:
-#line 483 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"logic_expr:expr MORE_THAN expr\n";;}
+#line 573 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:expr MORE_THAN expr\n";;}
     break;
 
   case 178:
-#line 484 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"logic_expr:expr LESS_OR_EQUAL expr\n";;}
+#line 574 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:expr LESS_OR_EQUAL expr\n";;}
     break;
 
   case 179:
-#line 485 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"logic_expr:expr MORE_OR_EQUAL expr\n";;}
+#line 575 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:expr MORE_OR_EQUAL expr\n";;}
     break;
 
   case 180:
-#line 486 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"logic_expr:expr EQUAL_EQUAL expr\n";;}
+#line 576 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:expr EQUAL_EQUAL expr\n";;}
     break;
 
   case 181:
-#line 487 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"logic_expr:NOT_EQUAL expr\n";;}
+#line 577 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[0].tn),0,LogExpNode);cout<<"logic_expr:NOT_EQUAL expr\n";;}
     break;
 
   case 182:
-#line 488 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"logic_expr:OPEN_P logic_expr CLOSE_P\n";;}
+#line 578 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-1].tn),0,LogExpNode);cout<<"logic_expr:OPEN_P logic_expr CLOSE_P\n";;}
     break;
 
   case 183:
-#line 489 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"logic_expr:logic_expr AND_AND logic_expr\n";;}
+#line 579 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:logic_expr AND_AND logic_expr\n";;}
     break;
 
   case 184:
-#line 490 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"logic_expr:logic_expr OR_OR logic_expr\n";;}
+#line 580 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:logic_expr OR_OR logic_expr\n";;}
     break;
 
   case 185:
-#line 491 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 581 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","LOGIC EXPR");;}
     break;
 
   case 186:
-#line 492 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 582 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",")");;}
     break;
 
   case 187:
-#line 493 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 583 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","(");;}
     break;
 
   case 188:
-#line 498 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"expr:simple_expr\n";;}
+#line 588 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[0].tn);cout<<"expr:simple_expr\n";;}
     break;
 
   case 189:
-#line 501 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"assign_expr:long_id EQUAL simple_expr\n";;}
+#line 591 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),AsgExpNode);cout<<"assign_expr:long_id EQUAL simple_expr\n";;}
     break;
 
   case 190:
-#line 504 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 594 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {
-		var.push((yyvsp[0].r.str));
+		var.push((yyvsp[0].r.str));				
+		(yyval.tn) = ast->addToLastRight((yyvsp[-2].tn),ast->createNode(0,0,longidNode));
 		cout<<"long_id: long_id.IDENTIFIER\n";;}
     break;
 
   case 191:
-#line 508 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"long_id: long_id.message_call\n";;}
+#line 599 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[0].tn);cout<<"long_id: long_id.message_call\n";;}
     break;
 
   case 192:
-#line 509 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {
-	if(strcmp(lexer->YYText(),".")==0) 
-		var.push((yyvsp[0].r.str));
-	else if(s->getVariableFromCurrentScope((yyvsp[0].r.str))==0) {
-		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable Not found ");
-	}
-	cout<<"long_id:IDENTIFIER\n";;}
+#line 600 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode(0,0,IdentNode);
+		if(strcmp(lexer->YYText(),".")==0) 
+			var.push((yyvsp[0].r.str));
+		if(s->getVariableFromCurrentScope((yyvsp[0].r.str))==0) {
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable Not found ");
+		}
+		cout<<"long_id:IDENTIFIER\n";;}
     break;
 
   case 193:
-#line 519 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"simple_expr:STRING_VAL\n";;}
+#line 610 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode(0,0,stringNode);cout<<"simple_expr:STRING_VAL\n";;}
     break;
 
   case 194:
-#line 520 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"simple_expr:INT_VAL\ns";;}
+#line 611 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode(0,0,intNode);cout<<"simple_expr:INT_VAL\ns";;}
     break;
 
   case 195:
-#line 521 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"simple_expr:FLOAT_VAL\n";;}
+#line 612 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode(0,0,floatNode);cout<<"simple_expr:FLOAT_VAL\n";;}
     break;
 
   case 196:
-#line 522 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"simple_expr:CHAR_VAL\n";;}
+#line 613 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode(0,0,CharNode);cout<<"simple_expr:CHAR_VAL\n";;}
     break;
 
   case 197:
-#line 524 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    { 
-	char *type;
-	bool ok1=true;
-	if(s->getVariableNameFromInterface("I","l")=="##")
-		ok1=false;
-	else{
-		type=s->getVariableNameFromInterface("I","l");
-		cout<<"ok";
-	}
-	while((!var.empty())&&(ok1)){
-		var.pop();
-		cout<<type;
-		if(var.empty())
+#line 615 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		char *type;
+		bool ok1=true;
+		if(s->getVariableNameFromInterface("I","l")=="##")
 			ok1=false;
-		else if(s->getVariableNameFromInterface(type,var.front())=="##")
-		{
-			cout<<"error datamember not found";
-			ok1=false;
-		}
-		else if(s->getVariableNameFromInterface(type,var.front())=="#$"){
-			cout<<"error Interface not found";
-			ok1=false;
-		}
-		else if(s->getVariableSpecFromInterface(type,var.front())!=3){
-			cout<<"error not public";
-			ok1=false;
-		}
 		else{
-				type=s->getVariableNameFromInterface(type,var.front());
+			type=s->getVariableNameFromInterface("I","l");
+			cout<<"ok";
 		}
+		while((!var.empty())&&(ok1)){
+			var.pop();
+			cout<<type;
+			if(var.empty())
+				ok1=false;
+			else if(s->getVariableNameFromInterface(type,var.front())=="##")
+			{
+				cout<<"error datamember not found";
+				ok1=false;
+			}
+			else if(s->getVariableNameFromInterface(type,var.front())=="#$"){
+				cout<<"error Interface not found";
+				ok1=false;
+			}
+			else if(s->getVariableSpecFromInterface(type,var.front())!=3){
+				cout<<"error not public";
+				ok1=false;
+			}
+			else{
+					type=s->getVariableNameFromInterface(type,var.front());
+			}
 	}
 	cout<<"simple_expr:long_id\n";;}
     break;
 
   case 198:
-#line 556 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"simple_expr:expr PLUS expr\n";;}
+#line 647 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),SmpExpNode);cout<<"simple_expr:expr PLUS expr\n";;}
     break;
 
   case 199:
-#line 557 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"simple_expr:expr MINUS expr\n";;}
+#line 648 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),SmpExpNode);cout<<"simple_expr:expr MINUS expr\n";;}
     break;
 
   case 200:
-#line 558 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"simple_expr:expr MULTI expr\n";;}
+#line 649 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),SmpExpNode);cout<<"simple_expr:expr MULTI expr\n";;}
     break;
 
   case 201:
-#line 559 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"simple_expr:expr DIV expr\n";;}
+#line 650 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),SmpExpNode);cout<<"simple_expr:expr DIV expr\n";;}
     break;
 
   case 202:
-#line 560 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"simple_expr:OPEN_P expr CLOSE_P\n";;}
+#line 651 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-1].tn),0,SmpExpNode);cout<<"simple_expr:OPEN_P expr CLOSE_P\n";;}
     break;
 
   case 203:
-#line 561 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 652 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"expr:p_type expr\n";;}
     break;
 
   case 204:
-#line 564 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    { cout<<"block_body:OPEN_S statement_list	CLOSE_S\n";;}
+#line 655 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-1].tn),0,BlockNode); cout<<"block_body:OPEN_S statement_list	CLOSE_S\n";;}
     break;
 
   case 205:
-#line 565 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    { cout<<"block_body:OPEN_S 					CLOSE_S\n";;}
+#line 656 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode(0,0,BlockNode);cout<<"block_body:OPEN_S CLOSE_S\n";;}
     break;
 
   case 206:
-#line 568 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"while_loop:while_loop_header statement\n";;}
+#line 659 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-1].tn),(yyvsp[0].tn),WhileNode);cout<<"while_loop:while_loop_header statement\n";;}
     break;
 
   case 207:
-#line 571 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"while_loop_header: WHILE OPEN_P logic_expr CLOSE_P\n";;}
+#line 662 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-1].tn),0,WleHdrNode);cout<<"while_loop_header: WHILE OPEN_P logic_expr CLOSE_P\n";;}
     break;
 
   case 208:
-#line 572 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 663 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",")");;}
     break;
 
   case 209:
-#line 573 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 664 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","(");;}
     break;
 
   case 210:
-#line 574 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 665 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","(");;}
     break;
 
   case 211:
-#line 577 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"do_while_loop_header: DO statement while_loop_header SEMI_COMA\n";;}
+#line 668 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[-1].tn),DoWhlNode);cout<<"do_while_loop_header: DO statement while_loop_header SEMI_COMA\n";;}
     break;
 
   case 212:
-#line 579 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"conditional_statement: if_header statement\n";;}
+#line 670 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-1].tn),(yyvsp[0].tn),CondtiNode);cout<<"conditional_statement: if_header statement\n";;}
     break;
 
   case 213:
-#line 580 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"conditional_statement: if_header statement\n";;}
+#line 671 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		(yyval.tn)=ast->createNode((yyvsp[-3].tn),(yyvsp[-2].tn),CondtiNode);
+		(yyval.tn)->item=(yyvsp[0].tn);cout<<"conditional_statement: if_header statement\n";;}
     break;
 
   case 214:
-#line 581 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"conditional_statement: switch\n";;}
+#line 674 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[0].tn),0,CondtiNode);cout<<"conditional_statement: switch\n";;}
     break;
 
   case 215:
-#line 584 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"switch statment";;}
+#line 677 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-4].tn),(yyvsp[-1].tn),SwitchNode);cout<<"switch statment";;}
     break;
 
   case 216:
-#line 585 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 678 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","(");;}
     break;
 
   case 217:
-#line 586 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 679 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",")");;}
     break;
 
   case 218:
-#line 587 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 680 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","}");;}
     break;
 
   case 219:
-#line 588 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 681 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","{");;}
     break;
 
   case 220:
-#line 593 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"case statment";;}
+#line 686 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+									(yyval.tn)=ast->createNode((yyvsp[-6].tn),(yyvsp[-3].tn),SwtBdyNode);
+										(yyval.tn)->item=(yyvsp[0].tn);
+												cout<<"case statment";;}
     break;
 
   case 221:
-#line 594 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 690 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","break");;}
     break;
 
   case 222:
-#line 595 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"default statment";;}
+#line 691 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),0,SwtBdyNode);cout<<"default statment";;}
     break;
 
   case 223:
-#line 596 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 692 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","break");;}
     break;
 
   case 224:
-#line 601 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {;;}
+#line 697 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[0].tn);;}
     break;
 
   case 225:
-#line 602 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {;;}
+#line 698 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[0].tn);;}
     break;
 
   case 226:
-#line 606 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {;;}
+#line 702 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[0].tn);;}
     break;
 
   case 227:
-#line 607 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {;;}
+#line 703 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[0].tn);;}
     break;
 
   case 228:
-#line 610 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"if_header: IF OPEN_P logic_expr CLOSE_P\n";;}
+#line 706 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-1].tn),0,IfHdrNode);cout<<"if_header: IF OPEN_P logic_expr CLOSE_P\n";;}
     break;
 
   case 229:
-#line 611 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 707 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",")");;}
     break;
 
   case 230:
-#line 612 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 708 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","(");;}
     break;
 
   case 231:
-#line 613 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 709 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","(");;}
     break;
 
   case 232:
-#line 616 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"message_call: OPEN_ARR sender message CLOSE_ARR\n";;}
+#line 712 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[-1].tn),MsgCalNode);cout<<"message_call: OPEN_ARR sender message CLOSE_ARR\n";;}
     break;
 
   case 233:
-#line 619 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"sender: message_call\n";;}
+#line 715 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->createNode((yyvsp[0].tn),0,SndrNode);cout<<"sender: message_call\n";;}
     break;
 
   case 234:
-#line 620 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 716 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"sender: IDENTIFIER\n";;}
     break;
 
   case 235:
-#line 623 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 719 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"message: IDENTIFIER\n";;}
     break;
 
   case 236:
-#line 624 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"message: IDENTIFIER SEMI_COLUMN argument_list\n";;}
+#line 720 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->createNode((yyvsp[0].tn),0,MsgNode);cout<<"message: IDENTIFIER SEMI_COLUMN argument_list\n";;}
     break;
 
   case 237:
-#line 627 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"argument_list: argument_list argument\n";;}
+#line 723 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->addToLastRight((yyvsp[-1].tn),ast->createNode((yyvsp[0].tn),0,argListNode));cout<<"argument_list: argument_list argument\n";;}
     break;
 
   case 238:
-#line 628 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"argument_list: argument\n";;}
+#line 724 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->createNode((yyvsp[0].tn),0,argListNode);cout<<"argument_list: argument\n";;}
     break;
 
   case 239:
-#line 631 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"argument: SEMI_COLUMN simple_expr\n";;}
+#line 727 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->createNode((yyvsp[0].tn),0,argNode);cout<<"argument: SEMI_COLUMN simple_expr\n";;}
     break;
 
   case 240:
-#line 632 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 728 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",":");;}
     break;
 
   case 241:
-#line 633 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"argument: IDENTIFIER SEMI_COLUMN simple_expr\n";;}
+#line 729 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->createNode((yyvsp[0].tn),0,argNode);cout<<"argument: IDENTIFIER SEMI_COLUMN simple_expr\n";;}
     break;
 
   case 242:
-#line 634 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 730 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing",":");;}
     break;
 
   case 243:
-#line 635 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 731 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",":");;}
     break;
 
   case 244:
-#line 637 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {s->insert_scope1((yyvsp[-1].r.str),s->currScope);s->currScope=s->currScope->parent;cout<<"protocol: protocol_header protocol_body\n";;}
+#line 733 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+	(yyval.tn) = ast->createNode((yyvsp[-1].tn),(yyvsp[0].tn),ProtclNode);
+	s->insert_scope1((yyvsp[-1].r.str),s->currScope);s->currScope=s->currScope->parent;
+	cout<<"protocol: protocol_header protocol_body\n";;}
     break;
 
   case 245:
-#line 640 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {(yyval.r.str)=(yyvsp[0].r.str);
-								if(s->check_Interface((yyvsp[0].r.str))!=0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","there is inteface in the same name");
-								if( s->insertProtocolInCurrentScope((yyvsp[0].r.str))==0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Protocol");
-								Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope; cout<<"protocol_header: AT_PROTOCOL IDENTIFIER \n";;}
+#line 739 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		(yyval.tn) = ast->createNode(0,0,ProtclHdrNode);
+		(yyval.r.str)=(yyvsp[0].r.str);
+		if(s->check_Interface((yyvsp[0].r.str))!=0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","there is inteface in the same name");
+		if( s->insertProtocolInCurrentScope((yyvsp[0].r.str))==0) 
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Protocol");
+		Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope; 
+		cout<<"protocol_header: AT_PROTOCOL IDENTIFIER \n";;}
     break;
 
   case 246:
-#line 646 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"protocol_body:	protocol_reference_list interface_declaration_list	AT_END\n";;}
+#line 751 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->createNode((yyvsp[-2].tn),(yyvsp[-1].tn),ProtclBdyNode);
+		cout<<"protocol_body: protocol_reference_list interface_declaration_list AT_END\n";;}
     break;
 
   case 247:
-#line 648 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"protocol_body:	interface_declaration_list	AT_END\n";;}
+#line 753 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		(yyval.tn) = ast->createNode((yyvsp[-1].tn),0,ProtclBdyNode);
+		cout<<"protocol_body: interface_declaration_list AT_END\n";;}
     break;
 
   case 248:
-#line 650 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"protocol_body:	protocol_reference_list 							AT_END	\n";;}
+#line 756 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		(yyval.tn) = ast->createNode((yyvsp[-1].tn),0,ProtclBdyNode);
+		cout<<"protocol_body: protocol_reference_list AT_END \n";;}
     break;
 
   case 249:
-#line 652 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
-    {cout<<"protocol_body:	AT_END\n";;}
+#line 759 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		(yyval.tn) = ast->createNode(0,0,ProtclBdyNode);
+		cout<<"protocol_body:	AT_END\n";;}
     break;
 
 
@@ -3204,7 +3317,7 @@ s->insert_scope((yyvsp[-1].r.str),s->currScope);s->currScope=s->currScope->paren
     }
 
 /* Line 1126 of yacc.c.  */
-#line 3208 "yacc.cpp"
+#line 3321 "yacc.cpp"
 
   yyvsp -= yylen;
   yyssp -= yylen;
@@ -3472,7 +3585,7 @@ yyreturn:
 }
 
 
-#line 653 "C:\\Users\\hossam\\Documents\\Visual Studio 2012\\Projects\\comp\\yacc.y"
+#line 762 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
 
 void yyerror(char *s) {
 	;
@@ -3480,17 +3593,12 @@ void yyerror(char *s) {
 
 int yylex(){
 	return lexer->yylex();
+
 }
 void main(void){
-	Parser* p = new Parser();
-	std::ifstream is;
-	std::filebuf * fb = is.rdbuf();
-	fb->open ("D:\\t.txt",ios::in);
-	istream in1(fb);
-	yy_buffer_state *y=lexer->yy_create_buffer(&in1,100);
-	lexer->yy_switch_to_buffer(y);
-	yyparse();
-	Er->printErrQueue();
+	Parser* p = new Parser();			
+	p->parse();
+	Er->printErrQueue();	
 	system("pause");
 }
 
