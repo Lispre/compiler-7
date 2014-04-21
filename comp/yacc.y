@@ -152,7 +152,7 @@ program: components					{ast->print($<tn>1,0);cout<<"program: components\n";}
 ;
 
 
-components: components component		{cout<<"components: components component\n"; $<tn>$ = ast->addToLastRight($<tn>1, ast->createNode($<tn>2,0, componentsListNode));}
+components: components component		{cout<<"components: components component\n"; $<tn>$ = ast->addToLastRight($<tn>1, ast->createNode($<tn>2,0, componentsListNode,noType));}
 			|component					{cout<<"components: component\n";			 $<tn>$ = ast->createNode($<tn>1, 0, componentNode,noType);}
 ;
 
@@ -349,7 +349,9 @@ variable_declaration:
 		Type t=static_cast<Type>($<r.type>1);
 		if(s->insertVariableInCurrentScope($<r.str>2,t,visability) == 0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
-		cout<<"variable_declaration:type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";	$<tn>$ = ast->createNode(0,0, variable_declaration_ID,$<tn>1->expectedType);}
+		cout<<"variable_declaration:type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";	$<tn>$ = ast->createNode(0,0, variable_declaration_ID,$<tn>1->expectedType);  /*check expr type less or equal */}
+
+
 	|type IDENTIFIER EQUAL simple_expr error		{yyclearin; Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";"); $<tn>$ = ast->createNode(0,0, variable_declaration_ID,$<tn>1->expectedType);}
 	|CONST type IDENTIFIER	SEMI_COMA			{
 		Type t=static_cast<Type>($<r.type>2);if(s->insertVariableInCurrentScope($<r.str>2,t,visability) == 0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
@@ -470,12 +472,12 @@ simple_type:
 
 
 
-complex_type: IDENTIFIER MULTI		{
+complex_7type: IDENTIFIER MULTI		{
 		$<r.type>$=6;$<r.str>$=$<r.str>1;
 		if(s->check_var_type($<r.str>1)==0)	
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","type is undefined");
 		cout<<"complex_type:	IDENTIFIER	MULTI\n";
-		ast->createNode(0,0, complex_type);}
+		ast->createNode(0,0, complex_type,complextype);}
 ;
 
 
@@ -799,6 +801,8 @@ expr2:
 assign_expr: 
 	long_id EQUAL simple_expr			{$<tn>$=ast->createNode($<tn>1,$<tn>3,AsgExpNode);cout<<"assign_expr:long_id EQUAL simple_expr\n";}
 ;
+
+
 long_id:
 	long_id DOT IDENTIFIER				{
 		var.push($<r.str>3);				
@@ -816,7 +820,7 @@ long_id:
 ;
 simple_expr:
 	//message_call				{cout<<"simple_expr:message_call\n";}
-	STRING_VAL					{$<tn>$=ast->createNode(0,0,stringNode);cout<<"simple_expr:STRING_VAL\n";}
+	STRING_VAL					{$<tn>$=ast->createNode(0,0,stringNode);   $<tn>$->item=""; cout<<"simple_expr:STRING_VAL\n";}
 	|INT_VAL					{$<tn>$=ast->createNode(0,0,intNode);cout<<"simple_expr:INT_VAL\ns";}
 	|FLOAT_VAL					{$<tn>$=ast->createNode(0,0,floatNode);cout<<"simple_expr:FLOAT_VAL\n";}
 	|CHAR_VAL					{$<tn>$=ast->createNode(0,0,CharNode);cout<<"simple_expr:CHAR_VAL\n";}

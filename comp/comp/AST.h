@@ -17,7 +17,9 @@ enum Node {
 		,simple_type_CHAR,simple_typeFLOAT,simple_type_NSSTRING,simple_type_VOID,complex_type,interface_declaration_list_Node,
 		class_method_declaration,instance_method_declaration,p_typeNode,method_selector_Node,parameter_Node,paramListNode};
 
-enum ExpectedType {noType, inttype, floattype, stringType,boolType ,floattype,chartype};
+enum ExpectedType {noType, inttype, floattype, stringType,boolType ,floattype,chartype,complextype};
+
+
 class TreeNode{
 public:
 	TreeNode * left;
@@ -29,6 +31,8 @@ public:
 	int colNo;
 	void* currST;
 };
+
+
 class AST
 {
 public:
@@ -36,7 +40,7 @@ public:
 	~AST(void);
 	TreeNode * createNode(TreeNode * left, TreeNode* right, Node nt,ExpectedType ex);
 	TreeNode * addToLastRight(TreeNode * basic, TreeNode* newItem);
-	
+	setec 
 	
 
 	void print(TreeNode * tn, int lvl);
