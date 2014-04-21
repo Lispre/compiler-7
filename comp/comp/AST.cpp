@@ -21,12 +21,12 @@ AST::~AST(void)
 {
 }
 
-TreeNode * AST::createNode(TreeNode * l, TreeNode* r, Node nt,ExpectedType ex){
+TreeNode * AST::createNode(TreeNode * l, TreeNode* r, Node nt){
 	TreeNode * tn = new TreeNode();
 	tn->nodeType = nt;
 	tn->left = l;
 	tn->right = r;
-	tn->ExpectedType=ex;
+	
 	return tn;
 }
 
