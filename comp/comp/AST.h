@@ -7,10 +7,6 @@ enum Node {
 	intNode, floatNode, stringNode,CharNode,IdentNode,longidNode,CompNode,
 	ImpNode,HedrImpNode,BdyImpNode,ImpdefNode,ClsImpDefNode,InsImpDefNode,ClsImpDefHdrNode,InsImpDefHdrNode,
 	stmtListNode,ForNode,ForHdrNode,ForIniNode,LogExpNode,AsgExpNode,SmpExpNode,WhileNode,WleHdrNode,DoWhlNode
-<<<<<<< HEAD
-	,CondtiNode,SwitchNode,SwtBdyNode,IfHdrNode,argListNode,argNode,ProtclHdrNode,ProtclNode,ProtclBdyNode,MsgNode,MsgCalNode,SndrNode,BlockNode,ReturnNode};
-enum ExpectedType {notype, inttype, floattype, stringtype };
-=======
 	,CondtiNode,SwitchNode,SwtBdyNode,IfHdrNode,argListNode,argNode,ProtclHdrNode,ProtclNode,ProtclBdyNode,MsgNode,MsgCalNode,SndrNode,BlockNode,ReturnNode,
 	programNode,componentsListNode,componentNode,class_interface,
 			class_interface_header_inheretance_Node,class_interface_header_Node,class_interface_body_Node
@@ -24,7 +20,6 @@ enum ExpectedType {notype, inttype, floattype, stringtype };
 enum ExpectedType {noType, inttype, floattype, stringType,boolType ,chartype,complextype};
 
 
->>>>>>> ec8ccbb12ba4a53303a790da0dc80d1d17c89645
 class TreeNode{
 public:
 	TreeNode * left;
