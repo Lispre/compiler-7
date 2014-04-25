@@ -51,3 +51,11 @@ int Variable::getSpecifier()
 {
 	return this->accessSpecifier;
 }
+void Variable::setoffset(int x)
+{
+	this->offset=x;
+}
+int Variable::getoffset()
+{
+	return this->offset;
+}

@@ -18,7 +18,9 @@ public:
 	Scope * currScope;
 	Scope * rootScope;
 	Variable * insertVariableInCurrentScope(char* name,Type  t,int visability);
+	Variable * insertVariableInCurrentScope(char* name,Type  t,int visability,int offset);
 	Variable *insertVariableInCurrentScope(char* name,void* type1,int visability);
+	Variable *insertVariableInCurrentScope(char* name,void* type1,int visability,int offset);
 	Variable * getVariableFromCurrentScope(char* name);
 	Interface* getInterface(char* name);
 	Variable* getVariableFromInterface(char* Interface_name,char* Data_name);
