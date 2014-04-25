@@ -16,6 +16,9 @@
 	#include <vector>
 	#include <queue>
 	using namespace std;
+	//global offset 
+	int datamember_offset;
+	int function_offset;
 	ErrorRecovery *Er=new ErrorRecovery();
 	void yyerror(char *);
 	vector<string> param_list;
@@ -146,7 +149,7 @@ components:
 component:	
 	class_interface					{$<tn>$ = $<tn>1;cout<<"component: class_interface\n";}
 	|class_implementation			{$<tn>$ = $<tn>1;cout<<"component: class_implementation\n";}
-	|protocol					{$<tn>$ = $<tn>1;cout<<"component: protocol\n";}
+	|protocol						{$<tn>$ = $<tn>1;cout<<"component: protocol\n";}
 ;
 class_interface: 
 	class_interface_header class_interface_body	{
@@ -156,6 +159,7 @@ class_interface:
 class_interface_header: 
 	AT_INTERFACE IDENTIFIER	SEMI_COLUMN IDENTIFIER	{
 		i=1;
+		datamember_offset=0;
 		$<r.str>$=$<r.str>2;
 		if(s->check_Interface($<r.str>2)!=0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface"); 
@@ -163,24 +167,15 @@ class_interface_header:
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Not found inhertance Interface"); 
 		Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope; 
 		cout<<"class_interface_header:  AT_INTERFACE IDENTIFIER SEMI_COLUMN IDENTIFIER\n";}
-	|AT_INTERFACE IDENTIFIER error IDENTIFIER 	{
-		i=1;
-		$<r.str>$=$<r.str>2;
-		if(s->check_Interface($<r.str>2)!=0) 
-			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface"); 													Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;																																		
+	|AT_INTERFACE IDENTIFIER error IDENTIFIER 	{																																	
 		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"Error",":");}
 	|AT_INTERFACE IDENTIFIER SEMI_COLUMN 		{
-		i=1;
-		$<r.str>$=$<r.str>2;
-		if(s->check_Interface($<r.str>2)!=0) 
-			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface");
-		Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;
 		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","IDENTIFIER");}
-	|AT_INTERFACE IDENTIFIER IDENTIFIER	          {i=1;$<r.str>$=$<r.str>2;
-		if(s->check_Interface($<r.str>2)!=0) 
+	|AT_INTERFACE IDENTIFIER IDENTIFIER	          {
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface"); 																				Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope; Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing",":");}	
 	|AT_INTERFACE IDENTIFIER			{
 		i=1;
+		datamember_offset=0;
 		$<r.str>$=$<r.str>2;
 		if(s->check_Interface($<r.str>2)!=0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface");
@@ -234,20 +229,30 @@ variable_declaration:
 	type IDENTIFIER	SEMI_COMA									
 			{
 				cout<<"variable_declaration:type IDENTIFIER	SEMI_COMA\n"; 
+				int offset;
+				if(i==1)
+					offset=datamember_offset++;
+				else
+					offset=function_offset++;
 				Type t=static_cast<Type>($<r.type>1);
 				if($<r.type>1==6){
-					if(s->insertVariableInCurrentScope($<r.str>2,$<r.str>1,visability) == 0)	
+					if(s->insertVariableInCurrentScope($<r.str>2,$<r.str>1,visability,offset) == 0)	
 						Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
 				}
 				else{
-					if(s->insertVariableInCurrentScope($<r.str>2,t,visability) == 0) 
+					if(s->insertVariableInCurrentScope($<r.str>2,t,visability,offset) == 0) 
 						Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
 				}
 			}
 	|type IDENTIFIER error					{yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");}
 	|type IDENTIFIER EQUAL simple_expr SEMI_COMA 		{
+		int offset;
+		if(i==1)
+			offset=datamember_offset++;
+		else
+			offset=function_offset++;
 		Type t=static_cast<Type>($<r.type>1);
-		if(s->insertVariableInCurrentScope($<r.str>2,t,visability) == 0) 
+		if(s->insertVariableInCurrentScope($<r.str>2,t,visability,offset) == 0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
 		cout<<"variable_declaration:type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";}
 	|type IDENTIFIER EQUAL simple_expr error		{yyclearin; Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");}
@@ -339,6 +344,9 @@ interface_declaration:
 ;
 class_method_declaration:
 	PLUS p_type method_selector SEMI_COMA	 {
+	void *v;
+	char *n="hello";
+	v=n;
 	Type t=static_cast<Type>($<r.type>2);
 	if(s->insertFunctionInCurrentScope($<r.str>3,t,param_list) == 0) 
 		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Method");
@@ -514,7 +522,6 @@ for_loop_header:
 		{Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","(");}
 	|FOR  error for_initializer SEMI_COMA logic_expr SEMI_COMA expr CLOSE_P
 		{Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","(");}
-
 	|FOR OPEN_P SEMI_COMA logic_expr SEMI_COMA expr	CLOSE_P {
 		$<tn>$=ast->createNode($<tn>4,$<tn>6,ForHdrNode);
 		cout<<"for_loop_header: FOR OPEN_P SEMI_COMA logic_expr SEMI_COMA expr CLOSE_P\n";}

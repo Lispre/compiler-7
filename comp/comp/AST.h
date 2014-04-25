@@ -8,7 +8,7 @@ enum Node {
 	ImpNode,HedrImpNode,BdyImpNode,ImpdefNode,ClsImpDefNode,InsImpDefNode,ClsImpDefHdrNode,InsImpDefHdrNode,
 	stmtListNode,ForNode,ForHdrNode,ForIniNode,LogExpNode,AsgExpNode,SmpExpNode,WhileNode,WleHdrNode,DoWhlNode
 	,CondtiNode,SwitchNode,SwtBdyNode,IfHdrNode,argListNode,argNode,ProtclHdrNode,ProtclNode,ProtclBdyNode,MsgNode,MsgCalNode,SndrNode,BlockNode,ReturnNode};
-enum ExpectedType {noType };
+enum ExpectedType {notype, inttype, floattype, stringtype };
 class TreeNode{
 public:
 	TreeNode * left;

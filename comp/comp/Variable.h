@@ -15,6 +15,7 @@ private:
 	DataModifier * dataModifier;
 	AccessSpecifier accessSpecifier;
 	Type type;
+	int offset;
 	void* type1;
 	int kind;
 public:
@@ -30,6 +31,8 @@ public:
 	int getkind();
 	void setsSpecifier(int s);
 	int getSpecifier();
+	void setoffset(int s);
+	int getoffset();
 	void setDataModifier(DataModifier * dm);
 	DataModifier * getDataModifier();
 };
