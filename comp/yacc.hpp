@@ -29,139 +29,157 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     AT_INTERFACE = 258,
-     IDENTIFIER = 259,
-     SEMI_COLUMN = 260,
-     NSSTRING = 261,
-     FLOAT = 262,
-     CHAR = 263,
-     INT = 264,
-     SEMI_COMA = 265,
-     ID = 266,
-     AT_PUBLIC = 267,
-     AT_PROTECTED = 268,
-     AT_PRIVATE = 269,
-     OPEN_S = 270,
-     CLOSE_S = 271,
-     COMMA = 272,
-     LESS_THAN = 273,
-     MORE_THAN = 274,
-     AT_END = 275,
-     CONST = 276,
-     VOID = 277,
-     PLUS = 278,
-     MINUS = 279,
-     OPEN_P = 280,
-     CLOSE_P = 281,
-     AT_IMPLEMENTATION = 282,
-     AND_AND = 283,
-     OR_OR = 284,
-     STRING_VAL = 285,
-     FLOAT_VAL = 286,
-     LESS_OR_EQUAL = 287,
-     CHAR_VAL = 288,
-     INT_VAL = 289,
-     MORE_OR_EQUAL = 290,
-     MULTI = 291,
-     EQUAL_EQUAL = 292,
-     NOT_EQUAL = 293,
-     FOR = 294,
-     EQUAL = 295,
-     DIV = 296,
-     WHILE = 297,
-     IF = 298,
-     OPEN_ARR = 299,
-     CLOSE_ARR = 300,
-     TRUE = 301,
-     FALSE = 302,
-     RETURN = 303,
-     AT_PROTOCOL = 304,
-     DO = 305,
-     DOT = 306,
-     SYMBOL = 307,
-     SWITCH = 308,
-     BREAK = 309,
-     DEFAULT = 310,
-     CASE = 311,
-     STRUCT = 312,
-     TYPEDEF = 313,
-     ENUM = 314,
-     if_h = 315,
-     ELSE = 316,
-     expr_1 = 317,
-     p_type_expr_prec = 318,
-     long_id_prec = 319
+     TRY = 258,
+     CATCH = 259,
+     NSEXception = 260,
+     NUllPointerException = 261,
+     OUtOfBoundryException = 262,
+     CAstException = 263,
+     FINALLY = 264,
+     AT_INTERFACE = 265,
+     IDENTIFIER = 266,
+     SEMI_COLUMN = 267,
+     NSSTRING = 268,
+     FLOAT = 269,
+     CHAR = 270,
+     INT = 271,
+     SEMI_COMA = 272,
+     ID = 273,
+     AT_PUBLIC = 274,
+     AT_PROTECTED = 275,
+     AT_PRIVATE = 276,
+     OPEN_S = 277,
+     CLOSE_S = 278,
+     COMMA = 279,
+     LESS_THAN = 280,
+     MORE_THAN = 281,
+     AT_END = 282,
+     CONST = 283,
+     VOID = 284,
+     PLUS = 285,
+     MINUS = 286,
+     OPEN_P = 287,
+     CLOSE_P = 288,
+     AT_IMPLEMENTATION = 289,
+     AND_AND = 290,
+     OR_OR = 291,
+     STRING_VAL = 292,
+     FLOAT_VAL = 293,
+     LESS_OR_EQUAL = 294,
+     CHAR_VAL = 295,
+     INT_VAL = 296,
+     MORE_OR_EQUAL = 297,
+     MULTI = 298,
+     EQUAL_EQUAL = 299,
+     NOT_EQUAL = 300,
+     FOR = 301,
+     EQUAL = 302,
+     DIV = 303,
+     WHILE = 304,
+     IF = 305,
+     OPEN_ARR = 306,
+     CLOSE_ARR = 307,
+     TRUE = 308,
+     FALSE = 309,
+     RETURN = 310,
+     AT_PROTOCOL = 311,
+     DO = 312,
+     DOT = 313,
+     SYMBOL = 314,
+     SWITCH = 315,
+     BREAK = 316,
+     DEFAULT = 317,
+     CASE = 318,
+     STRUCT = 319,
+     TYPEDEF = 320,
+     ENUM = 321,
+     if_h = 322,
+     ELSE = 323,
+     expr_1 = 324,
+     p_type_expr_prec = 325,
+     long_id_prec = 326
    };
 #endif
 /* Tokens.  */
-#define AT_INTERFACE 258
-#define IDENTIFIER 259
-#define SEMI_COLUMN 260
-#define NSSTRING 261
-#define FLOAT 262
-#define CHAR 263
-#define INT 264
-#define SEMI_COMA 265
-#define ID 266
-#define AT_PUBLIC 267
-#define AT_PROTECTED 268
-#define AT_PRIVATE 269
-#define OPEN_S 270
-#define CLOSE_S 271
-#define COMMA 272
-#define LESS_THAN 273
-#define MORE_THAN 274
-#define AT_END 275
-#define CONST 276
-#define VOID 277
-#define PLUS 278
-#define MINUS 279
-#define OPEN_P 280
-#define CLOSE_P 281
-#define AT_IMPLEMENTATION 282
-#define AND_AND 283
-#define OR_OR 284
-#define STRING_VAL 285
-#define FLOAT_VAL 286
-#define LESS_OR_EQUAL 287
-#define CHAR_VAL 288
-#define INT_VAL 289
-#define MORE_OR_EQUAL 290
-#define MULTI 291
-#define EQUAL_EQUAL 292
-#define NOT_EQUAL 293
-#define FOR 294
-#define EQUAL 295
-#define DIV 296
-#define WHILE 297
-#define IF 298
-#define OPEN_ARR 299
-#define CLOSE_ARR 300
-#define TRUE 301
-#define FALSE 302
-#define RETURN 303
-#define AT_PROTOCOL 304
-#define DO 305
-#define DOT 306
-#define SYMBOL 307
-#define SWITCH 308
-#define BREAK 309
-#define DEFAULT 310
-#define CASE 311
-#define STRUCT 312
-#define TYPEDEF 313
-#define ENUM 314
-#define if_h 315
-#define ELSE 316
-#define expr_1 317
-#define p_type_expr_prec 318
-#define long_id_prec 319
+#define TRY 258
+#define CATCH 259
+#define NSEXception 260
+#define NUllPointerException 261
+#define OUtOfBoundryException 262
+#define CAstException 263
+#define FINALLY 264
+#define AT_INTERFACE 265
+#define IDENTIFIER 266
+#define SEMI_COLUMN 267
+#define NSSTRING 268
+#define FLOAT 269
+#define CHAR 270
+#define INT 271
+#define SEMI_COMA 272
+#define ID 273
+#define AT_PUBLIC 274
+#define AT_PROTECTED 275
+#define AT_PRIVATE 276
+#define OPEN_S 277
+#define CLOSE_S 278
+#define COMMA 279
+#define LESS_THAN 280
+#define MORE_THAN 281
+#define AT_END 282
+#define CONST 283
+#define VOID 284
+#define PLUS 285
+#define MINUS 286
+#define OPEN_P 287
+#define CLOSE_P 288
+#define AT_IMPLEMENTATION 289
+#define AND_AND 290
+#define OR_OR 291
+#define STRING_VAL 292
+#define FLOAT_VAL 293
+#define LESS_OR_EQUAL 294
+#define CHAR_VAL 295
+#define INT_VAL 296
+#define MORE_OR_EQUAL 297
+#define MULTI 298
+#define EQUAL_EQUAL 299
+#define NOT_EQUAL 300
+#define FOR 301
+#define EQUAL 302
+#define DIV 303
+#define WHILE 304
+#define IF 305
+#define OPEN_ARR 306
+#define CLOSE_ARR 307
+#define TRUE 308
+#define FALSE 309
+#define RETURN 310
+#define AT_PROTOCOL 311
+#define DO 312
+#define DOT 313
+#define SYMBOL 314
+#define SWITCH 315
+#define BREAK 316
+#define DEFAULT 317
+#define CASE 318
+#define STRUCT 319
+#define TYPEDEF 320
+#define ENUM 321
+#define if_h 322
+#define ELSE 323
+#define expr_1 324
+#define p_type_expr_prec 325
+#define long_id_prec 326
 
 
 
 
 #if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
+<<<<<<< HEAD
 #line 129 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 137 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> ec8ccbb12ba4a53303a790da0dc80d1d17c89645
 typedef union YYSTYPE {
 	struct R{
 		int i;
@@ -175,7 +193,7 @@ typedef union YYSTYPE {
 	class TreeNode * tn;
 } YYSTYPE;
 /* Line 1447 of yacc.c.  */
-#line 179 "yacc.hpp"
+#line 193 "yacc.hpp"
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
