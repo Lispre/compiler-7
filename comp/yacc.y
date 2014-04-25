@@ -16,6 +16,9 @@
 	#include <vector>
 	#include <queue>
 	using namespace std;
+	//global offset 
+	int datamember_offset;
+	int function_offset;
 	ErrorRecovery *Er=new ErrorRecovery();
 	void yyerror(char *);
 	vector<string> param_list;
@@ -56,6 +59,17 @@
 	};
 	AST * ast = new AST();
 %}
+
+%token TRY
+%token CATCH
+%token NSEXception
+%token NUllPointerException
+%token OUtOfBoundryException
+%token CAstException
+%token FINALLY
+
+
+
 %token AT_INTERFACE //@interface
 %token IDENTIFIER 	//any identifier
 %token SEMI_COLUMN //:
@@ -139,265 +153,497 @@
 %%
 program: components					{ast->print($<tn>1,0);cout<<"program: components\n";}
 ;
-components: 
-	components component			{$<tn>$ = ast->addToLastRight($<tn>1, ast->createNode($<tn>2, 0, CompNode));cout<<"components: components component\n";}
-	|component						{$<tn>$ = ast->createNode($<tn>1, 0, CompNode);cout<<"components: component\n";}
+
+
+components: components component		{cout<<"components: components component\n"; $<tn>$ = ast->addToLastRight($<tn>1, ast->createNode($<tn>2,0, componentsListNode));}
+			|component					{cout<<"components: component\n";			 $<tn>$ = ast->createNode($<tn>1, 0, componentNode);}
 ;
+<<<<<<< HEAD
 component:	
 	class_interface					{$<tn>$ = $<tn>1;cout<<"component: class_interface\n";}
 	|class_implementation			{$<tn>$ = $<tn>1;cout<<"component: class_implementation\n";}
-	|protocol					{$<tn>$ = $<tn>1;cout<<"component: protocol\n";}
+	|protocol						{$<tn>$ = $<tn>1;cout<<"component: protocol\n";}
+=======
+
+component:	class_interface				{cout<<"component:	class_interface\n";			$<tn>$ = $<tn>1;}
+			|class_implementation		{cout<<"component:	class_implementation\n";	$<tn>$ = $<tn>1;}
+			|protocol					{cout<<"component:	protocol\n";				$<tn>$ = $<tn>1;}
+>>>>>>> ec8ccbb12ba4a53303a790da0dc80d1d17c89645
 ;
+
+
+
 class_interface: 
 	class_interface_header class_interface_body	{
 		s->insert_scope($<r.str>1,s->currScope);s->currScope=s->currScope->parent;
-		cout<<"class_interface: class_interface_header class_interface_body\n";}
-; 
+		cout<<"class_interface: class_interface_header class_interface_body\n";
+		$<tn>$ =ast->createNode($<tn>1,$<tn>2, class_interface);}
+;
+
+
+
+ 
 class_interface_header: 
 	AT_INTERFACE IDENTIFIER	SEMI_COLUMN IDENTIFIER	{
 		i=1;
+		datamember_offset=0;
 		$<r.str>$=$<r.str>2;
 		if(s->check_Interface($<r.str>2)!=0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface"); 
 		else if(s->insertInterfaceInCurrentScope($<r.str>2,$<r.str>4)==0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Not found inhertance Interface"); 
 		Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope; 
+<<<<<<< HEAD
 		cout<<"class_interface_header:  AT_INTERFACE IDENTIFIER SEMI_COLUMN IDENTIFIER\n";}
+	|AT_INTERFACE IDENTIFIER error IDENTIFIER 	{																																	
+		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"Error",":");}
+	|AT_INTERFACE IDENTIFIER SEMI_COLUMN 		{
+		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","IDENTIFIER");}
+	|AT_INTERFACE IDENTIFIER IDENTIFIER	          {
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface"); 																				Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope; Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing",":");}	
+=======
+		cout<<"class_interface_header:  AT_INTERFACE IDENTIFIER SEMI_COLUMN IDENTIFIER\n";
+																						$<tn>$ =ast->createNode(0,0, class_interface_header_inheretance_Node);}
+
 	|AT_INTERFACE IDENTIFIER error IDENTIFIER 	{
 		i=1;
 		$<r.str>$=$<r.str>2;
 		if(s->check_Interface($<r.str>2)!=0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface"); 													Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;																																		
-		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"Error",":");}
+		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"Error",":");
+																						$<tn>$ =ast->createNode(0,0, class_interface_header_inheretance_Node);}
+
 	|AT_INTERFACE IDENTIFIER SEMI_COLUMN 		{
 		i=1;
 		$<r.str>$=$<r.str>2;
 		if(s->check_Interface($<r.str>2)!=0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface");
 		Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;
-		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","IDENTIFIER");}
+		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","IDENTIFIER");
+																						 $<tn>$ =ast->createNode(0,0, class_interface_header_inheretance_Node);}
+
 	|AT_INTERFACE IDENTIFIER IDENTIFIER	          {i=1;$<r.str>$=$<r.str>2;
 		if(s->check_Interface($<r.str>2)!=0) 
-			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface"); 																				Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope; Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing",":");}	
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface"); 																				Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope; Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing",":");
+																							$<tn>$ =ast->createNode(0,0, class_interface_header_inheretance_Node);}	
+	
+>>>>>>> ec8ccbb12ba4a53303a790da0dc80d1d17c89645
 	|AT_INTERFACE IDENTIFIER			{
 		i=1;
+		datamember_offset=0;
 		$<r.str>$=$<r.str>2;
 		if(s->check_Interface($<r.str>2)!=0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface");
 		s->insertInterfaceInCurrentScope($<r.str>2,"NSObject"); 	
 		Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;
-		cout<<"class_interface_header:  AT_INTERFACE IDENTIFIER\n";}
+		cout<<"class_interface_header:  AT_INTERFACE IDENTIFIER\n";
+																						$<tn>$ =ast->createNode(0,0, class_interface_header_Node);}
+
 ;
 
-class_interface_body:	
-	protocol_reference_list instance_variables interface_declaration_list AT_END {	cout<<"class_interface_body: protocol_reference_list instance_variables interface_declaration_list AT_END\n";}
-	|protocol_reference_list instance_variables AT_END 			{cout<<"class_interface_body: protocol_reference_list instance_variables AT_END\n";}
-	|protocol_reference_list interface_declaration_list	AT_END  {cout<<"class_interface_body: protocol_reference_list interface_declaration_list	AT_END\n";}
-	|instance_variables interface_declaration_list AT_END		{cout<<"class_interface_body: instance_variables interface_declaration_list	AT_END\n";}
-	|protocol_reference_list AT_END								{cout<<"class_interface_body: protocol_reference_list AT_END\n";}
-	|instance_variables AT_END									{cout<<"class_interface_body:instance_variables AT_END\n";}
-	|interface_declaration_list AT_END							{cout<<"class_interface_body:interface_declaration_list	AT_END\n";}
-	|AT_END														{cout<<"class_interface_body:AT_END\n";}
+class_interface_body:	protocol_reference_list instance_variables	interface_declaration_list	AT_END	
+														{cout<<"class_interface_body:	protocol_reference_list instance_variables	interface_declaration_list	AT_END\n";
+														$<tn>$ = ast->createNode( ast->createNode($<tn>1,$<tn>2,class_interface_body_Node), $<tn>3, class_interface_body_Node);
+														}
+
+						|protocol_reference_list instance_variables								AT_END	
+														{cout<<"class_interface_body:	protocol_reference_list instance_variables AT_END\n";
+														$<tn>$ = ast->createNode( ast->createNode($<tn>1,$<tn>2,class_interface_body_Node), 0, class_interface_body_Node);
+														}
+						|protocol_reference_list 					interface_declaration_list	AT_END	
+														{cout<<"class_interface_body:	protocol_reference_list 					interface_declaration_list	AT_END\n";
+														$<tn>$ = ast->createNode( ast->createNode($<tn>1,0,class_interface_body_Node), $<tn>2, class_interface_body_Node);
+														}
+
+						|						instance_variables	interface_declaration_list	AT_END	
+														{cout<<"class_interface_body:	instance_variables	interface_declaration_list	AT_END\n";
+														$<tn>$ = ast->createNode( ast->createNode(0,$<tn>1,class_interface_body_Node), $<tn>2, class_interface_body_Node);}
+						
+						|protocol_reference_list 												AT_END	
+														{cout<<"class_interface_body:	protocol_reference_list 	AT_END\n";
+														$<tn>$ = ast->createNode( ast->createNode($<tn>1,0,class_interface_body_Node), 0, class_interface_body_Node);
+														}
+						|						instance_variables								AT_END	
+														{cout<<"class_interface_body:instance_variables		 AT_END\n";
+														$<tn>$ = ast->createNode( ast->createNode(0,$<tn>1,class_interface_body_Node), 0, class_interface_body_Node);
+														}
+						|											interface_declaration_list	AT_END	
+														{cout<<"class_interface_body:interface_declaration_list	AT_END\n";
+														$<tn>$ = ast->createNode( ast->createNode(0,0,class_interface_body_Node), $<tn>1, class_interface_body_Node);
+														}
+						|																		AT_END	
+														{cout<<"class_interface_body:AT_END\n";
+														$<tn>$ = ast->createNode( ast->createNode(0,0,class_interface_body_Node), 0, class_interface_body_Node);
+														}
 ;
+
 protocol_reference_list:
-	LESS_THAN ids_list MORE_THAN		{cout<<"protocol_reference_list: LESS_THAN ids_list MORE_THAN\n";}
+	LESS_THAN ids_list MORE_THAN		{cout<<"protocol_reference_list: LESS_THAN ids_list MORE_THAN\n";
+										$<tn>$ = $<tn>2;
+										}
 
 ;
+
+
+
 ids_list:
-	IDENTIFIER						{cout<<"ids_list:IDENTIFIER\n";}
-	|ids_list error IDENTIFIER		{Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",",");}
-	|ids_list COMMA IDENTIFIER		{cout<<"ids_list:ids_list COMMA IDENTIFIER\n";}	
+	IDENTIFIER							{cout<<"ids_list:IDENTIFIER\n";									    $<tn>$ = ast->createNode(0, 0, ids_list_Node);}
+	|ids_list error IDENTIFIER			{Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",","); $<tn>$ = ast->addToLastRight($<tn>1,ast->createNode(0, 0, ids_list_Node));}
+	|ids_list COMMA IDENTIFIER			{cout<<"ids_list:ids_list COMMA IDENTIFIER\n";						$<tn>$ = ast->addToLastRight($<tn>1,ast->createNode(0, 0, ids_list_Node));}	
 ;
+
+
+
 instance_variables:
-	OPEN_S	instance_variable_declarations	CLOSE_S	{cout<<"instance_variables:OPEN_S	instance_variable_declaration	CLOSE_S\n";}
-	|OPEN_S	instance_variable_declarations	error	{Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","}");}
-	|OPEN_S	instance_variable_declarations			{Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","}");}
+	OPEN_S	instance_variable_declarations	CLOSE_S	{cout<<"instance_variables:OPEN_S	instance_variable_declaration	CLOSE_S\n";
+														$<tn>$ =$<tn>2 }
+	|OPEN_S	instance_variable_declarations	error	{Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","}");
+														$<tn>$ =$<tn>2 }
+	|OPEN_S	instance_variable_declarations			{Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","}");
+														$<tn>$ =$<tn>2 }
 ;
+
+
+
 instance_variable_declarations:
-	instance_variable_declarations instance_variable_declaration		{cout<<"instance_variable_declarations:instance_variable_declarations instance_variable_declaration\n";}
-	|instance_variable_declaration										{cout<<"instance_variable_declarations:instance_variable_declaration\n";}
-	|variable_declaration_list											{cout<<"instance_variable_declarations:variable_declaration_list\n";}
+	instance_variable_declarations instance_variable_declaration		{cout<<"instance_variable_declarations:instance_variable_declarations instance_variable_declaration\n";
+																		$<tn>$ = ast->addToLastRight($<tn>1,ast->createNode($<tn>2, 0, instance_variable_declarations_Node));}
+	|instance_variable_declaration										{cout<<"instance_variable_declarations:instance_variable_declaration\n";
+																		$<tn>$ = ast->createNode($<tn>1, 0, instance_variable_declarations_Node);}
+	|variable_declaration_list											{cout<<"instance_variable_declarations:variable_declaration_list\n";
+																		$<tn>$ = ast->createNode($<tn>1, 0, instance_variable_declarations_Node);}
 ;
+
+
+
 instance_variable_declaration:
-	visibility_specification variable_declaration_list					{cout<<"instance_variable_declaration:variable_declaration_list\n";}
+	visibility_specification variable_declaration_list				{cout<<"instance_variable_declaration:variable_declaration_list\n";
+																	$<tn>$ = ast->createNode($<tn>1, $<tn>2, instance_variable_declaration_Node);
+																	}
 ;
-variable_declaration_list: 
-	variable_declaration_list variable_declaration						{cout<<"variable_declaration_list: variable_declaration_list variable_declaration\n";}
-	|variable_declaration												{cout<<"variable_declaration_list: variable_declaration\n";}
-;									
+
+
+
+
+variable_declaration_list: variable_declaration_list variable_declaration		
+										{cout<<"variable_declaration_list: variable_declaration_list variable_declaration\n";
+										$<tn>$ = ast->addToLastRight($<tn>1,ast->createNode($<tn>2, 0, variable_declaration_list_Node));
+										}
+						|variable_declaration									
+										{cout<<"variable_declaration_list: variable_declaration\n";
+										$<tn>$ = ast->createNode($<tn>1, 0, variable_declaration_list_Node);
+										}
+;
+
+
+								
 visibility_specification:
-	AT_PRIVATE															{visability=1;cout<<"visibility_specification:AT_PRIVATE\n";}
-	|AT_PROTECTED														{visability=2;cout<<"visibility_specification:AT_PROTECTED\n";}
-	|AT_PUBLIC															{visability=3;cout<<"visibility_specification:AT_PUBLIC\n";}
+	AT_PRIVATE		{cout<<"visibility_specification:AT_PRIVATE\n";
+					$<tn>$ = ast->createNode(0,0, visibility_specification_private_Node);}
+	|AT_PROTECTED	{cout<<"visibility_specification:AT_PROTECTED\n";
+						$<tn>$ = ast->createNode(0,0, visibility_specification_protected_Node);}
+
+	|AT_PUBLIC		{cout<<"visibility_specification:AT_PUBLIC\n";
+						$<tn>$ = ast->createNode(0,0, visibility_specification_public_Node);}
+
 ;
+
+
 variable_declaration:
 	type IDENTIFIER	SEMI_COMA									
 			{
 				cout<<"variable_declaration:type IDENTIFIER	SEMI_COMA\n"; 
+				int offset;
+				if(i==1)
+					offset=datamember_offset++;
+				else
+					offset=function_offset++;
 				Type t=static_cast<Type>($<r.type>1);
 				if($<r.type>1==6){
-					if(s->insertVariableInCurrentScope($<r.str>2,$<r.str>1,visability) == 0)	
+					if(s->insertVariableInCurrentScope($<r.str>2,$<r.str>1,visability,offset) == 0)	
 						Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
 				}
 				else{
-					if(s->insertVariableInCurrentScope($<r.str>2,t,visability) == 0) 
+					if(s->insertVariableInCurrentScope($<r.str>2,t,visability,offset) == 0) 
 						Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
 				}
-			}
-	|type IDENTIFIER error					{yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");}
+			$<tn>$ = ast->createNode(0,0, variable_declaration_ID);		$<tn>$->expectedType=$<tn>1->expectedType;	}
+
+
+
+	|type IDENTIFIER error					{yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";"); $<tn>$ = ast->createNode(0,0, variable_declaration_ID);}
 	|type IDENTIFIER EQUAL simple_expr SEMI_COMA 		{
+		int offset;
+		if(i==1)
+			offset=datamember_offset++;
+		else
+			offset=function_offset++;
 		Type t=static_cast<Type>($<r.type>1);
-		if(s->insertVariableInCurrentScope($<r.str>2,t,visability) == 0) 
+		if(s->insertVariableInCurrentScope($<r.str>2,t,visability,offset) == 0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
-		cout<<"variable_declaration:type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";}
-	|type IDENTIFIER EQUAL simple_expr error		{yyclearin; Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");}
+		cout<<"variable_declaration:type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";	$<tn>$ = ast->createNode(0,0, variable_declaration_ID);  /*check expr type less or equal */}
+
+
+	|type IDENTIFIER EQUAL simple_expr error		{yyclearin; Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";"); $<tn>$ = ast->createNode(0,0, variable_declaration_ID);}
 	|CONST type IDENTIFIER	SEMI_COMA			{
 		Type t=static_cast<Type>($<r.type>2);if(s->insertVariableInCurrentScope($<r.str>2,t,visability) == 0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
-		cout<<"variable_declaration:CONST type IDENTIFIER	SEMI_COMA\n";}
-	|CONST type IDENTIFIER	error				{Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");}
+		cout<<"variable_declaration:CONST type IDENTIFIER	SEMI_COMA\n";	$<tn>$ = ast->createNode(0,0, variable_declaration_ID);}
+
+
+	|CONST type IDENTIFIER	error				{Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");	$<tn>$ = ast->createNode(0,0, variable_declaration_ID);}
+
+
 	|CONST type IDENTIFIER	EQUAL simple_expr SEMI_COMA	{
 		Type t=static_cast<Type>($<r.type>2);if(s->insertVariableInCurrentScope($<r.str>2,t,visability) == 0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
-		cout<<"variable_declaration:CONST type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";}
-	|CONST type IDENTIFIER	EQUAL simple_expr error		{yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");}
-	|Enum							{cout << "Enum \n ";}
-	|structrule						{cout << "Struct \n ";}			
-	|ArrayOne                       {cout << "Array \n" ;}
-	|ArrayN                         {cout <<"Array N \n ";}
+		cout<<"variable_declaration:CONST type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";	$<tn>$ = ast->createNode(0,0, variable_declaration_ID);}
+	|CONST type IDENTIFIER	EQUAL simple_expr error		{yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");	$<tn>$ = ast->createNode(0,0, variable_declaration_ID);}
+
+
+	|Enum														 {cout << "Enum \n "; 				$<tn>$ = ast->createNode(0,0, variable_declaration_enum);}
+	|structrule													{cout << "Struct \n "; 				$<tn>$ = ast->createNode(0,0, variable_declaration_struct);}			
+	|ArrayOne                                                   {cout << "Array \n" ; 				$<tn>$ = ast->createNode(0,0, variable_declaration_arrayone);}
+	|ArrayN                                                     {cout <<"Array N \n ";				$<tn>$ = ast->createNode(0,0, variable_declaration_arrayN);}
 ;
-Enum: 
-	ENUM OPEN_S ids_list CLOSE_S IDENTIFIER SEMI_COMA         	{;}
-	|TYPEDEF ENUM OPEN_S ids_list CLOSE_S IDENTIFIER SEMI_COMA 	{;}
+
+
+
+
+Enum: ENUM OPEN_S ids_list CLOSE_S IDENTIFIER SEMI_COMA         {$<tn>$ = ast->addToLastRight($<tn>1, ast->createNode($<tn>3,0, EnumNode));}
+	  |TYPEDEF ENUM	OPEN_S ids_list CLOSE_S IDENTIFIER SEMI_COMA {$<tn>$ = ast->addToLastRight($<tn>2, ast->createNode($<tn>4,0, EnumNode));}
 ;
-structrule: STRUCT IDENTIFIER OPEN_S variable_declarations CLOSE_S SEMI_COMA {;}
-           |STRUCT IDENTIFIER OPEN_S variable_declarations CLOSE_S  ids_list SEMI_COMA {;}
+
+
+structrule: STRUCT IDENTIFIER OPEN_S variable_declarations CLOSE_S SEMI_COMA {$<tn>$ = ast->createNode($<tn>4,0, structNode);}
+          |STRUCT IDENTIFIER OPEN_S variable_declarations CLOSE_S  ids_list SEMI_COMA {$<tn>$ = ast->createNode($<tn>4,$<tn>6, structNode);}
 ;
+
+
 variable_declarations:
-	 type IDENTIFIER SEMI_COMA											{;}
-	|variable_declarations type IDENTIFIER	SEMI_COMA					{;}
-	|type IDENTIFIER SEMI_COLUMN simple_expr SEMI_COMA					{cout<<"variable_declaration:type IDENTIFIER EQUAL simple_expr SEMI_COMA\n";}
-	|variable_declarations type IDENTIFIER	SEMI_COLUMN simple_expr SEMI_COMA	{cout<<"variable_declaration:type IDENTIFIER EQUAL simple_expr SEMI_COMA\n";}
-	|variable_declarations CONST type IDENTIFIER SEMI_COMA				{cout<<"variable_declaration:CONST type IDENTIFIER SEMI_COMA\n";}
-	|CONST type IDENTIFIER	SEMI_COMA									{cout<<"variable_declaration:CONST type IDENTIFIER SEMI_COMA\n";}
-	|variable_declarations CONST type IDENTIFIER SEMI_COLUMN simple_expr SEMI_COMA	{cout<<"variable_declaration:CONST type IDENTIFIER EQUAL simple_expr SEMI_COMA\n";}
-	|CONST type IDENTIFIER	SEMI_COLUMN simple_expr SEMI_COMA			{cout<<"variable_declaration:CONST type IDENTIFIER EQUAL simple_expr SEMI_COMA\n";}
+	 type IDENTIFIER	SEMI_COMA									{;}
+	|variable_declarations  	type IDENTIFIER	SEMI_COMA									{;}
+	|type IDENTIFIER SEMI_COLUMN simple_expr SEMI_COMA				{cout<<"variable_declaration:type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";}
+	|variable_declarations type IDENTIFIER	SEMI_COLUMN simple_expr SEMI_COMA				{cout<<"variable_declaration:type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";}
+	|variable_declarations CONST type IDENTIFIER	SEMI_COMA							{cout<<"variable_declaration:CONST type IDENTIFIER	SEMI_COMA\n";}
+	|CONST type IDENTIFIER	SEMI_COMA							{cout<<"variable_declaration:CONST type IDENTIFIER	SEMI_COMA\n";}
+	|variable_declarations CONST type IDENTIFIER	SEMI_COLUMN simple_expr SEMI_COMA			{cout<<"variable_declaration:CONST type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";}
+	|CONST type IDENTIFIER	SEMI_COLUMN simple_expr SEMI_COMA			{cout<<"variable_declaration:CONST type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";}
 ;
-ArrayOne:
-	type IDENTIFIER OPEN_ARR INT_VAL CLOSE_ARR EQUAL OPEN_S CLOSE_S SEMI_COMA				{;}
-	|type IDENTIFIER OPEN_ARR INT_VAL CLOSE_ARR SEMI_COMA									{;}
-	|type IDENTIFIER OPEN_ARR INT_VAL CLOSE_ARR EQUAL OPEN_S array_body CLOSE_S  SEMI_COMA  {;}
-	|type IDENTIFIER OPEN_ARR  CLOSE_ARR EQUAL OPEN_S array_body CLOSE_S  SEMI_COMA			{;}
+
+
+
+
+
+ArrayOne:type IDENTIFIER OPEN_ARR INT_VAL CLOSE_ARR EQUAL OPEN_S CLOSE_S SEMI_COMA  {$<tn>$ = ast->createNode(0,0, arrayoneNode);}
+	   |type IDENTIFIER OPEN_ARR INT_VAL CLOSE_ARR SEMI_COMA  {$<tn>$ = ast->createNode(0,0, arrayoneNode);}
+	   |type IDENTIFIER OPEN_ARR INT_VAL CLOSE_ARR EQUAL OPEN_S array_body CLOSE_S  SEMI_COMA {$<tn>$ = ast->createNode($<tn>8,0, arrayoneNode);}
+	   |type IDENTIFIER OPEN_ARR  CLOSE_ARR EQUAL OPEN_S array_body CLOSE_S  SEMI_COMA   {$<tn>$ = ast->createNode($<tn>7,0, arrayoneNode);}
 
 ;
-array_body:
-	array_body COMMA expr										 {;}			 
-	|expr														 {;}		  
-	|array_body COMMA OPEN_ARR INT_VAL CLOSE_ARR EQUAL expr      {;}		 
-	|OPEN_ARR INT_VAL CLOSE_ARR EQUAL expr						 {;}
+
+
+
+
+
+array_body:array_body COMMA expr   {$<tn>$ = ast->addToLastRight($<tn>1, ast->createNode($<tn>3,0, arraybodyNode));}			 
+		  |expr   {$<tn>$ =ast->createNode($<tn>1,0, arraybodyNode);}		  
+		  |array_body COMMA OPEN_ARR INT_VAL CLOSE_ARR EQUAL expr      {$<tn>$ = ast->addToLastRight($<tn>1, ast->createNode($<tn>7,0, arraybodyNode));}		 
+		  |OPEN_ARR INT_VAL CLOSE_ARR EQUAL expr      {$<tn>$ = ast->createNode($<tn>5,0, arraybodyNode);}
 ;
-ArrayN: 
-	type IDENTIFIER Multi EQUAL OPEN_S CLOSE_S SEMI_COMA   {;}
-	|type IDENTIFIER Multi SEMI_COMA  {;}
-	|type IDENTIFIER Multi EQUAL OPEN_S array_body2 CLOSE_S SEMI_COMA {;}
+
+
+
+
+
+ArrayN: type IDENTIFIER Multi EQUAL OPEN_S CLOSE_S SEMI_COMA   {$<tn>$ = ast->createNode($<tn>3,0, ArrayNNode);}
+	   |type IDENTIFIER Multi SEMI_COMA  {$<tn>$ = ast->createNode($<tn>3,0, ArrayNNode);}
+	   |type IDENTIFIER Multi EQUAL OPEN_S array_body2 CLOSE_S SEMI_COMA {$<tn>$ = ast->createNode($<tn>3,$<tn>6, ArrayNNode);}
 	
 ;
-Multi: 
-	OPEN_ARR INT_VAL CLOSE_ARR  OPEN_ARR INT_VAL CLOSE_ARR {;}
-     	|  Multi OPEN_ARR INT_VAL CLOSE_ARR                       {;}
+
+
+Multi: OPEN_ARR INT_VAL CLOSE_ARR  OPEN_ARR INT_VAL CLOSE_ARR {$<tn>$ = ast->createNode(0,0, ArrayNMultiNode);}
+     |  Multi OPEN_ARR INT_VAL CLOSE_ARR                       {$<tn>$ = ast->addToLastRight($<tn>1, ast->createNode(0,0, ArrayNMultiNode));}
 
 ;
-array_body2: 
-	OPEN_S array_body CLOSE_S  {;}
-	|expr  {;}
-	| array_body2 COMMA OPEN_S  array_body CLOSE_S {;}
-	| array_body2 COMMA expr {;}
+
+
+
+
+array_body2: OPEN_S  array_body CLOSE_S  {$<tn>$ =  ast->createNode($<tn>2,0, array_body2Node);
+															}
+			|expr  {$<tn>$ =  ast->createNode($<tn>1,0, array_body2Node);
+															}
+		   | array_body2 COMMA OPEN_S  array_body CLOSE_S {$<tn>$ = ast->addToLastRight($<tn>1, ast->createNode($<tn>4,0, array_body2Node));
+															}
+		   | array_body2 COMMA expr {$<tn>$ = ast->addToLastRight($<tn>1, ast->createNode(0,0, array_body2Node));
+															}
 ;
-type: 
-	simple_type				{$<r.type>$=$<r.type>1; cout<<"type: simple_type\n";}
-	|complex_type			{$<r.type>$=$<r.type>1; cout<<"type: complex_type\n";}
+
+
+type: simple_type									{$<r.type>$=$<r.type>1;cout<<"type: simple_type\n";
+													$<tn>$=ast->createNode($<tn>1,0, typeNode);	$<tn>$->expectedType=$<tn>1->expectedType}
+	  |complex_type									{$<r.type>$=$<r.type>1;cout<<"type: complex_type\n";
+													$<tn>$=ast->createNode($<tn>1,0, typeNode);}
 ;
+
+
 simple_type:
-	INT					{cout<<"simple_type:int\n";$<r.type>$=1;}
-	|CHAR				{cout<<"simple_type:char\n";$<r.type>$=2;}
-	|FLOAT				{cout<<"simple_type:float\n";$<r.type>$=3;}
-	|NSSTRING			{cout<<"simple_type:string\n";$<r.type>$=4;}
-	|VOID				{cout<<"simple_type:void\n";$<r.type>$=5;}
+	INT												{cout<<"simple_type:int\n";$<r.type>$=1;
+													$<tn>$=ast->createNode(0,0, simple_type_INT);  $<tn>$->expectedType=inttype;}
+	|CHAR											{cout<<"simple_type:char\n";$<r.type>$=2;
+													$<tn>$=ast->createNode(0,0, simple_type_CHAR);}
+	|FLOAT											{cout<<"simple_type:float\n";$<r.type>$=3;
+													$<tn>$=ast->createNode(0,0, simple_typeFLOAT);}
+	|NSSTRING										{cout<<"simple_type:string\n";$<r.type>$=4;
+													$<tn>$=ast->createNode(0,0, simple_type_NSSTRING);}
+	|VOID											{cout<<"simple_type:void\n";$<r.type>$=5;
+													$<tn>$=ast->createNode(0,0, simple_type_VOID);}
+	
 ;
+
+
+
 complex_type: IDENTIFIER MULTI		{
 		$<r.type>$=6;$<r.str>$=$<r.str>1;
 		if(s->check_var_type($<r.str>1)==0)	
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","type is undefined");
-		cout<<"complex_type:	IDENTIFIER	MULTI\n";}
+		cout<<"complex_type:	IDENTIFIER	MULTI\n";
+		$<tn>$=ast->createNode(0,0, complex_type);}
 ;
+
+
 interface_declaration_list:
-	interface_declaration_list interface_declaration	{i=1;cout<<"interface_declaration_list:interface_declaration_list interface_declaration\n";}
-	|interface_declaration					{i=1;cout<<"interface_declaration_list:interface_declaration\n";}
+	interface_declaration_list interface_declaration	{i=1;cout<<"interface_declaration_list:interface_declaration_list interface_declaration\n";
+														$<tn>$ = ast->addToLastRight($<tn>1, ast->createNode($<tn>2,0, interface_declaration_list_Node));}
+	|interface_declaration					{i=1;cout<<"interface_declaration_list:interface_declaration\n";	$<tn>$ = ast->createNode($<tn>1,0, interface_declaration_list_Node);}
 ;
+
+
+
 interface_declaration:
-	class_method_declaration				{cout<<"interface_declaration: class_method_declaration\n";}
-	|instance_method_declaration				{cout<<"interface_declaration: instance_method_declaration\n";}
+	class_method_declaration									{cout<<"interface_declaration: class_method_declaration\n";
+																	$<tn>$ = $<tn>1;}
+	|instance_method_declaration								{cout<<"interface_declaration: instance_method_declaration\n";
+																	$<tn>$ = $<tn>1;}
 ;
+
+
+
+
+
 class_method_declaration:
 	PLUS p_type method_selector SEMI_COMA	 {
+	void *v;
+	char *n="hello";
+	v=n;
 	Type t=static_cast<Type>($<r.type>2);
 	if(s->insertFunctionInCurrentScope($<r.str>3,t,param_list) == 0) 
 		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Method");
 	param_list.clear();
-	cout<<"class_method_declaration: PLUS p_type method_selector SEMI_COMA\n";}
+	cout<<"class_method_declaration: PLUS p_type method_selector SEMI_COMA\n";
+	$<tn>$ = ast->createNode($<tn>2,$<tn>3, class_method_declaration);}
 	|PLUS p_type method_selector error		 {
 		yyclearin;Type t=static_cast<Type>($<r.type>2);
 		if(s->insertFunctionInCurrentScope($<r.str>3,t,param_list) == 0)
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Method");param_list.clear();
-		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");}
+		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");		$<tn>$ = ast->createNode($<tn>2,$<tn>3, class_method_declaration);}
+
+
+
 	|PLUS method_selector SEMI_COMA			{
 		if(s->insertFunctionInCurrentScope($<r.str>2,voidType,param_list) == 0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Method");param_list.clear();
-		cout<<"class_method_declaration: PLUS method_selector SEMI_COMA\n";}
+		cout<<"class_method_declaration: PLUS method_selector SEMI_COMA\n";	$<tn>$ = ast->createNode(0,$<tn>2, class_method_declaration);}
 	|PLUS method_selector error				{
 		yyclearin;
 		if(s->insertFunctionInCurrentScope($<r.str>2,voidType,param_list) == 0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Method");
 		param_list.clear();
-		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",":");}
+		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",":");		$<tn>$ = ast->createNode(0,$<tn>2, class_method_declaration);}
 ;
+
+
+
 instance_method_declaration:
 	MINUS p_type method_selector SEMI_COMA		{
 		Type t=static_cast<Type>($<r.type>2);
 		if(s->insertFunctionInCurrentScope($<r.str>3,t,param_list) == 0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Rdefine Method");
 		param_list.clear();
-		cout<<"instance_method_declaration: MINUS p_type method_selector	SEMI_COMA\n";}
+		cout<<"instance_method_declaration: MINUS p_type method_selector	SEMI_COMA\n";	$<tn>$ = ast->createNode($<tn>2,$<tn>3, instance_method_declaration);}
 	|MINUS	method_selector	SEMI_COMA			{
 		if(s->insertFunctionInCurrentScope($<r.str>2,voidType,param_list) == 0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Method");
 		param_list.clear();
-		cout<<"instance_method_declaration: MINUS method_selector SEMI_COMA\n";}
-	|MINUS p_type method_selector	error 		{yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");}
-	|MINUS method_selector error 				{yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");}
+		cout<<"instance_method_declaration: MINUS method_selector SEMI_COMA\n";	$<tn>$ = ast->createNode(0,$<tn>2, instance_method_declaration);}
+	|MINUS p_type method_selector	error 		{yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");
+												$<tn>$ = ast->createNode($<tn>2,$<tn>3, instance_method_declaration);}
+	|MINUS method_selector error 				{yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");
+													$<tn>$ = ast->createNode(0,$<tn>2, instance_method_declaration);}
 	
+
 p_type:
-	OPEN_P type CLOSE_P							{$<r.type>$=$<r.type>2;cout<<"p_type : OPEN_P type CLOSE_P\n";}
-	|error type CLOSE_P							{yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","(tn tn");}
-	|OPEN_P type error							{yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",")");}
+	OPEN_P type CLOSE_P											{$<r.type>$=$<r.type>2;cout<<"p_type : OPEN_P type CLOSE_P\n";
+																$<tn>$ = ast->createNode(0,0, p_typeNode);}
+	|error type CLOSE_P											{Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","(");
+																$<tn>$ = ast->createNode(0,0, p_typeNode);}
+	|OPEN_P type error											{yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",")");
+																$<tn>$ = ast->createNode(0,0, p_typeNode);}
 ;
+
+
+
 method_selector:
-	IDENTIFIER SEMI_COLUMN		{Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;} parameter_list	{i=3;s->currScope=s->currScope->parent;$<r.str>$=$<r.str>1;cout<<"method_selector:IDENTIFIER SEMI_COLUMN parameter_list\n";}
-	|IDENTIFIER									{$<r.str>$=$<r.str>1;cout<<"method_selector:IDENTIFIER \n";}
+	IDENTIFIER SEMI_COLUMN		{Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;} parameter_list	{i=3;s->currScope=s->currScope->parent;$<r.str>$=$<r.str>1;cout<<"method_selector:IDENTIFIER SEMI_COLUMN parameter_list\n";
+								$<tn>$ = ast->createNode(0,0, method_selector_Node);}
+	|IDENTIFIER									{$<r.str>$=$<r.str>1;cout<<"method_selector:IDENTIFIER \n";
+												$<tn>$ = ast->createNode(0,0, method_selector_Node);}
 ;
-parameter_list:	
-	parameter_list SEMI_COLUMN parameter					{cout<<"parameter_list:	parameter_list	SEMI_COLUMN	parameter\n";}
-	|parameter_list	IDENTIFIER SEMI_COLUMN	parameter		{cout<<"parameter_list:	parameter_list	IDENTIFIER  SEMI_COLUMN	parameter\n";}
-	|parameter_list	IDENTIFIER error parameter				{Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",":");}
-	|parameter_list	IDENTIFIER  parameter					{Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing",":");}
-	|parameter												{cout<<"parameter_list: parameter\n";}
+
+
+
+parameter_list:	parameter_list	SEMI_COLUMN	parameter						{cout<<"parameter_list:	parameter_list	SEMI_COLUMN	parameter\n";
+																			$<tn>$ = ast->addToLastRight($<tn>1, ast->createNode($<tn>3,0, paramListNode));}
+				|parameter_list	IDENTIFIER SEMI_COLUMN	parameter			{cout<<"parameter_list:	parameter_list	IDENTIFIER  SEMI_COLUMN	parameter\n";
+																			$<tn>$ = ast->addToLastRight($<tn>1, ast->createNode($<tn>4,0, paramListNode));}
+				|parameter_list	IDENTIFIER error	parameter				{Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",":");
+																			$<tn>$ = ast->addToLastRight($<tn>1, ast->createNode($<tn>4,0, paramListNode));}
+				|parameter_list	IDENTIFIER 	parameter						{Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing",":");
+																			$<tn>$ = ast->addToLastRight($<tn>1, ast->createNode($<tn>3,0, paramListNode));}
+				|parameter													{cout<<"parameter_list: parameter\n";
+																			$<tn>$ =ast->createNode($<tn>1,0, paramListNode);}
 ;
+
+
 parameter:  p_type IDENTIFIER								 {
 	add_param($<r.type>1);
 	Type t=static_cast<Type>($<r.type>1);
 	if(s->insertVariableInCurrentScope($<r.str>2,t,1) == 0) 
 		cout<<"error redefine variable";
-	cout<<"parameter: p_type IDENTIFIER\n";}
+	cout<<"parameter: p_type IDENTIFIER\n";	$<tn>$ = ast->createNode($<tn>1,0, parameter_Node);}
 ;
+
+
+
+try_catch:
+	TRY block_body catch_statment                {cout<<"statment: try_catch_statment\n";}
+
+
+catch_statment :
+	CATCH OPEN_P NSEXception Exception_type CLOSE_P block_body	   catch_statment		{cout<<"statment: catch_statment\n";}
+	|FINALLY block_body																{cout<<"statment: finally_TRY_CATCH\n";}
+
+Exception_type :
+	NUllPointerException				{cout<<"Exception NullPointerException";}
+	|OUtOfBoundryException				{cout<<"Exception OutOfBoundryException";}
+	|CAstException						{cout<<"Exception CastException";}
+
+
+
+
+
+
 class_implementation:
 	class_implementation_header class_implementation_body          {
 		$<tn>$=ast->createNode($<tn>1,$<tn>2,ImpNode);
@@ -407,7 +653,7 @@ class_implementation:
 ;
 class_implementation_header: 
 	AT_IMPLEMENTATION IDENTIFIER SEMI_COLUMN IDENTIFIER		{
-		$<tn>$=ast->createNode($<tn>1,$<tn>2,HedrImpNode);
+		$<tn>$=ast->createNode(0,0,HedrImpNode);
 		Interface_name=$<r.str>2;
 		i=2;
 		$<r.str>$=$<r.str>2;
@@ -427,6 +673,8 @@ class_implementation_header:
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Implementation");
 		Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;
 		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",":");}
+
+
 	|AT_IMPLEMENTATION IDENTIFIER  IDENTIFIER			{
 		i=2;$<r.str>$=$<r.str>2;
 		if(s->check_Implementation_Interface($<r.str>2)==0) 
@@ -436,7 +684,7 @@ class_implementation_header:
 		Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;
 		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing",":");}
 	|AT_IMPLEMENTATION IDENTIFIER 					{
-		$<tn>$=ast->createNode($<tn>2,0,HedrImpNode);
+		$<tn>$=ast->createNode(0,0,HedrImpNode);
 		//Interface_name=new char[30];
 		//	cout<<$<r.str>2;
 		//strcat(Interface_name,$<r.str>2);
@@ -490,6 +738,7 @@ statement:
 	|variable_declaration			{$<tn>$=$<tn>1;cout<<"statement: variable_declaration\n";}//can not be used unless it is inside block
 	|{Scope *new_scope = new Scope(); new_scope->parent=s->currScope;s->currScope=new_scope;}		block_body			{s->currScope=s->currScope->parent;cout<<"statement: block_body\n";}
 	|return_statement				{$<tn>$=$<tn>1;cout<<"statement: return_statement\n";}
+	|try_catch 
 ;
 return_statement:
 	RETURN expr SEMI_COMA			{$<tn>$=ast->createNode($<tn>2,0,ReturnNode);cout<<"return_statement: RETURN expr\n";}
@@ -506,7 +755,7 @@ for_loop:
 for_loop_header:
 	FOR OPEN_P for_initializer SEMI_COMA logic_expr SEMI_COMA expr CLOSE_P {	
 		$<tn>$=ast->createNode($<tn>3,$<tn>7,ForHdrNode);
-		$<tn>$->item=$<tn>5;
+		
 		cout<<"for_loop_header: FOR OPEN_P for_initializer SEMI_COMA logic_expr SEMI_COMA expr CLOSE_P\n";}
 	|FOR OPEN_P for_initializer SEMI_COMA logic_expr SEMI_COMA expr	error	
 		{yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",")");}
@@ -514,7 +763,6 @@ for_loop_header:
 		{Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","(");}
 	|FOR  error for_initializer SEMI_COMA logic_expr SEMI_COMA expr CLOSE_P
 		{Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","(");}
-
 	|FOR OPEN_P SEMI_COMA logic_expr SEMI_COMA expr	CLOSE_P {
 		$<tn>$=ast->createNode($<tn>4,$<tn>6,ForHdrNode);
 		cout<<"for_loop_header: FOR OPEN_P SEMI_COMA logic_expr SEMI_COMA expr CLOSE_P\n";}
@@ -590,6 +838,8 @@ expr2:
 assign_expr: 
 	long_id EQUAL simple_expr			{$<tn>$=ast->createNode($<tn>1,$<tn>3,AsgExpNode);cout<<"assign_expr:long_id EQUAL simple_expr\n";}
 ;
+
+
 long_id:
 	long_id DOT IDENTIFIER				{
 		var.push($<r.str>3);				
@@ -607,8 +857,19 @@ long_id:
 ;
 simple_expr:
 	//message_call				{cout<<"simple_expr:message_call\n";}
-	STRING_VAL					{$<tn>$=ast->createNode(0,0,stringNode);cout<<"simple_expr:STRING_VAL\n";}
-	|INT_VAL					{$<tn>$=ast->createNode(0,0,intNode);cout<<"simple_expr:INT_VAL\ns";}
+	STRING_VAL					{$<tn>$=ast->createNode(0,0,stringNode);  
+	cout<<"simple_expr:STRING_VAL\n";}
+	
+	
+
+	
+	|INT_VAL					{$<tn>$=ast->createNode(0,0,intNode);cout<<"simple_expr:INT_VAL\ns";	string str;  str=lexer->YYText();	char *n;strcpy(n,str.c_str());	$<tn>$->item=n;
+								 cout<<"\n \n \n"<<$<tn>$->item<<"\n \n \n \n"; }
+
+
+
+
+
 	|FLOAT_VAL					{$<tn>$=ast->createNode(0,0,floatNode);cout<<"simple_expr:FLOAT_VAL\n";}
 	|CHAR_VAL					{$<tn>$=ast->createNode(0,0,CharNode);cout<<"simple_expr:CHAR_VAL\n";}
 	//|IDENTIFIER			%prec expr_1	{cout<<"simple_expr:IDENTIFIER\n";}
@@ -670,7 +931,7 @@ conditional_statement:
 	if_header statement		%prec if_h	{$<tn>$=ast->createNode($<tn>1,$<tn>2,CondtiNode);cout<<"conditional_statement: if_header statement\n";}
 	|if_header statement ELSE statement		{
 		$<tn>$=ast->createNode($<tn>1,$<tn>2,CondtiNode);
-		$<tn>$->item=$<tn>4;cout<<"conditional_statement: if_header statement\n";}
+		cout<<"conditional_statement: if_header statement\n";}
 	|switch 					{$<tn>$=ast->createNode($<tn>1,0,CondtiNode);cout<<"conditional_statement: switch\n";}
 ;
 switch:
@@ -685,7 +946,7 @@ switch:
 switch_body:
 CASE OPEN_P case_statement CLOSE_P SEMI_COLUMN statement BREAK SEMI_COMA switch_body {
 									$<tn>$=ast->createNode($<tn>3,$<tn>6,SwtBdyNode);
-										$<tn>$->item=$<tn>9;
+										
 												cout<<"case statment";}
 |CASE OPEN_P case_statement CLOSE_P SEMI_COLUMN statement error SEMI_COMA switch_body {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","break");}
 |DEFAULT SEMI_COLUMN statement BREAK SEMI_COMA {$<tn>$=ast->createNode($<tn>3,0,SwtBdyNode);cout<<"default statment";}
