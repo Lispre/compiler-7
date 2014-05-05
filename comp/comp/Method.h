@@ -9,6 +9,7 @@ private:
 	Type returnType;
 	Scope * scope;
 	vector<string> parameter_list; 
+	void *item;
 public:
 
 	Method();
@@ -21,6 +22,7 @@ public:
 	Scope* getScope();
 	void setPrameter(vector<string> params);
 	bool check_param_list(vector<string> params);
-
+	void* get_item();
+	void set_item(void* item);
 };
 

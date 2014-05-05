@@ -47,10 +47,8 @@ void AST::print(TreeNode * tn, int lvl){
 	if(tn){
 		for(int i=0; i<lvl; i++)
 			cout<<"  ";
-
 		cout<<arr[tn->nodeType]<<"\n";		
 		print(tn->left, lvl +1);		
 		print(tn->right, lvl +1);
-		
 	}
 }

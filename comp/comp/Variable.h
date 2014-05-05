@@ -17,8 +17,10 @@ private:
 	Type type;
 	int offset;
 	void* type1;
+	void* value;
 	int kind;
 public:
+	void *item;
 	Variable();
 	~Variable();
 	void setName(char* n);
@@ -27,6 +29,8 @@ public:
 	void settype1(void* t);
 	Type getType();	
 	void* getType1();
+	void* getValue();
+	void setValue(void* value);
 	void setKind(int kind);
 	int getkind();
 	void setsSpecifier(int s);

@@ -5,6 +5,7 @@
 #include "Scope.h"
 #include "Variable.h"
 #include "Defs.h"
+#include "AST.h"
 #include "Method.h"
 #include "Interface.h"
 #include "Implementation.h"
@@ -18,9 +19,9 @@ public:
 	Scope * currScope;
 	Scope * rootScope;
 	Variable * insertVariableInCurrentScope(char* name,Type  t,int visability);
-	Variable * insertVariableInCurrentScope(char* name,Type  t,int visability,int offset);
+	Variable * insertVariableInCurrentScope(char* name,Type  t,int visability,int offset,TreeNode* tn);
 	Variable *insertVariableInCurrentScope(char* name,void* type1,int visability);
-	Variable *insertVariableInCurrentScope(char* name,void* type1,int visability,int offset);
+	Variable *insertVariableInCurrentScope(char* name,void* type1,int visability,int offset,TreeNode *tn);
 	Variable * getVariableFromCurrentScope(char* name);
 	Interface* getInterface(char* name);
 	Variable* getVariableFromInterface(char* Interface_name,char* Data_name);
@@ -41,6 +42,7 @@ public:
 	Interface *check_Implementation_Interface(char* name);
 	Implementation * insertImplementationInCurrentScope(char* name,char* Inhert_name);
 	void insert_scope1(char *name,Scope *scope);
+	void insert_scope2(char *name,Scope *scope);
 	Symbol_Table(void);
 	~Symbol_Table(void);
 };
