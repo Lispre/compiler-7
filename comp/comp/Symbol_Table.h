@@ -5,6 +5,7 @@
 #include "Scope.h"
 #include "Variable.h"
 #include "Defs.h"
+#include "AST.h"
 #include "Method.h"
 #include "Interface.h"
 #include "Implementation.h"
@@ -18,7 +19,9 @@ public:
 	Scope * currScope;
 	Scope * rootScope;
 	Variable * insertVariableInCurrentScope(char* name,Type  t,int visability);
+	Variable * insertVariableInCurrentScope(char* name,Type  t,int visability,int offset,TreeNode* tn);
 	Variable *insertVariableInCurrentScope(char* name,void* type1,int visability);
+	Variable *insertVariableInCurrentScope(char* name,void* type1,int visability,int offset,TreeNode *tn);
 	Variable * getVariableFromCurrentScope(char* name);
 	Interface* getInterface(char* name);
 	Variable* getVariableFromInterface(char* Interface_name,char* Data_name);

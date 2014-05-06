@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "Symbol_Table.h"
 #include "Interface.h"
+#include "Defs.h"
 #include "Variable.h"
+#include "AST.h"
 #include <string>
 
 Symbol_Table::Symbol_Table(void){
@@ -29,6 +31,34 @@ Variable * Symbol_Table::insertVariableInCurrentScope(char* name, Type t,int vis
 		return v;
 	}
 }
+Variable * Symbol_Table::insertVariableInCurrentScope(char* name, Type t,int visability,int offset,TreeNode *tn){
+	Variable * v = this->getVariableFromCurrentScope(name);
+	if(v){
+		return 0;//item is exist previously
+	}
+	else{
+
+		v = new Variable();
+		v->setName(name);
+		v->setType(t);
+		v->setsSpecifier(visability);
+		v->setoffset(offset);
+		if(t==intType)
+			v->setValue(0);
+		else if(t==charType)
+			v->setValue('\0');
+		else if(t==floatType)
+			v->setValue(0);
+		else if(t==NSstringType)
+			v->setValue(NULL);
+		else
+			v->setValue(false);
+		//tn->item=v;
+		this->currScope->m->insert(name, v);
+		tn->item=(Variable*)this->currScope->m->lookup(name);
+		return v;
+	}
+}
 Variable * Symbol_Table::insertVariableInCurrentScope(char* name,void* type1,int visability){
 	Variable * v = this->getVariableFromCurrentScope(name);
 	if(v){
@@ -41,6 +71,25 @@ Variable * Symbol_Table::insertVariableInCurrentScope(char* name,void* type1,int
 		v->settype1(type1);
 		v->setsSpecifier(visability);
 		this->currScope->m->insert(name, v);
+		return v;
+	}
+}
+Variable * Symbol_Table::insertVariableInCurrentScope(char* name,void* type1,int visability,int offset,TreeNode *tn){
+	Variable * v = this->getVariableFromCurrentScope(name);
+	if(v){
+		return 0;//item is exist previously
+	}
+	else{
+
+		v = new Variable();
+		v->setName(name);
+		v->settype1(type1);
+		v->setsSpecifier(visability);
+		v->setoffset(offset);
+		v->setValue(NULL);
+		tn->item=v;
+		this->currScope->m->insert(name, v);
+
 		return v;
 	}
 }

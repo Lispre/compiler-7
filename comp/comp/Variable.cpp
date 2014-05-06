@@ -28,6 +28,14 @@ void* Variable::getType1()
 {
 	return this->type1;
 }
+void* Variable::getValue()
+{
+	return this->value;
+}
+void Variable::setValue(void* value1)
+{
+	this->value=value1;
+}
 int Variable::getkind()
 {
 	return kind;
@@ -50,4 +58,12 @@ void Variable::setsSpecifier(int x)
 int Variable::getSpecifier()
 {
 	return this->accessSpecifier;
+}
+void Variable::setoffset(int x)
+{
+	this->offset=x;
+}
+int Variable::getoffset()
+{
+	return this->offset;
 }
