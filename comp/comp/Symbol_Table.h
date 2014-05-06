@@ -42,6 +42,7 @@ public:
 	Interface *check_Implementation_Interface(char* name);
 	Implementation * insertImplementationInCurrentScope(char* name,char* Inhert_name);
 	void insert_scope1(char *name,Scope *scope);
+	void insert_scope2(char *name,Scope *scope);
 	Symbol_Table(void);
 	~Symbol_Table(void);
 };

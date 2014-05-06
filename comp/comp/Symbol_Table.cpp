@@ -256,6 +256,17 @@ void Symbol_Table::insert_scope1(char *name,Scope *scope){
 		this->rootScope->m->insert(name, t);
 	}
 }
+void Symbol_Table::insert_scope2(char *name,Scope *scope){
+	Method * t = (Method*)this->currScope->m->lookup(name);
+	if(t)
+	{
+		t = new Method();
+		t->setName(t->getName());
+		t->setScope(scope);
+		this->rootScope->m->pop(name);
+		this->rootScope->m->insert(name, t);
+	}
+}
 Interface * Symbol_Table::insertInterfaceInCurrentScope(char* name){
 	Interface * t = (Interface*)this->currScope->m->lookup(name);
 	if(t)

@@ -175,7 +175,11 @@
 
 
 #if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
+<<<<<<< HEAD
 #line 140 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 151 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
 typedef union YYSTYPE {
 	struct R{
 		int i;

@@ -1973,4 +1973,3 @@ int main()
 	}
 #endif
 #line 152 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\lex.l"
-

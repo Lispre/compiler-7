@@ -202,7 +202,7 @@
 
 
 /* Copy the first part of user declarations.  */
-#line 2 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+#line 2 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
 
 	#include <fstream>
 	#include <iostream>  // not really needed since fstream includes it
@@ -213,6 +213,7 @@
 	#include "comp\Interface.h"
 	#include "comp\Method.h"
 	#include "comp\Variable.h"
+	#include "comp\Code_Generation.h"
 	#include "comp\Scope.h"
 	#include "comp\Defs.h"
 	#include "comp\ErrorRecovery.h"
@@ -220,9 +221,13 @@
 	#include <vector>
 	#include <queue>
 	using namespace std;
+	//global offset 
+ 	int datamember_offset;
+ 	int function_offset;
 	ErrorRecovery *Er=new ErrorRecovery();
-	void yyerror(char *);
+	void yyerror(char *,char *);
 	vector<string> param_list;
+	vector<char*> param_list1;
 	Symbol_Table *s=new Symbol_Table();
 	char *Inhert;
 	int i;
@@ -231,21 +236,30 @@
  	int function_offset;
 
 	queue<char*> var;
+	void insert_param()
+	{
+		int c=0;
+		while(c<param_list1.size())
+		{
+			s->insertVariableInCurrentScope(param_list1[c],intType,3);
+			c=c+1;
+		}
+	}
 	void add_param(int type)
 	{
-	if(type==1)
-		param_list.push_back("int");
-	else if(type==2)
-		param_list.push_back("char");
-	else if(type==3)
-		param_list.push_back("float");
-	else if(type==4)
-		param_list.push_back("nsstring");
-	else if(type==5)
-		param_list.push_back("void");
-	else
-		param_list.push_back("complex");
-}
+		if(type==1)
+			param_list.push_back("int");
+		else if(type==2)
+			param_list.push_back("char");
+		else if(type==3)
+			param_list.push_back("float");
+		else if(type==4)
+			param_list.push_back("nsstring");
+		else if(type==5)
+			param_list.push_back("void");
+		else
+			param_list.push_back("complex");
+	}
 	char* Interface_name;
 	int in=0;
 	int visability=0;
@@ -283,7 +297,11 @@
 #endif
 
 #if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
+<<<<<<< HEAD
 #line 140 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 151 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
 typedef union YYSTYPE {
 	struct R{
 		int i;
@@ -297,7 +315,11 @@ typedef union YYSTYPE {
 	class TreeNode * tn;
 } YYSTYPE;
 /* Line 196 of yacc.c.  */
+<<<<<<< HEAD
 #line 301 "yacc.cpp"
+=======
+#line 312 "yacc.cpp"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
@@ -309,7 +331,11 @@ typedef union YYSTYPE {
 
 
 /* Line 219 of yacc.c.  */
+<<<<<<< HEAD
 #line 313 "yacc.cpp"
+=======
+#line 324 "yacc.cpp"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
 
 #if ! defined (YYSIZE_T) && defined (__SIZE_TYPE__)
 # define YYSIZE_T __SIZE_TYPE__
@@ -662,6 +688,7 @@ static const short int yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const unsigned short int yyrline[] =
 {
+<<<<<<< HEAD
        0,   156,   156,   160,   161,   164,   165,   166,   172,   182,
      196,   204,   213,   218,   232,   237,   241,   246,   250,   254,
      258,   262,   269,   278,   279,   280,   286,   288,   290,   297,
@@ -688,6 +715,34 @@ static const unsigned short int yyrline[] =
     1065,  1070,  1071,  1075,  1076,  1079,  1080,  1081,  1082,  1085,
     1088,  1089,  1092,  1093,  1096,  1097,  1100,  1101,  1102,  1103,
     1104,  1106,  1112,  1123,  1126,  1129,  1132
+=======
+       0,   165,   165,   169,   170,   173,   174,   175,   181,   191,
+     203,   212,   221,   227,   239,   244,   248,   253,   257,   261,
+     265,   269,   276,   285,   286,   287,   293,   295,   297,   304,
+     306,   308,   315,   323,   327,   336,   338,   341,   348,   369,
+     370,   389,   390,   401,   402,   406,   407,   408,   409,   410,
+     413,   414,   418,   419,   424,   425,   426,   427,   428,   429,
+     430,   431,   435,   436,   437,   438,   443,   444,   445,   446,
+     451,   452,   453,   458,   459,   466,   468,   470,   472,   477,
+     479,   485,   487,   489,   491,   493,   500,   510,   512,   518,
+     520,   526,   533,   541,   545,   556,   562,   567,   569,   574,
+     576,   578,   585,   585,   587,   595,   597,   599,   601,   603,
+     608,   620,   624,   625,   628,   629,   630,   638,   645,   658,
+     668,   676,   692,   693,   694,   697,   698,   701,   702,   705,
+     711,   718,   721,   724,   731,   734,   735,   738,   739,   740,
+     741,   742,   742,   743,   744,   747,   748,   751,   752,   753,
+     756,   759,   763,   765,   767,   770,   773,   775,   777,   779,
+     782,   785,   788,   791,   795,   800,   801,   802,   803,   804,
+     805,   806,   809,   810,   811,   812,   813,   814,   815,   816,
+     817,   820,   821,   824,   825,   826,   827,   828,   829,   830,
+     831,   832,   833,   834,   835,   840,   843,   848,   853,   854,
+     864,   867,   870,   871,   873,   907,   908,   909,   910,   911,
+     912,   915,   916,   919,   922,   923,   924,   925,   928,   930,
+     931,   934,   937,   938,   939,   940,   941,   946,   950,   951,
+     952,   957,   958,   962,   963,   966,   967,   968,   969,   972,
+     975,   976,   979,   980,   983,   984,   987,   988,   989,   990,
+     991,   993,   999,  1010,  1013,  1016,  1019
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
 };
 #endif
 
@@ -1907,37 +1962,66 @@ yyreduce:
   switch (yyn)
     {
         case 2:
+<<<<<<< HEAD
 #line 156 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {ast->print((yyvsp[0].tn),0);cout<<"program: components\n";;}
     break;
 
   case 3:
 #line 160 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 165 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {Code_Generation b;   ast->print((yyvsp[0].tn),0);cout<<"program: components\n";;}
+    break;
+
+  case 3:
+#line 169 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"components: components component\n"; (yyval.tn) = ast->addToLastRight((yyvsp[-1].tn), ast->createNode((yyvsp[0].tn),0, componentsListNode));;}
     break;
 
   case 4:
+<<<<<<< HEAD
 #line 161 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 170 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"components: component\n";			 (yyval.tn) = ast->createNode((yyvsp[0].tn), 0, componentNode);;}
     break;
 
   case 5:
+<<<<<<< HEAD
 #line 164 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 173 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"component:	class_interface\n";			(yyval.tn) = (yyvsp[0].tn);;}
     break;
 
   case 6:
+<<<<<<< HEAD
 #line 165 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 174 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"component:	class_implementation\n";	(yyval.tn) = (yyvsp[0].tn);;}
     break;
 
   case 7:
+<<<<<<< HEAD
 #line 166 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 175 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"component:	protocol\n";				(yyval.tn) = (yyvsp[0].tn);;}
     break;
 
   case 8:
+<<<<<<< HEAD
 #line 172 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 181 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		s->insert_scope((yyvsp[-1].r.str),s->currScope);s->currScope=s->currScope->parent;
 		cout<<"class_interface: class_interface_header class_interface_body\n";
@@ -1945,12 +2029,19 @@ yyreduce:
     break;
 
   case 9:
+<<<<<<< HEAD
 #line 182 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {
 		i=1;
 		
 		datamember_offset=0;
 
+=======
+#line 191 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		i=1;
+		datamember_offset=0;
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
 		(yyval.r.str)=(yyvsp[-2].r.str);
 		if(s->check_Interface((yyvsp[-2].r.str))!=0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface"); 
@@ -1962,18 +2053,27 @@ yyreduce:
     break;
 
   case 10:
+<<<<<<< HEAD
 #line 196 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 203 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		i=1;
 		(yyval.r.str)=(yyvsp[-2].r.str);
 		if(s->check_Interface((yyvsp[-2].r.str))!=0) 
-			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface"); 													Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;																																		
+			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface");
+		Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;																																		
 		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"Error",":");
 		(yyval.tn) =ast->createNode(0,0, class_interface_header_inheretance_Node);;}
     break;
 
   case 11:
+<<<<<<< HEAD
 #line 204 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 212 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		i=1;
 		(yyval.r.str)=(yyvsp[-1].r.str);
@@ -1981,20 +2081,31 @@ yyreduce:
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface");
 		Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;
 		Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","IDENTIFIER");
-																						 (yyval.tn) =ast->createNode(0,0, class_interface_header_inheretance_Node);;}
+		(yyval.tn) =ast->createNode(0,0, class_interface_header_inheretance_Node);;}
     break;
 
   case 12:
+<<<<<<< HEAD
 #line 213 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {i=1;(yyval.r.str)=(yyvsp[-1].r.str);
+=======
+#line 221 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+		i=1;(yyval.r.str)=(yyvsp[-1].r.str);
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
 		if(s->check_Interface((yyvsp[-1].r.str))!=0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Interface"); 																				Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope; Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing",":");
-																							(yyval.tn) =ast->createNode(0,0, class_interface_header_inheretance_Node);;}
+		(yyval.tn) =ast->createNode(0,0, class_interface_header_inheretance_Node);;}
     break;
 
   case 13:
+<<<<<<< HEAD
 #line 218 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 227 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
+		datamember_offset=0;
 		i=1;
 		datamember_offset=0;
 
@@ -2004,167 +2115,269 @@ yyreduce:
 		s->insertInterfaceInCurrentScope((yyvsp[0].r.str),"NSObject"); 	
 		Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;
 		cout<<"class_interface_header:  AT_INTERFACE IDENTIFIER\n";
-																						(yyval.tn) =ast->createNode(0,0, class_interface_header_Node);;}
+		(yyval.tn) =ast->createNode(0,0, class_interface_header_Node);;}
     break;
 
   case 14:
+<<<<<<< HEAD
 #line 233 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 240 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"class_interface_body:	protocol_reference_list instance_variables	interface_declaration_list	AT_END\n";
 														(yyval.tn) = ast->createNode( ast->createNode((yyvsp[-3].tn),(yyvsp[-2].tn),class_interface_body_Node), (yyvsp[-1].tn), class_interface_body_Node);
 														;}
     break;
 
   case 15:
+<<<<<<< HEAD
 #line 238 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 245 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"class_interface_body:	protocol_reference_list instance_variables AT_END\n";
 														(yyval.tn) = ast->createNode( ast->createNode((yyvsp[-2].tn),(yyvsp[-1].tn),class_interface_body_Node), 0, class_interface_body_Node);
 														;}
     break;
 
   case 16:
+<<<<<<< HEAD
 #line 242 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 249 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"class_interface_body:	protocol_reference_list 					interface_declaration_list	AT_END\n";
 														(yyval.tn) = ast->createNode( ast->createNode((yyvsp[-2].tn),0,class_interface_body_Node), (yyvsp[-1].tn), class_interface_body_Node);
 														;}
     break;
 
   case 17:
+<<<<<<< HEAD
 #line 247 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 254 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"class_interface_body:	instance_variables	interface_declaration_list	AT_END\n";
 														(yyval.tn) = ast->createNode( ast->createNode(0,(yyvsp[-2].tn),class_interface_body_Node), (yyvsp[-1].tn), class_interface_body_Node);;}
     break;
 
   case 18:
+<<<<<<< HEAD
 #line 251 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 258 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"class_interface_body:	protocol_reference_list 	AT_END\n";
 														(yyval.tn) = ast->createNode( ast->createNode((yyvsp[-1].tn),0,class_interface_body_Node), 0, class_interface_body_Node);
 														;}
     break;
 
   case 19:
+<<<<<<< HEAD
 #line 255 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 262 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"class_interface_body:instance_variables		 AT_END\n";
 														(yyval.tn) = ast->createNode( ast->createNode(0,(yyvsp[-1].tn),class_interface_body_Node), 0, class_interface_body_Node);
 														;}
     break;
 
   case 20:
+<<<<<<< HEAD
 #line 259 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 266 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"class_interface_body:interface_declaration_list	AT_END\n";
 														(yyval.tn) = ast->createNode( ast->createNode(0,0,class_interface_body_Node), (yyvsp[-1].tn), class_interface_body_Node);
 														;}
     break;
 
   case 21:
+<<<<<<< HEAD
 #line 263 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 270 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"class_interface_body:AT_END\n";
 														(yyval.tn) = ast->createNode( ast->createNode(0,0,class_interface_body_Node), 0, class_interface_body_Node);
 														;}
     break;
 
   case 22:
+<<<<<<< HEAD
 #line 269 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 276 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"protocol_reference_list: LESS_THAN ids_list MORE_THAN\n";
 										(yyval.tn) = (yyvsp[-1].tn);
 										;}
     break;
 
   case 23:
+<<<<<<< HEAD
 #line 278 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 285 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"ids_list:IDENTIFIER\n";									    (yyval.tn) = ast->createNode(0, 0, ids_list_Node);;}
     break;
 
   case 24:
+<<<<<<< HEAD
 #line 279 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 286 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",","); (yyval.tn) = ast->addToLastRight((yyvsp[-2].tn),ast->createNode(0, 0, ids_list_Node));;}
     break;
 
   case 25:
+<<<<<<< HEAD
 #line 280 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 287 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"ids_list:ids_list COMMA IDENTIFIER\n";						(yyval.tn) = ast->addToLastRight((yyvsp[-2].tn),ast->createNode(0, 0, ids_list_Node));;}
     break;
 
   case 26:
+<<<<<<< HEAD
 #line 286 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 293 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"instance_variables:OPEN_S	instance_variable_declaration	CLOSE_S\n";
 														(yyval.tn) =(yyvsp[-1].tn) ;}
     break;
 
   case 27:
+<<<<<<< HEAD
 #line 288 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 295 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","}");
 														(yyval.tn) =(yyvsp[-1].tn) ;}
     break;
 
   case 28:
+<<<<<<< HEAD
 #line 290 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 297 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","}");
 														(yyval.tn) =(yyvsp[0].tn) ;}
     break;
 
   case 29:
+<<<<<<< HEAD
 #line 297 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 304 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"instance_variable_declarations:instance_variable_declarations instance_variable_declaration\n";
 																		(yyval.tn) = ast->addToLastRight((yyvsp[-1].tn),ast->createNode((yyvsp[0].tn), 0, instance_variable_declarations_Node));;}
     break;
 
   case 30:
+<<<<<<< HEAD
 #line 299 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 306 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"instance_variable_declarations:instance_variable_declaration\n";
 																		(yyval.tn) = ast->createNode((yyvsp[0].tn), 0, instance_variable_declarations_Node);;}
     break;
 
   case 31:
+<<<<<<< HEAD
 #line 301 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 308 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"instance_variable_declarations:variable_declaration_list\n";
 																		(yyval.tn) = ast->createNode((yyvsp[0].tn), 0, instance_variable_declarations_Node);;}
     break;
 
   case 32:
+<<<<<<< HEAD
 #line 308 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 315 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"instance_variable_declaration:variable_declaration_list\n";
 																	(yyval.tn) = ast->createNode((yyvsp[-1].tn), (yyvsp[0].tn), instance_variable_declaration_Node);
 																	;}
     break;
 
   case 33:
+<<<<<<< HEAD
 #line 317 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 324 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"variable_declaration_list: variable_declaration_list variable_declaration\n";
 										(yyval.tn) = ast->addToLastRight((yyvsp[-1].tn),ast->createNode((yyvsp[0].tn), 0, variable_declaration_list_Node));
 										;}
     break;
 
   case 34:
+<<<<<<< HEAD
 #line 321 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 328 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"variable_declaration_list: variable_declaration\n";
 										(yyval.tn) = ast->createNode((yyvsp[0].tn), 0, variable_declaration_list_Node);
 										;}
     break;
 
   case 35:
+<<<<<<< HEAD
 #line 329 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 336 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"visibility_specification:AT_PRIVATE\n";
 					(yyval.tn) = ast->createNode(0,0, visibility_specification_private_Node);;}
     break;
 
   case 36:
+<<<<<<< HEAD
 #line 331 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 338 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"visibility_specification:AT_PROTECTED\n";
 						(yyval.tn) = ast->createNode(0,0, visibility_specification_protected_Node);;}
     break;
 
   case 37:
+<<<<<<< HEAD
 #line 334 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 341 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"visibility_specification:AT_PUBLIC\n";
 						(yyval.tn) = ast->createNode(0,0, visibility_specification_public_Node);;}
     break;
 
   case 38:
+<<<<<<< HEAD
 #line 343 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {
 
 
 			int offset;
+=======
+#line 349 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+				int offset;
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
  				if(i==1)
  					offset=datamember_offset++;
  				else
@@ -2186,6 +2399,7 @@ yyreduce:
     break;
 
   case 39:
+<<<<<<< HEAD
 #line 372 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";"); (yyval.tn) = ast->createNode(0,0, variable_declaration_ID);
 											(yyval.tn)->expectedType=(yyvsp[-2].tn)->expectedType;;}
@@ -2193,6 +2407,14 @@ yyreduce:
 
   case 40:
 #line 374 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 369 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";"); (yyval.tn) = ast->createNode(0,0, variable_declaration_ID);;}
+    break;
+
+  case 40:
+#line 370 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		int offset;
 		if(i==1)
@@ -2208,7 +2430,10 @@ yyreduce:
 		else{
 			if(s->insertVariableInCurrentScope((yyvsp[-3].r.str),t,visability,offset,(yyval.tn)) == 0) 
 				Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
+<<<<<<< HEAD
 				(yyval.tn)->expectedType=(yyvsp[-4].tn)->expectedType;
+=======
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
 		}
 
 		cout<<"variable_declaration:type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";	
@@ -2216,6 +2441,7 @@ yyreduce:
     break;
 
   case 41:
+<<<<<<< HEAD
 #line 396 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {yyclearin; Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";"); (yyval.tn) = ast->createNode(0,0, variable_declaration_ID);
 													(yyval.tn)->expectedType=(yyvsp[-4].tn)->expectedType;;}
@@ -2227,6 +2453,15 @@ yyreduce:
 		
 		
 		
+=======
+#line 389 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {yyclearin; Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";"); (yyval.tn) = ast->createNode(0,0, variable_declaration_ID);;}
+    break;
+
+  case 42:
+#line 390 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
 		int offset;
  		if(i==1)
  			offset=datamember_offset++;
@@ -2236,6 +2471,7 @@ yyreduce:
 		Type t=static_cast<Type>((yyvsp[-2].r.type));
 		if(s->insertVariableInCurrentScope((yyvsp[-2].r.str),t,visability,offset,(yyval.tn)) == 0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
+<<<<<<< HEAD
 		cout<<"variable_declaration:CONST type IDENTIFIER	SEMI_COMA\n";
 		(yyval.tn)->expectedType=(yyvsp[-2].tn)->expectedType;	;}
     break;
@@ -2248,6 +2484,18 @@ yyreduce:
 
   case 44:
 #line 422 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+		cout<<"variable_declaration:CONST type IDENTIFIER	SEMI_COMA\n";	;}
+    break;
+
+  case 43:
+#line 401 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");	(yyval.tn) = ast->createNode(0,0, variable_declaration_ID);;}
+    break;
+
+  case 44:
+#line 402 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		Type t=static_cast<Type>((yyvsp[-4].r.type));if(s->insertVariableInCurrentScope((yyvsp[-4].r.str),t,visability) == 0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Variable redefine");
@@ -2256,6 +2504,7 @@ yyreduce:
     break;
 
   case 45:
+<<<<<<< HEAD
 #line 427 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");	(yyval.tn) = ast->createNode(0,0, variable_declaration_ID);
 														(yyval.tn)->expectedType=(yyvsp[-4].tn)->expectedType;;}
@@ -2263,15 +2512,28 @@ yyreduce:
 
   case 46:
 #line 431 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 406 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");	(yyval.tn) = ast->createNode(0,0, variable_declaration_ID);;}
+    break;
+
+  case 46:
+#line 407 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout << "Enum \n "; 				(yyval.tn) = ast->createNode(0,0, variable_declaration_enum);;}
     break;
 
   case 47:
+<<<<<<< HEAD
 #line 432 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 408 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout << "Struct \n "; 				(yyval.tn) = ast->createNode(0,0, variable_declaration_struct);;}
     break;
 
   case 48:
+<<<<<<< HEAD
 #line 433 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout << "Array \n" ; 				(yyval.tn) = ast->createNode(0,0, variable_declaration_arrayone);	(yyval.tn)->expectedType=(yyvsp[0].tn)->expectedType;;}
     break;
@@ -2283,65 +2545,123 @@ yyreduce:
 
   case 50:
 #line 440 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 409 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {cout << "Array \n" ; 				(yyval.tn) = ast->createNode(0,0, variable_declaration_arrayone);;}
+    break;
+
+  case 49:
+#line 410 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {cout <<"Array N \n ";				(yyval.tn) = ast->createNode(0,0, variable_declaration_arrayN);;}
+    break;
+
+  case 50:
+#line 413 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) = ast->addToLastRight((yyvsp[-5].tn), ast->createNode((yyvsp[-3].tn),0, EnumNode));;}
     break;
 
   case 51:
+<<<<<<< HEAD
 #line 441 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 414 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) = ast->addToLastRight((yyvsp[-5].tn), ast->createNode((yyvsp[-3].tn),0, EnumNode));;}
     break;
 
   case 52:
+<<<<<<< HEAD
 #line 445 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 418 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) = ast->createNode((yyvsp[-2].tn),0, structNode);;}
     break;
 
   case 53:
+<<<<<<< HEAD
 #line 446 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 419 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) = ast->createNode((yyvsp[-3].tn),(yyvsp[-1].tn), structNode);;}
     break;
 
   case 54:
+<<<<<<< HEAD
 #line 451 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 424 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {;;}
     break;
 
   case 55:
+<<<<<<< HEAD
 #line 452 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 425 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {;;}
     break;
 
   case 56:
+<<<<<<< HEAD
 #line 453 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 426 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"variable_declaration:type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";;}
     break;
 
   case 57:
+<<<<<<< HEAD
 #line 454 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 427 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"variable_declaration:type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";;}
     break;
 
   case 58:
+<<<<<<< HEAD
 #line 455 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 428 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"variable_declaration:CONST type IDENTIFIER	SEMI_COMA\n";;}
     break;
 
   case 59:
+<<<<<<< HEAD
 #line 456 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 429 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"variable_declaration:CONST type IDENTIFIER	SEMI_COMA\n";;}
     break;
 
   case 60:
+<<<<<<< HEAD
 #line 457 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 430 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"variable_declaration:CONST type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";;}
     break;
 
   case 61:
+<<<<<<< HEAD
 #line 458 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 431 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"variable_declaration:CONST type IDENTIFIER	EQUAL simple_expr SEMI_COMA\n";;}
     break;
 
   case 62:
+<<<<<<< HEAD
 #line 465 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {(yyval.tn) = ast->createNode(0,0, arrayoneNode);	(yyval.tn)->expectedType=(yyvsp[-8].tn)->expectedType;;}
     break;
@@ -2363,25 +2683,61 @@ yyreduce:
 
   case 66:
 #line 476 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 435 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->createNode(0,0, arrayoneNode);;}
+    break;
+
+  case 63:
+#line 436 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->createNode(0,0, arrayoneNode);;}
+    break;
+
+  case 64:
+#line 437 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->createNode((yyvsp[-2].tn),0, arrayoneNode);;}
+    break;
+
+  case 65:
+#line 438 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->createNode((yyvsp[-2].tn),0, arrayoneNode);;}
+    break;
+
+  case 66:
+#line 443 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) = ast->addToLastRight((yyvsp[-2].tn), ast->createNode((yyvsp[0].tn),0, arraybodyNode));;}
     break;
 
   case 67:
+<<<<<<< HEAD
 #line 477 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 444 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) =ast->createNode((yyvsp[0].tn),0, arraybodyNode);;}
     break;
 
   case 68:
+<<<<<<< HEAD
 #line 478 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 445 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) = ast->addToLastRight((yyvsp[-6].tn), ast->createNode((yyvsp[0].tn),0, arraybodyNode));;}
     break;
 
   case 69:
+<<<<<<< HEAD
 #line 479 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 446 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) = ast->createNode((yyvsp[0].tn),0, arraybodyNode);;}
     break;
 
   case 70:
+<<<<<<< HEAD
 #line 486 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {(yyval.tn) = ast->createNode((yyvsp[-4].tn),0, ArrayNNode);	(yyval.tn)->expectedType=(yyvsp[-6].tn)->expectedType;;}
     break;
@@ -2398,82 +2754,152 @@ yyreduce:
 
   case 73:
 #line 493 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 451 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->createNode((yyvsp[-4].tn),0, ArrayNNode);;}
+    break;
+
+  case 71:
+#line 452 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->createNode((yyvsp[-1].tn),0, ArrayNNode);;}
+    break;
+
+  case 72:
+#line 453 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->createNode((yyvsp[-5].tn),(yyvsp[-2].tn), ArrayNNode);;}
+    break;
+
+  case 73:
+#line 458 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) = ast->createNode(0,0, ArrayNMultiNode);;}
     break;
 
   case 74:
+<<<<<<< HEAD
 #line 494 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 459 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) = ast->addToLastRight((yyvsp[-3].tn), ast->createNode(0,0, ArrayNMultiNode));;}
     break;
 
   case 75:
+<<<<<<< HEAD
 #line 501 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 466 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) =  ast->createNode((yyvsp[-1].tn),0, array_body2Node);
 															;}
     break;
 
   case 76:
+<<<<<<< HEAD
 #line 503 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 468 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) =  ast->createNode((yyvsp[0].tn),0, array_body2Node);
 															;}
     break;
 
   case 77:
+<<<<<<< HEAD
 #line 505 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 470 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) = ast->addToLastRight((yyvsp[-4].tn), ast->createNode((yyvsp[-1].tn),0, array_body2Node));
 															;}
     break;
 
   case 78:
+<<<<<<< HEAD
 #line 507 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 472 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) = ast->addToLastRight((yyvsp[-2].tn), ast->createNode(0,0, array_body2Node));
 															;}
     break;
 
   case 79:
+<<<<<<< HEAD
 #line 512 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 477 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.r.type)=(yyvsp[0].r.type);cout<<"type: simple_type\n";
 													(yyval.tn)=ast->createNode((yyvsp[0].tn),0, typeNode);	(yyval.tn)->expectedType=(yyvsp[0].tn)->expectedType;}
     break;
 
   case 80:
+<<<<<<< HEAD
 #line 514 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 479 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.r.type)=(yyvsp[0].r.type);cout<<"type: complex_type\n";
 													(yyval.tn)=ast->createNode((yyvsp[0].tn),0, typeNode);	(yyval.tn)->expectedType=(yyvsp[0].tn)->expectedType;;}
     break;
 
   case 81:
+<<<<<<< HEAD
 #line 520 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 485 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"simple_type:int\n";(yyval.r.type)=1;
 													(yyval.tn)=ast->createNode(0,0, simple_type_INT);  (yyval.tn)->expectedType=inttype;;}
     break;
 
   case 82:
+<<<<<<< HEAD
 #line 522 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 487 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"simple_type:char\n";(yyval.r.type)=2;
 													(yyval.tn)=ast->createNode(0,0, simple_type_CHAR);	(yyval.tn)->expectedType=chartype;;}
     break;
 
   case 83:
+<<<<<<< HEAD
 #line 524 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 489 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"simple_type:float\n";(yyval.r.type)=3;
 													(yyval.tn)=ast->createNode(0,0, simple_typeFLOAT);	(yyval.tn)->expectedType=floattype;;}
     break;
 
   case 84:
+<<<<<<< HEAD
 #line 526 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 491 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"simple_type:string\n";(yyval.r.type)=4;
 													(yyval.tn)=ast->createNode(0,0, simple_type_NSSTRING);	(yyval.tn)->expectedType=stringtype;;}
     break;
 
   case 85:
+<<<<<<< HEAD
 #line 528 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 493 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"simple_type:void\n";(yyval.r.type)=5;
 													(yyval.tn)=ast->createNode(0,0, simple_type_VOID);	(yyval.tn)->expectedType=voidtype;;}
     break;
 
   case 86:
+<<<<<<< HEAD
 #line 535 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 500 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		(yyval.r.type)=6;(yyval.r.str)=(yyvsp[-1].r.str);
 		if(s->check_var_type((yyvsp[-1].r.str))==0)	
@@ -2484,30 +2910,50 @@ yyreduce:
     break;
 
   case 87:
+<<<<<<< HEAD
 #line 546 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 510 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {i=1;cout<<"interface_declaration_list:interface_declaration_list interface_declaration\n";
 														(yyval.tn) = ast->addToLastRight((yyvsp[-1].tn), ast->createNode((yyvsp[0].tn),0, interface_declaration_list_Node));;}
     break;
 
   case 88:
+<<<<<<< HEAD
 #line 548 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 512 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {i=1;cout<<"interface_declaration_list:interface_declaration\n";	(yyval.tn) = ast->createNode((yyvsp[0].tn),0, interface_declaration_list_Node);;}
     break;
 
   case 89:
+<<<<<<< HEAD
 #line 554 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 518 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"interface_declaration: class_method_declaration\n";
 																	(yyval.tn) = (yyvsp[0].tn);;}
     break;
 
   case 90:
+<<<<<<< HEAD
 #line 556 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 520 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"interface_declaration: instance_method_declaration\n";
 																	(yyval.tn) = (yyvsp[0].tn);;}
     break;
 
   case 91:
+<<<<<<< HEAD
 #line 565 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 526 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 	Type t=static_cast<Type>((yyvsp[-2].r.type));
 	if(s->insertFunctionInCurrentScope((yyvsp[-1].r.str),t,param_list) == 0) 
@@ -2519,7 +2965,11 @@ yyreduce:
     break;
 
   case 92:
+<<<<<<< HEAD
 #line 574 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 533 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		yyclearin;Type t=static_cast<Type>((yyvsp[-2].r.type));
 		if(s->insertFunctionInCurrentScope((yyvsp[-1].r.str),t,param_list) == 0)
@@ -2529,7 +2979,11 @@ yyreduce:
     break;
 
   case 93:
+<<<<<<< HEAD
 #line 583 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 541 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		if(s->insertFunctionInCurrentScope((yyvsp[-1].r.str),voidType,param_list) == 0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Method");param_list.clear();
@@ -2538,7 +2992,11 @@ yyreduce:
     break;
 
   case 94:
+<<<<<<< HEAD
 #line 590 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 545 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		yyclearin;
 		if(s->insertFunctionInCurrentScope((yyvsp[-1].r.str),voidType,param_list) == 0) 
@@ -2548,7 +3006,11 @@ yyreduce:
     break;
 
   case 95:
+<<<<<<< HEAD
 #line 601 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 556 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		Type t=static_cast<Type>((yyvsp[-2].r.type));
 		if(s->insertFunctionInCurrentScope((yyvsp[-1].r.str),t,param_list) == 0) 
@@ -2559,7 +3021,11 @@ yyreduce:
     break;
 
   case 96:
+<<<<<<< HEAD
 #line 609 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 562 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		if(s->insertFunctionInCurrentScope((yyvsp[-1].r.str),voidType,param_list) == 0) 
 			Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Redefine Method");
@@ -2568,47 +3034,77 @@ yyreduce:
     break;
 
   case 97:
+<<<<<<< HEAD
 #line 614 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 567 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");
 												(yyval.tn) = ast->createNode((yyvsp[-2].tn),(yyvsp[-1].tn), instance_method_declaration);;}
     break;
 
   case 98:
+<<<<<<< HEAD
 #line 616 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 569 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");
 													(yyval.tn) = ast->createNode(0,(yyvsp[-1].tn), instance_method_declaration);;}
     break;
 
   case 99:
+<<<<<<< HEAD
 #line 621 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 574 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.r.type)=(yyvsp[-1].r.type);cout<<"p_type : OPEN_P type CLOSE_P\n";
 																(yyval.tn) = ast->createNode(0,0, p_typeNode);	(yyval.tn)->expectedType=(yyvsp[-1].tn)->expectedType;;}
     break;
 
   case 100:
+<<<<<<< HEAD
 #line 623 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 576 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","(");
 																(yyval.tn) = ast->createNode(0,0, p_typeNode);	(yyval.tn)->expectedType=(yyvsp[-1].tn)->expectedType;;}
     break;
 
   case 101:
+<<<<<<< HEAD
 #line 625 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 578 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",")");
 																(yyval.tn) = ast->createNode(0,0, p_typeNode);	(yyval.tn)->expectedType=(yyvsp[-1].tn)->expectedType;;}
     break;
 
   case 102:
+<<<<<<< HEAD
 #line 632 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;;}
     break;
 
   case 103:
 #line 632 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 585 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.r.str)=(yyvsp[-1].r.str);Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope;;}
+    break;
+
+  case 103:
+#line 585 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {i=3;s->currScope=s->currScope->parent;(yyval.r.str)=(yyvsp[-3].r.str);cout<<"method_selector:IDENTIFIER SEMI_COLUMN parameter_list\n";
 								(yyval.tn) = ast->createNode(0,0, method_selector_Node);			;}
     break;
 
   case 104:
+<<<<<<< HEAD
 #line 634 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {(yyval.r.str)=(yyvsp[0].r.str);cout<<"method_selector:IDENTIFIER \n";
 												(yyval.tn) = ast->createNode(0,0, method_selector_Node);		;}
@@ -2616,76 +3112,140 @@ yyreduce:
 
   case 105:
 #line 640 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 587 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+												(yyval.r.str)=(yyvsp[0].r.str);
+												(yyval.r.str)=(yyvsp[0].r.str);cout<<"method_selector:IDENTIFIER \n";
+												(yyval.tn) = ast->createNode(0,0, method_selector_Node);;}
+    break;
+
+  case 105:
+#line 595 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"parameter_list:	parameter_list	SEMI_COLUMN	parameter\n";
 																			(yyval.tn) = ast->addToLastRight((yyvsp[-2].tn), ast->createNode((yyvsp[0].tn),0, paramListNode));;}
     break;
 
   case 106:
+<<<<<<< HEAD
 #line 642 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 597 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"parameter_list:	parameter_list	IDENTIFIER  SEMI_COLUMN	parameter\n";
 																			(yyval.tn) = ast->addToLastRight((yyvsp[-3].tn), ast->createNode((yyvsp[0].tn),0, paramListNode));;}
     break;
 
   case 107:
+<<<<<<< HEAD
 #line 644 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 599 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",":");
 																			(yyval.tn) = ast->addToLastRight((yyvsp[-3].tn), ast->createNode((yyvsp[0].tn),0, paramListNode));;}
     break;
 
   case 108:
+<<<<<<< HEAD
 #line 646 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 601 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing",":");
 																			(yyval.tn) = ast->addToLastRight((yyvsp[-2].tn), ast->createNode((yyvsp[0].tn),0, paramListNode));;}
     break;
 
   case 109:
+<<<<<<< HEAD
 #line 648 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 603 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"parameter_list: parameter\n";
 																			(yyval.tn) =ast->createNode((yyvsp[0].tn),0, paramListNode);;}
     break;
 
   case 110:
+<<<<<<< HEAD
 #line 653 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 608 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 	add_param((yyvsp[-1].r.type));
 	Type t=static_cast<Type>((yyvsp[-1].r.type));
 	if(s->insertVariableInCurrentScope((yyvsp[0].r.str),t,1) == 0) 
 		cout<<"error redefine variable";
+<<<<<<< HEAD
 	cout<<"parameter: p_type IDENTIFIER\n";	(yyval.tn) = ast->createNode((yyvsp[-1].tn),0, parameter_Node);	(yyval.tn)->expectedType=(yyvsp[-1].tn)->expectedType;;}
     break;
 
   case 111:
 #line 664 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+	param_list1.push_back((yyvsp[0].r.str));
+	cout<<"parameter: p_type IDENTIFIER\n";	(yyval.tn) = ast->createNode((yyvsp[-1].tn),0, parameter_Node);;}
+    break;
+
+  case 111:
+#line 620 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"statment: try_catch_statment\n";;}
     break;
 
   case 112:
+<<<<<<< HEAD
 #line 668 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 624 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"statment: catch_statment\n";;}
     break;
 
   case 113:
+<<<<<<< HEAD
 #line 669 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 625 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"statment: finally_TRY_CATCH\n";;}
     break;
 
   case 114:
+<<<<<<< HEAD
 #line 672 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 628 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"Exception NullPointerException";;}
     break;
 
   case 115:
+<<<<<<< HEAD
 #line 673 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 629 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"Exception OutOfBoundryException";;}
     break;
 
   case 116:
+<<<<<<< HEAD
 #line 674 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 630 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"Exception CastException";;}
     break;
 
   case 117:
+<<<<<<< HEAD
 #line 682 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 638 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		(yyval.tn)=ast->createNode((yyvsp[-1].tn),(yyvsp[0].tn),ImpNode);
 		(yyval.tn)->currST=s->currScope;
@@ -2694,7 +3254,11 @@ yyreduce:
     break;
 
   case 118:
+<<<<<<< HEAD
 #line 691 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 645 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		(yyval.tn)=ast->createNode(0,0,HedrImpNode);
 		Interface_name=(yyvsp[-2].r.str);
@@ -2711,7 +3275,11 @@ yyreduce:
     break;
 
   case 119:
+<<<<<<< HEAD
 #line 704 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 658 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		i=2;(yyval.r.str)=(yyvsp[-2].r.str);
 		if(s->check_Implementation_Interface((yyvsp[-2].r.str))==0) 
@@ -2723,7 +3291,11 @@ yyreduce:
     break;
 
   case 120:
+<<<<<<< HEAD
 #line 714 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 668 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		i=2;(yyval.r.str)=(yyvsp[-1].r.str);
 		if(s->check_Implementation_Interface((yyvsp[-1].r.str))==0) 
@@ -2735,7 +3307,11 @@ yyreduce:
     break;
 
   case 121:
+<<<<<<< HEAD
 #line 722 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 676 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		(yyval.tn)=ast->createNode(0,0,HedrImpNode);
 		//Interface_name=new char[30];
@@ -2753,41 +3329,71 @@ yyreduce:
     break;
 
   case 122:
+<<<<<<< HEAD
 #line 740 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 692 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[-1].tn),BdyImpNode);cout<<"class_implementation_body: instance_variables	implementation_definition_list	AT_END\n";;}
     break;
 
   case 123:
+<<<<<<< HEAD
 #line 741 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 693 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-1].tn),0,BdyImpNode);cout<<"class_implementation_body: instance_variables AT_END\n";;}
     break;
 
   case 124:
+<<<<<<< HEAD
 #line 742 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {(yyval.tn)=ast->createNode(0,(yyvsp[-1].tn),BdyImpNode);cout<<"class_implementation_body:	implementation_definition_list	AT_END\n";;}
     break;
 
   case 125:
 #line 749 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 694 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-1].tn),0,BdyImpNode);cout<<"class_implementation_body:	implementation_definition_list	AT_END\n";;}
+    break;
+
+  case 125:
+#line 697 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->addToLastRight((yyvsp[-1].tn),ast->createNode((yyvsp[0].tn),0,ImpdefNode));i=3;cout<<"implementation_definition_list: implementation_definition_list implementation_definition\n";;}
     break;
 
   case 126:
+<<<<<<< HEAD
 #line 750 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 698 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {								(yyval.tn)=ast->createNode((yyvsp[0].tn),0,ImpdefNode);i=3;cout<<"implementation_definition_list: implementation_definition\n";;}
     break;
 
   case 127:
+<<<<<<< HEAD
 #line 754 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 701 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=(yyvsp[0].tn);cout<<"implementation_definition: class_implementation_definition	\n";;}
     break;
 
   case 128:
+<<<<<<< HEAD
 #line 755 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 702 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=(yyvsp[0].tn);cout<<"implementation_definition: instance_implementation_definition \n";;}
     break;
 
   case 129:
+<<<<<<< HEAD
 #line 762 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {
 	(yyval.tn)=ast->createNode((yyvsp[-1].tn),(yyvsp[0].tn),ClsImpDefNode);i=2;
@@ -2826,81 +3432,190 @@ yyreduce:
 
   case 135:
 #line 794 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 705 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {
+	(yyval.tn)=ast->createNode((yyvsp[-1].tn),(yyvsp[0].tn),ClsImpDefNode);i=2;
+	s->insert_scope((yyvsp[-1].r.str),s->currScope);s->currScope=s->currScope->parent;
+	cout<<"class_implementation_definition: class_implementation_definition_header block_body";;}
+    break;
+
+  case 130:
+#line 711 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.r.str)=(yyvsp[0].r.str);Type t=static_cast<Type>((yyvsp[-1].r.type));
+										if(s->insertFunctionInCurrentScope((yyvsp[0].r.str),t,param_list) == 0) 
+												Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Rdefine Method");
+										Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope; 
+										insert_param();
+										param_list1.clear();param_list.clear();
+										(yyval.tn)=ast->createNode((yyvsp[-1].tn),(yyvsp[0].tn),ClsImpDefHdrNode);cout<<"class_implementation_definition_header: PLUS p_type method_selector\n";;}
+    break;
+
+  case 131:
+#line 718 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[0].tn),0,ClsImpDefHdrNode);cout<<"class_implementation_definition_header:  PLUS	method_selector\n";;}
+    break;
+
+  case 132:
+#line 721 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {s->insert_scope((yyvsp[-1].r.str),s->currScope);s->currScope=s->currScope->parent;(yyval.tn) = ast->createNode((yyvsp[-1].tn),(yyvsp[0].tn),InsImpDefNode);i=2;(yyval.r.str)=(yyvsp[-1].r.str);cout<<"instance_implementation_definition: instance_implementation_definition_header block_body\n";;}
+    break;
+
+  case 133:
+#line 724 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    { (yyval.r.str)=(yyvsp[0].r.str);Type t=static_cast<Type>((yyvsp[-1].r.type));
+											  if(s->insertFunctionInCurrentScope((yyvsp[0].r.str),t,param_list) == 0) 
+												Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","Rdefine Method");\
+											  Scope *new_scope = new Scope();new_scope->parent=s->currScope;s->currScope=new_scope; 
+											  insert_param();
+											  param_list1.clear();param_list.clear();
+											 ast->createNode((yyvsp[-1].tn),(yyvsp[0].tn),InsImpDefHdrNode);cout<<"instance_implementation_definition_header:MINUS p_type	method_selector\n";;}
+    break;
+
+  case 134:
+#line 731 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn) = ast->createNode((yyvsp[0].tn),0,InsImpDefHdrNode);cout<<"instance_implementation_definition_header:MINUS method_selector\n";;}
+    break;
+
+  case 135:
+#line 734 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) = ast->addToLastRight((yyvsp[-1].tn),ast->createNode((yyvsp[0].tn),0,stmtListNode));cout<<"statement_list: statement_list statement\n";;}
     break;
 
   case 136:
+<<<<<<< HEAD
 #line 795 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 735 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) = ast->createNode((yyvsp[0].tn),0,stmtListNode);cout<<"statement_list: statement\n";;}
     break;
 
   case 137:
+<<<<<<< HEAD
 #line 801 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 738 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=(yyvsp[0].tn);cout<<"statement: loop_statement\n";;}
     break;
 
   case 138:
+<<<<<<< HEAD
 #line 802 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 739 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=(yyvsp[0].tn);cout<<"statement: conditional_statement\n";;}
     break;
 
   case 139:
+<<<<<<< HEAD
 #line 803 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 740 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=(yyvsp[-1].tn);cout<<"statement: expr\n";;}
     break;
 
   case 140:
+<<<<<<< HEAD
 #line 804 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 741 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=(yyvsp[0].tn);cout<<"statement: variable_declaration\n";;}
     break;
 
   case 141:
+<<<<<<< HEAD
 #line 805 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 742 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Scope *new_scope = new Scope(); new_scope->parent=s->currScope;s->currScope=new_scope;;}
     break;
 
   case 142:
+<<<<<<< HEAD
 #line 805 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {s->currScope=s->currScope->parent;cout<<"statement: block_body\n";;}
     break;
 
   case 143:
 #line 806 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 742 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[-1].tn);s->currScope=s->currScope->parent;cout<<"statement: block_body\n";;}
+    break;
+
+  case 143:
+#line 743 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=(yyvsp[0].tn);cout<<"statement: return_statement\n";;}
     break;
 
   case 145:
+<<<<<<< HEAD
 #line 814 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 747 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-1].tn),0,ReturnNode);cout<<"return_statement: RETURN expr\n";;}
     break;
 
   case 146:
+<<<<<<< HEAD
 #line 815 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 748 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",";");;}
     break;
 
   case 147:
+<<<<<<< HEAD
 #line 818 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 751 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=(yyvsp[0].tn);cout<<"loop_statement: for_loop\n";;}
     break;
 
   case 148:
+<<<<<<< HEAD
 #line 819 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 752 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=(yyvsp[0].tn);cout<<"loop_statement: while_loop\n";;}
     break;
 
   case 149:
+<<<<<<< HEAD
 #line 820 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 753 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=(yyvsp[0].tn);cout<<"loop_statement: do_while_loop\n";;}
     break;
 
   case 150:
+<<<<<<< HEAD
 #line 823 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 756 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-1].tn),(yyvsp[0].tn),ForNode);cout<<"for_loop: for_loop_header statement\n";;}
     break;
 
   case 151:
+<<<<<<< HEAD
 #line 829 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 759 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {	
 		(yyval.tn)=ast->createNode((yyvsp[-5].tn),ast->createNode((yyvsp[-3].tn),(yyvsp[-1].tn),ForHdrNode),ForHdrNode);
 		
@@ -2908,159 +3623,281 @@ yyreduce:
     break;
 
   case 152:
+<<<<<<< HEAD
 #line 836 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 764 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",")");;}
     break;
 
   case 153:
+<<<<<<< HEAD
 #line 838 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 766 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","(");;}
     break;
 
   case 154:
+<<<<<<< HEAD
 #line 840 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 768 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","(");;}
     break;
 
   case 155:
+<<<<<<< HEAD
 #line 842 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 770 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		(yyval.tn)=ast->createNode(0,ast->createNode((yyvsp[-3].tn),(yyvsp[-1].tn),ForHdrNode),ForHdrNode);
 		cout<<"for_loop_header: FOR OPEN_P SEMI_COMA logic_expr SEMI_COMA expr CLOSE_P\n";;}
     break;
 
   case 156:
+<<<<<<< HEAD
 #line 849 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 774 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing",")");;}
     break;
 
   case 157:
+<<<<<<< HEAD
 #line 851 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 776 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","(");;}
     break;
 
   case 158:
+<<<<<<< HEAD
 #line 853 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 778 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","(");;}
     break;
 
   case 159:
+<<<<<<< HEAD
 #line 858 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {(yyval.tn)=ast->createNode((yyvsp[-4].tn),ast->createNode(0,(yyvsp[-1].tn),ForHdrNode),ForHdrNode);	
+=======
+#line 780 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-4].tn),(yyvsp[-1].tn),ForHdrNode);	
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
 		cout<<"for_loop_header: FOR OPEN_P for_initializer SEMI_COMA SEMI_COMA expr CLOSE_P\n";;}
     break;
 
   case 160:
+<<<<<<< HEAD
 #line 863 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {(yyval.tn)=ast->createNode((yyvsp[-4].tn),ast->createNode((yyvsp[-2].tn),0,ForHdrNode),ForHdrNode);	
+=======
+#line 783 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-4].tn),(yyvsp[-2].tn),ForHdrNode);	
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
 		cout<<"for_loop_header: FOR OPEN_P for_initializer SEMI_COMA logic_expr SEMI_COMA CLOSE_P \n";;}
     break;
 
   case 161:
+<<<<<<< HEAD
 #line 866 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {(yyval.tn)=ast->createNode((yyvsp[-3].tn),ast->createNode(0,0,ForHdrNode),ForHdrNode);	
+=======
+#line 786 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-3].tn),0,ForHdrNode);	
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
 		cout<<"for_loop_header: FOR OPEN_P for_initializer SEMI_COMA SEMI_COMA CLOSE_P	\n";;}
     break;
 
   case 162:
+<<<<<<< HEAD
 #line 869 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {(yyval.tn)=ast->createNode(0,ast->createNode((yyvsp[-2].tn),0,ForHdrNode),ForHdrNode);	
+=======
+#line 789 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),0,ForHdrNode);	
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
 		cout<<"for_loop_header: FOR OPEN_P SEMI_COMA logic_expr SEMI_COMA CLOSE_P\n";;}
     break;
 
   case 163:
+<<<<<<< HEAD
 #line 872 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {(yyval.tn)=ast->createNode(0,ast->createNode(0,(yyvsp[-1].tn),ForHdrNode),ForHdrNode);
+=======
+#line 792 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-1].tn),0,ForHdrNode);
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
 		cout<<"for_loop_header: FOR OPEN_P SEMI_COMA SEMI_COMA expr CLOSE_P";;}
     break;
 
   case 164:
+<<<<<<< HEAD
 #line 876 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 796 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode(0,0,ForHdrNode);	
 		cout<<"for_loop_hearder: FOR OPEN_P SEMI_COMA SEMI_COMA CLOSE_P	\n";;}
     break;
 
   case 165:
+<<<<<<< HEAD
 #line 883 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 800 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[0].tn),0,ForIniNode);if(s->insertVariableInCurrentScope((yyvsp[-2].r.str),intType,1) == 0) Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"Error","Variable not found");cout<<"for_initializer: INT ID EQUAL expr\n";;}
     break;
 
   case 166:
+<<<<<<< HEAD
 #line 884 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 801 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","=");;}
     break;
 
   case 167:
+<<<<<<< HEAD
 #line 885 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 802 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","=");;}
     break;
 
   case 168:
+<<<<<<< HEAD
 #line 886 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 803 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[0].tn),0,ForIniNode);cout<<"for_initializer: ID EQUAL expr\n";;}
     break;
 
   case 169:
+<<<<<<< HEAD
 #line 887 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 804 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","=");;}
     break;
 
   case 170:
+<<<<<<< HEAD
 #line 888 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 805 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","=");;}
     break;
 
   case 171:
+<<<<<<< HEAD
 #line 889 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 806 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode(0,0,ForIniNode);cout<<"for_initializer: ID\n";;}
     break;
 
   case 172:
+<<<<<<< HEAD
 #line 894 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 809 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:expr LESS_THAN expr\n";;}
     break;
 
   case 173:
+<<<<<<< HEAD
 #line 895 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 810 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:expr MORE_THAN expr\n";;}
     break;
 
   case 174:
+<<<<<<< HEAD
 #line 896 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 811 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:expr LESS_OR_EQUAL expr\n";;}
     break;
 
   case 175:
+<<<<<<< HEAD
 #line 897 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 812 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:expr MORE_OR_EQUAL expr\n";;}
     break;
 
   case 176:
+<<<<<<< HEAD
 #line 898 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 813 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:expr EQUAL_EQUAL expr\n";;}
     break;
 
   case 177:
+<<<<<<< HEAD
 #line 899 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 814 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[0].tn),0,LogExpNode);cout<<"logic_expr:NOT_EQUAL expr\n";;}
     break;
 
   case 178:
+<<<<<<< HEAD
 #line 900 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 815 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-1].tn),0,LogExpNode);cout<<"logic_expr:OPEN_P logic_expr CLOSE_P\n";;}
     break;
 
   case 179:
+<<<<<<< HEAD
 #line 901 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 816 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:logic_expr AND_AND logic_expr\n";;}
     break;
 
   case 180:
+<<<<<<< HEAD
 #line 902 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 817 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:logic_expr OR_OR logic_expr\n";;}
     break;
 
   case 181:
+<<<<<<< HEAD
 #line 905 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {(yyval.tn)=(yyvsp[0].tn);cout<<"expr:assign_expr\n";	;}
     break;
@@ -3072,65 +3909,123 @@ yyreduce:
 
   case 183:
 #line 909 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 820 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[0].tn);cout<<"expr:assign_expr\n";;}
+    break;
+
+  case 182:
+#line 821 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[0].tn);cout<<"expr:simple_expr\n";;}
+    break;
+
+  case 183:
+#line 824 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:expr LESS_THAN expr\n";;}
     break;
 
   case 184:
+<<<<<<< HEAD
 #line 910 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 825 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:expr MORE_THAN expr\n";;}
     break;
 
   case 185:
+<<<<<<< HEAD
 #line 911 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 826 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:expr LESS_OR_EQUAL expr\n";;}
     break;
 
   case 186:
+<<<<<<< HEAD
 #line 912 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 827 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:expr MORE_OR_EQUAL expr\n";;}
     break;
 
   case 187:
+<<<<<<< HEAD
 #line 913 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 828 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:expr EQUAL_EQUAL expr\n";;}
     break;
 
   case 188:
+<<<<<<< HEAD
 #line 914 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 829 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[0].tn),0,LogExpNode);cout<<"logic_expr:NOT_EQUAL expr\n";;}
     break;
 
   case 189:
+<<<<<<< HEAD
 #line 915 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 830 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-1].tn),0,LogExpNode);cout<<"logic_expr:OPEN_P logic_expr CLOSE_P\n";;}
     break;
 
   case 190:
+<<<<<<< HEAD
 #line 916 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 831 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:logic_expr AND_AND logic_expr\n";;}
     break;
 
   case 191:
+<<<<<<< HEAD
 #line 917 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 832 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),LogExpNode);cout<<"logic_expr:logic_expr OR_OR logic_expr\n";;}
     break;
 
   case 192:
+<<<<<<< HEAD
 #line 918 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 833 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","LOGIC EXPR");;}
     break;
 
   case 193:
+<<<<<<< HEAD
 #line 919 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 834 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",")");;}
     break;
 
   case 194:
+<<<<<<< HEAD
 #line 920 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 835 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","(");;}
     break;
 
   case 195:
+<<<<<<< HEAD
 #line 925 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {(yyval.tn)=(yyvsp[0].tn);cout<<"expr:simple_expr\n";	(yyval.tn)->expectedType=(yyvsp[0].tn)->expectedType;;}
     break;
@@ -3143,6 +4038,19 @@ yyreduce:
 
   case 197:
 #line 935 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 840 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=(yyvsp[0].tn);cout<<"expr:simple_expr\n";;}
+    break;
+
+  case 196:
+#line 843 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),AsgExpNode);cout<<"assign_expr:long_id EQUAL simple_expr\n";;}
+    break;
+
+  case 197:
+#line 848 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		var.push((yyvsp[0].r.str));				
 		(yyval.tn) = ast->addToLastRight((yyvsp[-2].tn),ast->createNode(0,0,longidNode));
@@ -3150,12 +4058,20 @@ yyreduce:
     break;
 
   case 198:
+<<<<<<< HEAD
 #line 940 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 853 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=(yyvsp[0].tn);cout<<"long_id: long_id.message_call\n";;}
     break;
 
   case 199:
+<<<<<<< HEAD
 #line 941 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 854 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode(0,0,IdentNode);
 		if(strcmp(lexer->YYText(),".")==0) 
 			var.push((yyvsp[0].r.str));
@@ -3166,6 +4082,7 @@ yyreduce:
     break;
 
   case 200:
+<<<<<<< HEAD
 #line 956 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {(yyval.tn)=ast->createNode(0,0,stringNode);    (yyval.tn)->expectedType=stringtype;
 									cout<<"simple_expr:STRING_VAL\n";
@@ -3194,7 +4111,33 @@ yyreduce:
 
   case 204:
 #line 978 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 864 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode(0,0,stringNode);  
+								cout<<"simple_expr:STRING_VAL\n";;}
+    break;
+
+  case 201:
+#line 867 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode(0,0,intNode); cout<<"simple_expr:INT_VAL\ns";(yyval.tn)->expectedType=inttype;
+								 cout<<"\n \n \n"<<yylval.r.i<<"\n \n \n \n"; ;}
+    break;
+
+  case 202:
+#line 870 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode(0,0,floatNode);cout<<"simple_expr:FLOAT_VAL\n";;}
+    break;
+
+  case 203:
+#line 871 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode(0,0,CharNode);cout<<"simple_expr:CHAR_VAL\n";;}
+    break;
+
+  case 204:
+#line 873 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
+		
 		char *type;
 		bool ok1=true;
 		if(s->getVariableNameFromInterface("I","l")=="##")
@@ -3224,11 +4167,13 @@ yyreduce:
 			else{
 					type=s->getVariableNameFromInterface(type,var.front());
 			}
+			
 	}
 	cout<<"simple_expr:long_id\n";;}
     break;
 
   case 205:
+<<<<<<< HEAD
 #line 1011 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),SmpExpPlusNode);cout<<"simple_expr:expr PLUS expr\n";
 											;}
@@ -3251,98 +4196,194 @@ yyreduce:
 
   case 209:
 #line 1016 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 907 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),SmpExpNode);cout<<"simple_expr:expr PLUS expr\n";;}
+    break;
+
+  case 206:
+#line 908 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),SmpExpNode);cout<<"simple_expr:expr MINUS expr\n";;}
+    break;
+
+  case 207:
+#line 909 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),SmpExpNode);cout<<"simple_expr:expr MULTI expr\n";;}
+    break;
+
+  case 208:
+#line 910 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),SmpExpNode);cout<<"simple_expr:expr DIV expr\n";;}
+    break;
+
+  case 209:
+#line 911 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-1].tn),0,SmpExpNode);cout<<"simple_expr:OPEN_P expr CLOSE_P\n";;}
     break;
 
   case 210:
+<<<<<<< HEAD
 #line 1017 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {cout<<"expr:p_type expr\n";;}
     break;
 
   case 211:
 #line 1022 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 912 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode(0,0,SmpExpNode);cout<<"expr:p_type expr\n";;}
+    break;
+
+  case 211:
+#line 915 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-1].tn),0,BlockNode); cout<<"block_body:OPEN_S statement_list	CLOSE_S\n";;}
     break;
 
   case 212:
+<<<<<<< HEAD
 #line 1023 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 916 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode(0,0,BlockNode);cout<<"block_body:OPEN_S CLOSE_S\n";;}
     break;
 
   case 213:
+<<<<<<< HEAD
 #line 1028 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 919 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-1].tn),(yyvsp[0].tn),WhileNode);cout<<"while_loop:while_loop_header statement\n";;}
     break;
 
   case 214:
+<<<<<<< HEAD
 #line 1031 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 922 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-1].tn),0,WleHdrNode);cout<<"while_loop_header: WHILE OPEN_P logic_expr CLOSE_P\n";;}
     break;
 
   case 215:
+<<<<<<< HEAD
 #line 1032 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 923 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",")");;}
     break;
 
   case 216:
+<<<<<<< HEAD
 #line 1033 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 924 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","(");;}
     break;
 
   case 217:
+<<<<<<< HEAD
 #line 1034 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 925 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","(");;}
     break;
 
   case 218:
+<<<<<<< HEAD
 #line 1037 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 928 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[-1].tn),DoWhlNode);cout<<"do_while_loop_header: DO statement while_loop_header SEMI_COMA\n";;}
     break;
 
   case 219:
+<<<<<<< HEAD
 #line 1039 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 930 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-1].tn),(yyvsp[0].tn),CondtiNode);cout<<"conditional_statement: if_header statement\n";;}
     break;
 
   case 220:
+<<<<<<< HEAD
 #line 1040 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 931 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		(yyval.tn)=ast->createNode((yyvsp[-3].tn),(yyvsp[-2].tn),CondtiNode);
 		cout<<"conditional_statement: if_header statement\n";;}
     break;
 
   case 221:
+<<<<<<< HEAD
 #line 1043 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 934 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[0].tn),0,CondtiNode);cout<<"conditional_statement: switch\n";;}
     break;
 
   case 222:
+<<<<<<< HEAD
 #line 1046 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 937 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-4].tn),(yyvsp[-1].tn),SwitchNode);cout<<"switch statment";;}
     break;
 
   case 223:
+<<<<<<< HEAD
 #line 1047 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 938 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","(");;}
     break;
 
   case 224:
+<<<<<<< HEAD
 #line 1048 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 939 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",")");;}
     break;
 
   case 225:
+<<<<<<< HEAD
 #line 1049 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 940 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","}");;}
     break;
 
   case 226:
+<<<<<<< HEAD
 #line 1050 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 941 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","{");;}
     break;
 
   case 227:
+<<<<<<< HEAD
 #line 1059 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 946 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 									(yyval.tn)=ast->createNode((yyvsp[-6].tn),ast->createNode((yyvsp[-3].tn),(yyvsp[0].tn),SwtBdyNode),SwtBdyNode);
 										
@@ -3350,122 +4391,219 @@ yyreduce:
     break;
 
   case 228:
+<<<<<<< HEAD
 #line 1063 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 950 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","break");;}
     break;
 
   case 229:
+<<<<<<< HEAD
 #line 1064 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
     {(yyval.tn)=ast->createNode(0,(yyvsp[-2].tn),SwtBdyNode);cout<<"default statment";;}
     break;
 
   case 230:
 #line 1065 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 951 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),0,SwtBdyNode);cout<<"default statment";;}
+    break;
+
+  case 230:
+#line 952 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","break");;}
     break;
 
   case 231:
+<<<<<<< HEAD
 #line 1070 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 957 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=(yyvsp[0].tn);;}
     break;
 
   case 232:
+<<<<<<< HEAD
 #line 1071 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 958 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=(yyvsp[0].tn);;}
     break;
 
   case 233:
+<<<<<<< HEAD
 #line 1075 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 962 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=(yyvsp[0].tn);;}
     break;
 
   case 234:
+<<<<<<< HEAD
 #line 1076 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 963 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=(yyvsp[0].tn);;}
     break;
 
   case 235:
+<<<<<<< HEAD
 #line 1079 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 966 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-1].tn),0,IfHdrNode);cout<<"if_header: IF OPEN_P logic_expr CLOSE_P\n";;}
     break;
 
   case 236:
+<<<<<<< HEAD
 #line 1080 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 967 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {yyclearin;Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",")");;}
     break;
 
   case 237:
+<<<<<<< HEAD
 #line 1081 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 968 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing","(");;}
     break;
 
   case 238:
+<<<<<<< HEAD
 #line 1082 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 969 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR","(");;}
     break;
 
   case 239:
+<<<<<<< HEAD
 #line 1085 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 972 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[-1].tn),MsgCalNode);cout<<"message_call: OPEN_ARR sender message CLOSE_ARR\n";;}
     break;
 
   case 240:
+<<<<<<< HEAD
 #line 1088 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 975 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) = ast->createNode((yyvsp[0].tn),0,SndrNode);cout<<"sender: message_call\n";;}
     break;
 
   case 241:
+<<<<<<< HEAD
 #line 1089 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 976 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"sender: IDENTIFIER\n";;}
     break;
 
   case 242:
+<<<<<<< HEAD
 #line 1092 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 979 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {cout<<"message: IDENTIFIER\n";;}
     break;
 
   case 243:
+<<<<<<< HEAD
 #line 1093 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 980 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) = ast->createNode((yyvsp[0].tn),0,MsgNode);cout<<"message: IDENTIFIER SEMI_COLUMN argument_list\n";;}
     break;
 
   case 244:
+<<<<<<< HEAD
 #line 1096 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 983 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) = ast->addToLastRight((yyvsp[-1].tn),ast->createNode((yyvsp[0].tn),0,argListNode));cout<<"argument_list: argument_list argument\n";;}
     break;
 
   case 245:
+<<<<<<< HEAD
 #line 1097 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 984 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) = ast->createNode((yyvsp[0].tn),0,argListNode);cout<<"argument_list: argument\n";;}
     break;
 
   case 246:
+<<<<<<< HEAD
 #line 1100 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 987 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) = ast->createNode((yyvsp[0].tn),0,argNode);cout<<"argument: SEMI_COLUMN simple_expr\n";;}
     break;
 
   case 247:
+<<<<<<< HEAD
 #line 1101 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 988 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",":");;}
     break;
 
   case 248:
+<<<<<<< HEAD
 #line 1102 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 989 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) = ast->createNode((yyvsp[0].tn),0,argNode);cout<<"argument: IDENTIFIER SEMI_COLUMN simple_expr\n";;}
     break;
 
   case 249:
+<<<<<<< HEAD
 #line 1103 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 990 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"missing",":");;}
     break;
 
   case 250:
+<<<<<<< HEAD
 #line 1104 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 991 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {Er->errQ->enqueue(yylval.r.myLineNo,yylval.r.myColno,"ERROR",":");;}
     break;
 
   case 251:
+<<<<<<< HEAD
 #line 1106 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 993 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 	(yyval.tn) = ast->createNode((yyvsp[-1].tn),(yyvsp[0].tn),ProtclNode);
 	s->insert_scope1((yyvsp[-1].r.str),s->currScope);s->currScope=s->currScope->parent;
@@ -3473,7 +4611,11 @@ yyreduce:
     break;
 
   case 252:
+<<<<<<< HEAD
 #line 1112 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 999 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		(yyval.tn) = ast->createNode(0,0,ProtclHdrNode);
 		(yyval.r.str)=(yyvsp[0].r.str);
@@ -3486,27 +4628,43 @@ yyreduce:
     break;
 
   case 253:
+<<<<<<< HEAD
 #line 1124 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 1011 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {(yyval.tn) = ast->createNode((yyvsp[-2].tn),(yyvsp[-1].tn),ProtclBdyNode);
 		cout<<"protocol_body: protocol_reference_list interface_declaration_list AT_END\n";;}
     break;
 
   case 254:
+<<<<<<< HEAD
 #line 1126 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 1013 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		(yyval.tn) = ast->createNode((yyvsp[-1].tn),0,ProtclBdyNode);
 		cout<<"protocol_body: interface_declaration_list AT_END\n";;}
     break;
 
   case 255:
+<<<<<<< HEAD
 #line 1129 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 1016 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		(yyval.tn) = ast->createNode((yyvsp[-1].tn),0,ProtclBdyNode);
 		cout<<"protocol_body: protocol_reference_list AT_END \n";;}
     break;
 
   case 256:
+<<<<<<< HEAD
 #line 1132 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 1019 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
     {
 		(yyval.tn) = ast->createNode(0,0,ProtclBdyNode);
 		cout<<"protocol_body:	AT_END\n";;}
@@ -3517,7 +4675,11 @@ yyreduce:
     }
 
 /* Line 1126 of yacc.c.  */
+<<<<<<< HEAD
 #line 3521 "yacc.cpp"
+=======
+#line 3520 "yacc.cpp"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
 
   yyvsp -= yylen;
   yyssp -= yylen;
@@ -3785,7 +4947,11 @@ yyreturn:
 }
 
 
+<<<<<<< HEAD
 #line 1135 "C:\\Users\\Hasan\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+=======
+#line 1022 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
+>>>>>>> bead49324b9b5c44c15458b2f98b2211af5bb58a
 
 void yyerror(char *s) {
 	;
@@ -3800,5 +4966,5 @@ void main(void){
 	p->parse();
 	Er->printErrQueue();	
 	system("pause");
+	
 }
-
