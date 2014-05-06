@@ -1,36 +1,36 @@
-#include "Code_Generation.h"
+#include "code_generation1.h"
 #include "AST.h"
 #include <iostream>
 #include <string>
 
 
-Code_Generation::Code_Generation(void)
+code_generation1::code_generation1(void)
 {
 	myfile.open ("test.s");
 	myfile <<"\t.data\n\t.text\n main:";
 	myfile.close();
 }
-void Code_Generation::generate_code()
+void code_generation1::generate_code()
 {
 	myfile <<"\t.data\n\t.text\n main:";
 }
-void Code_Generation::store_value()
+void code_generation1::store_value()
 {
 	myfile << "sw $t0 0($sp)" << std::endl;
 }
-void Code_Generation::load_value()
+void code_generation1::load_value()
 {
 	myfile << "lw $t1 4($sp)" << std::endl;
 }
-void Code_Generation::increase_sp()
+void code_generation1::increase_sp()
 {
 	myfile << "addiu $sp $sp 4" << std::endl;
 }
-void Code_Generation::decrease_sp()
+void code_generation1::decrease_sp()
 {
 	myfile << "addiu $sp $sp -4" << std::endl;
 }
-void Code_Generation::generate_expr_code(TreeNode *tn)
+void code_generation1::generate_expr_code(TreeNode *tn)
 {
 	switch(tn->nodeType)
 	{

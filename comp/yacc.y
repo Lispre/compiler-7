@@ -9,7 +9,7 @@
 	#include "comp\Interface.h"
 	#include "comp\Method.h"
 	#include "comp\Variable.h"
-	#include "comp\Code_Generation.h"
+	#include "comp\code_generation1.h"
 	#include "comp\Scope.h"
 	#include "comp\Defs.h"
 	#include "comp\ErrorRecovery.h"
@@ -162,7 +162,7 @@
 }
 %type <r.str> IDENTIFIER
 %%
-program: components					{Code_Generation b;   ast->print($<tn>1,0);cout<<"program: components\n";}
+program: components					{code_generation1 b;   ast->print($<tn>1,0);cout<<"program: components\n";}
 ;
 
 
@@ -904,10 +904,10 @@ simple_expr:
 			
 	}
 	cout<<"simple_expr:long_id\n";}
-	|simple_expr PLUS simple_expr			{$<tn>$=ast->createNode($<tn>1,$<tn>3,SmpExpNode);cout<<"simple_expr:expr PLUS expr\n";}
-	|simple_expr MINUS simple_expr			{$<tn>$=ast->createNode($<tn>1,$<tn>3,SmpExpNode);cout<<"simple_expr:expr MINUS expr\n";}
-	|simple_expr MULTI simple_expr			{$<tn>$=ast->createNode($<tn>1,$<tn>3,SmpExpNode);cout<<"simple_expr:expr MULTI expr\n";}
-	|simple_expr DIV simple_expr			{$<tn>$=ast->createNode($<tn>1,$<tn>3,SmpExpNode);cout<<"simple_expr:expr DIV expr\n";}
+	|simple_expr PLUS simple_expr			{$<tn>$=ast->createNode($<tn>1,$<tn>3,plus_node);cout<<"simple_expr:expr PLUS expr\n";}
+	|simple_expr MINUS simple_expr			{$<tn>$=ast->createNode($<tn>1,$<tn>3,minus_node);cout<<"simple_expr:expr MINUS expr\n";}
+	|simple_expr MULTI simple_expr			{$<tn>$=ast->createNode($<tn>1,$<tn>3,multi_node);cout<<"simple_expr:expr MULTI expr\n";}
+	|simple_expr DIV simple_expr			{$<tn>$=ast->createNode($<tn>1,$<tn>3,div_node);cout<<"simple_expr:expr DIV expr\n";}
 	|OPEN_P simple_expr CLOSE_P				{$<tn>$=ast->createNode($<tn>2,0,SmpExpNode);cout<<"simple_expr:OPEN_P expr CLOSE_P\n";}
 	|p_type simple_expr    	 %prec p_type_expr_prec {$<tn>$=ast->createNode(0,0,SmpExpNode);cout<<"expr:p_type expr\n";}//casting
 ;

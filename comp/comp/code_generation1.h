@@ -1,11 +1,11 @@
 #pragma once
 #include <fstream>
 #include "AST.h"
-class Code_Generation	
+class code_generation1
 {
-public
+public:
 	std::ofstream myfile;
-	Code_Generation(void);
+	code_generation1(void);
 	void generate_code();
 	void generate_expr_code(TreeNode *tn);
 	void load_value();
@@ -13,4 +13,5 @@ public
 	void increase_sp();
 	void decrease_sp();
 };
+
 

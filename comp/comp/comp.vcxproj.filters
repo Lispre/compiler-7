@@ -69,7 +69,7 @@
     <ClInclude Include="AST.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Code_Generation.h">
+    <ClInclude Include="code_generation1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -130,7 +130,7 @@
     <ClCompile Include="AST.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Code_Generation.cpp">
+    <ClCompile Include="code_generation1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

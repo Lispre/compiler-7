@@ -213,7 +213,7 @@
 	#include "comp\Interface.h"
 	#include "comp\Method.h"
 	#include "comp\Variable.h"
-	#include "comp\Code_Generation.h"
+	#include "comp\code_generation1.h"
 	#include "comp\Scope.h"
 	#include "comp\Defs.h"
 	#include "comp\ErrorRecovery.h"
@@ -1919,7 +1919,7 @@ yyreduce:
     {
         case 2:
 #line 165 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
-    {Code_Generation b;   ast->print((yyvsp[0].tn),0);cout<<"program: components\n";;}
+    {code_generation1 b;   ast->print((yyvsp[0].tn),0);cout<<"program: components\n";;}
     break;
 
   case 3:
@@ -3230,22 +3230,22 @@ yyreduce:
 
   case 205:
 #line 907 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
-    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),SmpExpNode);cout<<"simple_expr:expr PLUS expr\n";;}
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),plus_node);cout<<"simple_expr:expr PLUS expr\n";;}
     break;
 
   case 206:
 #line 908 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
-    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),SmpExpNode);cout<<"simple_expr:expr MINUS expr\n";;}
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),minus_node);cout<<"simple_expr:expr MINUS expr\n";;}
     break;
 
   case 207:
 #line 909 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
-    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),SmpExpNode);cout<<"simple_expr:expr MULTI expr\n";;}
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),multi_node);cout<<"simple_expr:expr MULTI expr\n";;}
     break;
 
   case 208:
 #line 910 "C:\\Users\\hossam\\Documents\\GitHub\\compiler\\comp\\yacc.y"
-    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),SmpExpNode);cout<<"simple_expr:expr DIV expr\n";;}
+    {(yyval.tn)=ast->createNode((yyvsp[-2].tn),(yyvsp[0].tn),div_node);cout<<"simple_expr:expr DIV expr\n";;}
     break;
 
   case 209:

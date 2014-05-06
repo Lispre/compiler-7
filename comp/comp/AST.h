@@ -15,7 +15,7 @@ enum Node {
 		variable_declaration_enum,variable_declaration_struct,variable_declaration_arrayone,variable_declaration_arrayN,variable_declaration_ID
 		,EnumNode,structNode,arrayoneNode,arraybodyNode,ArrayNNode,ArrayNMultiNode,array_body2Node,typeNode,simple_type_INT
 		,simple_type_CHAR,simple_typeFLOAT,simple_type_NSSTRING,simple_type_VOID,complex_type,interface_declaration_list_Node,
-		class_method_declaration,instance_method_declaration,p_typeNode,method_selector_Node,parameter_Node,paramListNode};
+		class_method_declaration,instance_method_declaration,p_typeNode,method_selector_Node,parameter_Node,paramListNode,plus_node,minus_node,multi_node,div_node};
 
 enum ExpectedType {noType, inttype, floattype, stringType,boolType ,chartype,complextype};
 
