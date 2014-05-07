@@ -1,0 +1,1 @@
+enum type1{INT=1,CHAR=2,FLOAT=3};
